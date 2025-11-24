@@ -1,12 +1,13 @@
 const user = require('../model/User');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const UserController = {};
 
 // Get all users
 UserController.getUsers = async (req, res) => {
     try {
-        const users = await user.find().select('-password'); // Exclude password from results
+        const users = await user.find().select('-password').populate('role_id');
+        console.log(users, "users");
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users', error });
@@ -22,16 +23,17 @@ UserController.createUser = async (req, res) => {
             email,
             password, // Ensure to hash the password before saving in production
             profileImage,
-            role
+            role_id: role
         });
         await newUser.save();
         res.status(201).json(newUser);
     } catch (error) {
+        console.log(error, "errorerror");
         res.status(500).json({ message: 'Error creating user', error });
     }
 }
 // Edit a user
-UserController.editUser = async (req, res) => { 
+UserController.editUser = async (req, res) => {
     try {
         const userId = req.params.id;
         const userData = await user.findById(userId).select('-password'); // Exclude password
@@ -47,17 +49,24 @@ UserController.editUser = async (req, res) => {
 UserController.updateUser = async (req, res) => {
     try {
         const userId = req.params.id;
-        const { name, username, email, profileImage, role } = req.body;
-        const updatedUser = await user.findByIdAndUpdate(userId, {
-            name,
-            username,
-            email,
-            profileImage,
-            role
-        }, { new: true }).select('-password'); // Exclude password
+        const { name, username, email, profileImage, role_id } = req.body;
+
+        const updatedUser = await user.findByIdAndUpdate(
+            userId,
+            {
+                name,
+                username,
+                email,
+                profileImage: profileImage || null,
+                role_id
+            },
+            { new: true }
+        ).select('-password');
+
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
+
         res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: 'Error updating user', error });
@@ -75,26 +84,38 @@ UserController.deleteUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error deleting user', error });
     }
-}  
+}
 // User login
 UserController.login = async (req, res) => {
+    const { email, password } = req.body;
     try {
-        const { email, password } = req.body;
-        const foundUser = await user.findOne({ email });
+        console.log(email, password)
+        const foundUser = await user.findOne({ email }).select('+password');
+
         if (!foundUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        // Compare the password with the hashed password
+
         const isPasswordValid = await bcrypt.compare(password, foundUser.password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-        res.status(200).json({ message: 'Login successful', user: { ...foundUser.toObject(), password: undefined } });
+        console.log(foundUser, "Found user details");
+        const token = jwt.sign(
+            { id: foundUser._id, email: foundUser.email, role_id: foundUser.role_id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" });
+
+        res.status(200).json({
+            message: 'Login successful',
+            token,
+        });
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ message: 'Error logging in', error });
     }
 }
+
 
 // User registration
 UserController.register = async (req, res) => {

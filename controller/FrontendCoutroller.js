@@ -1,3 +1,4 @@
+const Blog = require('../api/model/Blog');
 const Slider = require('../api/model/Slider');
 
 const FrontendCoutroller = {};
@@ -28,17 +29,55 @@ FrontendCoutroller.getAbout = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+function formatDate(date) {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
+function stripHtml(html) {
+    if (!html) return "";
+    return html.replace(/<[^>]*>/g, '');
+}
+
+function shortContent(html, length = 150) {
+    const text = stripHtml(html);
+    return text.length > length
+        ? text.substring(0, length) + "..."
+        : text;
+}
+
 FrontendCoutroller.getBlog = async (req, res) => {
     try {
-        res.render('frontend/blog', {
-            title: 'Home',
-            layout: false,
+        let blogs = await Blog.find()
+            .sort({ createdAt: -1 })
+            .select('title slug content featuredImage categories createdAt')
+            .populate('categories', 'name slug');
+
+        blogs = blogs.map(b => {
+            return {
+                ...b._doc,   // Important: convert Mongo doc to plain object
+                createdAt: formatDate(b.createdAt),
+                content: shortContent(b.content, 200)
+            };
         });
+        console.log(blogs, "blogs");
+        res.render('frontend/blog', {
+            title: 'Blog',
+            layout: false,
+            blogs: blogs
+        });
+
     } catch (error) {
         console.error('Error fetching media:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
 FrontendCoutroller.getCareer = async (req, res) => {
     try {
         res.render('frontend/career', {

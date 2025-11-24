@@ -333,15 +333,22 @@
             </div>
         <% } %>
 
-        <form action="/edit-user/<%= user._id %>" method="POST" enctype="multipart/form-data" id="editUserForm">
+        <form action="/admin/edit-user/<%= user._id %>" method="POST" enctype="multipart/form-data" id="editUserForm">
             <!-- Image Upload Section -->
             <div class="image-upload-section">
                 <div class="profile-image-container">
+                    <% 
+                        // Handle null, empty string, or undefined profile image
+                        let profileImageSrc = '/default-avatar.png';
+                        if (user.profileImage && user.profileImage.trim() !== '') {
+                            profileImageSrc = '/' + user.profileImage;
+                        }
+                    %>
                     <img id="profileImgPreview" 
-                         src="/<%= user.profileImage || 'images/default-avatar.png' %>" 
+                         src="<%= profileImageSrc %>" 
                          alt="Profile Image" 
                          class="profile-image-preview"
-                         onerror="this.src='/images/default-avatar.png'">
+                         onerror="this.src='/default-avatar.png'">
                     <div class="image-upload-overlay" onclick="document.getElementById('profileImage').click()">
                         <span class="upload-icon">📷</span>
                     </div>
@@ -354,7 +361,7 @@
                        name="profileImage" 
                        accept="image/*" 
                        class="file-input">
-                <input type="hidden" name="existingImage" value="<%= user.profileImage %>">
+                <input type="hidden" name="existingImage" value="<%= user.profileImage || '' %>">
             </div>
 
             <!-- Form Fields -->
@@ -394,12 +401,16 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="role">User Role *</label>
-                    <select id="role" name="role" required>
+                    <select id="role" name="role_id" required>
                         <option value="">Select a role</option>
-                        <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
-                        <option value="teacher" <%= user.role === 'teacher' ? 'selected' : '' %>>Teacher</option>
-                        <option value="student" <%= user.role === 'student' ? 'selected' : '' %>>Student</option>
-                        <option value="editor" <%= user.role === 'editor' ? 'selected' : '' %>>Editor</option>
+                        <% if (typeof roles !== 'undefined' && roles && roles.length > 0) { %>
+                            <% roles.forEach(function(role) { %>
+                                <option value="<%= role._id %>" 
+                                        <%= user.role_id && user.role_id.toString() === role._id.toString() ? 'selected' : '' %>>
+                                    <%= role.name %>
+                                </option>
+                            <% }); %>
+                        <% } %>
                     </select>
                 </div>
             </div>
@@ -472,20 +483,26 @@ function closeModal() {
 }
 
 function deleteUser() {
-    // Create a form to submit DELETE request
-    const deteleteUser = fetch('/api/deleteUser/<%= user._id %>', {
+    // Create a fetch request to DELETE endpoint
+    fetch('/api/deleteUser/<%= user._id %>', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
-    });
-    deteleteUser.then(response => {
+    })
+    .then(response => {
         if (response.ok) {
             alert('User deleted successfully');
-            window.location.href = '/users'; 
+            window.location.href = '/admin/users'; 
         } else {
-            alert('Failed to delete user. Please try again.');
+            return response.json().then(data => {
+                throw new Error(data.message || 'Failed to delete user');
+            });
         }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+        closeModal();
     });
 }
 
@@ -526,10 +543,4 @@ document.getElementById('editUserForm').addEventListener('submit', function(e) {
         return false;
     }
 });
-
-// Auto-resize textarea if you add any in the future
-function autoResize(textarea) {
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-}
 </script>

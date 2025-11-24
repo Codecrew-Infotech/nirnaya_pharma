@@ -1,0 +1,163 @@
+<%- contentFor('extra_css') %>
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 0.375rem;
+        border: 1px solid #ced4da;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        border-radius: 0.375rem;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<%- contentFor('content') %>
+<div class="container-xxl py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-cog me-2"></i>Add New Setting
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data" action="/admin/setting/add">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="key" class="form-label">
+                                    <i class="fas fa-key me-1"></i>Setting Key
+                                </label>
+                                <input type="text" class="form-control" id="key" name="key" required
+                                    placeholder="e.g. app_title, logo_image">
+                                <div class="form-text">Unique identifier for this setting</div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="type" class="form-label">
+                                    <i class="fas fa-list me-1"></i>Data Type
+                                </label>
+                                <select class="form-select" id="type" name="type" required onchange="toggleValueField()">
+                                    <option value="">Choose data type...</option>
+                                    <option value="text">Text</option>
+                                    <option value="image">Image</option>
+                                    <option value="number">Number</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4" id="valueField" style="display: none;">
+                            <div class="col-12">
+                                <label for="settingValue" class="form-label">
+                                    <i class="fas fa-edit me-1"></i>Setting Value
+                                </label>
+                                <input type="text" class="form-control" id="settingValue" name="settingValue"
+                                    placeholder="Enter the setting value">
+                                <input type="file" class="form-control" id="settingFile" name="settingFile" 
+                                    accept="image/*" style="display: none;">
+                                <div class="form-text" id="valueHelp"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <hr class="my-3">
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i>Create Setting
+                                    </button>
+                                    <button type="reset" class="btn btn-outline-secondary">
+                                        <i class="fas fa-undo me-1"></i>Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('extra_javascript') %>
+<script>
+    function toggleValueField() {
+        const typeSelect = document.getElementById('type');
+        const valueField = document.getElementById('valueField');
+        const textInput = document.getElementById('settingValue');
+        const fileInput = document.getElementById('settingFile');
+        const valueHelp = document.getElementById('valueHelp');
+
+        if (typeSelect.value) {
+            valueField.style.display = 'block';
+            valueField.classList.add('fade-in');
+
+            if (typeSelect.value === 'image') {
+                textInput.style.display = 'none';
+                fileInput.style.display = 'block';
+                textInput.required = false;
+                fileInput.required = true;
+                valueHelp.textContent = 'Upload an image file (JPG, PNG, GIF)';
+            } else {
+                textInput.style.display = 'block';
+                fileInput.style.display = 'none';
+                textInput.required = true;
+                fileInput.required = false;
+
+                if (typeSelect.value === 'number') {
+                    textInput.type = 'number';
+                    textInput.placeholder = 'Enter a numeric value';
+                    valueHelp.textContent = 'Enter a numeric value';
+                } else {
+                    textInput.type = 'text';
+                    textInput.placeholder = 'Enter text value';
+                    valueHelp.textContent = 'Enter any text content';
+                }
+            }
+        } else {
+            valueField.style.display = 'none';
+            valueField.classList.remove('fade-in');
+        }
+    }
+
+    // Reset form animation
+    document.querySelector('button[type="reset"]').addEventListener('click', function() {
+        setTimeout(() => {
+            document.getElementById('valueField').style.display = 'none';
+        }, 100);
+    });
+</script>

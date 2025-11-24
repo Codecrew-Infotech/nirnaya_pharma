@@ -14,6 +14,7 @@ RolePermissionController.getRoles = async (req, res) => {
 }
 
 RolePermissionController.addRole = (req, res) => {
+    
     res.render('add-role', { title: 'Add Role', layout: 'partials/layout-vertical' });
 }
 

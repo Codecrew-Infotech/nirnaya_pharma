@@ -35,6 +35,7 @@
     "gmaps": "^0.4.25",
     "huebee": "^2.1.1",
     "imask": "^7.6.0",
+    "jsonwebtoken": "^9.0.2",
     "jsvectormap": "^1.5.3",
     "justgage": "^1.6.1",
     "leaflet": "^1.9.4",
