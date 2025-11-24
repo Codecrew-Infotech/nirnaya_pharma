@@ -1,0 +1,155 @@
+<%- contentFor('extra_css') %>
+
+<%- contentFor('content') %>
+<style>
+  .image-upload-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .image-upload-container img {
+    width: 180px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+    transition: opacity 0.2s;
+  }
+
+  .image-upload-container:hover img {
+    opacity: 0.7;
+  }
+
+  .hidden-file-input {
+    display: none;
+  }
+</style>
+<div class="container-xxl mt-4">
+  <form method="POST" enctype="multipart/form-data">
+    <!-- Hidden field for publish status -->
+    <input type="hidden" id="isPublished" name="visible" value="<%=service.visible%>">
+    
+    <!-- Basic Information -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="e.g. My Amazing Service Post" value="<%=service.name%>" required>
+      </div>
+      <!-- Featured Image -->
+       <div class="col-md-6">
+  <label class="form-label">Featured Image</label>
+
+  <% if (service && service.image) { %>
+  <label class="image-upload-container" for="newImage">
+      <img src="/<%= service.image %>" alt="Current Image">
+    </label>
+    <% } %>
+
+  <input type="file" class="<%if (service && service.image) {%>form-control<% }else{%>hidden-file-input<% } %>" id="featuredImage" name="image" accept="image/*">
+</div>
+    </div>
+
+    <!-- Content -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <label for="description" class="form-label">description</label>
+        <textarea class="form-control" id="description" name="description" placeholder="Write your blog description here..."><%=service.description%></textarea>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+        <textarea class="form-control" id="content" name="content" placeholder="Write your blog content here..."><%=service.content%></textarea>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success me-2" onclick="setPublishStatus(true)">
+          <i class="fas fa-paper-plane"></i> Publish
+        </button>
+        <button type="submit" class="btn btn-secondary me-2" onclick="setPublishStatus(false)">
+          <i class="fas fa-save"></i> Save as Draft
+        </button>
+        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/39.0.1/ckeditor.min.js"></script>
+<script>
+  let editor;
+
+  // Initialize CKEditor
+  ClassicEditor
+    .create(document.querySelector('#content'), {
+      toolbar: {
+        items: [
+          'heading', '|',
+          'bold', 'italic', 'underline', 'strikethrough', '|',
+          'link', 'bulletedList', 'numberedList', '|',
+          'outdent', 'indent', '|',
+          'imageUpload', 'blockQuote', 'insertTable', '|',
+          'undo', 'redo', '|',
+          'alignment', 'fontColor', 'fontBackgroundColor', '|',
+          'code', 'codeBlock', '|',
+          'sourceEditing'
+        ]
+      },
+      language: 'en',
+      image: {
+        toolbar: [
+          'imageTextAlternative',
+          'imageStyle:inline',
+          'imageStyle:block',
+          'imageStyle:side',
+          'linkImage'
+        ]
+      },
+      table: {
+        contentToolbar: [
+          'tableColumn',
+          'tableRow',
+          'mergeTableCells'
+        ]
+      }
+    })
+    .then(editorInstance => {
+      editor = editorInstance;
+      
+      // Sync CKEditor content with form on submit
+      document.querySelector('form').addEventListener('submit', function(e) {
+        const content = editor.getData();
+        document.querySelector('#content').value = content;
+        
+        // Custom validation for CKEditor content
+        if (!content.trim()) {
+          e.preventDefault();
+          alert('Content is required. Please write some content for your blog post.');
+          editor.focus();
+          return false;
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error initializing CKEditor:', error);
+    });
+
+  function setPublishStatus(isPublished) {
+    document.getElementById('isPublished').value = isPublished;
+  }
+  document.getElementById("newImage").addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const img = document.querySelector(".image-upload-container img");
+  img.src = URL.createObjectURL(file);
+});
+
+
+</script>
+
+<%- contentFor('extra_javascript') %>

@@ -1,0 +1,3 @@
+http://wpdemo.archiwp.com/consultax/wp-content/uploads/sites/2/2019/04/logo.svg
+
+Cannot download image; Failed to fetch

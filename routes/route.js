@@ -8,6 +8,7 @@ const MediaController = require('../controller/MediaController');
 const HeaderController = require('../controller/HeaderController');
 const UserController = require('../controller/UserController');
 const RolePermissionController = require('../controller/RolePermissionController');
+const ServiceController = require('../controller/ServiceController');
 
 route.get('/pages', pageController.getPage);
 route.get('/pages/add', pageController.addPage);
@@ -41,10 +42,10 @@ route.get('/slider/add', SliderController.addSlider);
 route.post('/slider/add', SliderController.createSlider);
 
 // Service routes
-route.get('/service', SliderController.getSliders);
-route.get('/service/:id', SliderController.getSliderById);
-route.get('/service/add', SliderController.addSlider);
-route.post('/service/add', SliderController.createSlider);
+// route.get('/service', SliderController.getSliders);
+// route.get('/service/add', SliderController.addSlider);
+// route.post('/service/add', SliderController.createSlider);
+// route.get('/service/:id', SliderController.getSliderById);
 
 // Define route for footer
 route.get('/footer/add', FooterController.addFooter);
@@ -88,6 +89,18 @@ route.post('/edit-permission/:id', RolePermissionController.updatePermission);
 
 route.get('/role-permission/:id', RolePermissionController.getRolePermissions);
 route.post('/role-permission/:id', RolePermissionController.createRolePermission);
+
+// define routes for services
+route.get('/services/', ServiceController.getServices);
+route.get('/services/add', ServiceController.addService);
+route.post('/services/add', ServiceController.createService);
+route.get('/services/:id', ServiceController.editServices);
+route.post('/services/:id', ServiceController.updateServices);
+// route.post('/services/add', ServiceController.getServices);
+// route.post('/services/:id', ServiceController.updateServices);
+// route.get('/services:id/', ServiceController.getServices);
+
+
 
 
 

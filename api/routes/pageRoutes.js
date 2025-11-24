@@ -9,6 +9,7 @@ const SliderController = require('../controller/SliderController');
 const FooterController = require('../controller/FooterController');
 const HeaderController = require('../controller/HeaderController');
 const RolePermissionController = require('../controller/RolePermissionController');
+const ServiceController = require('../controller/ServiceController');
 
 
 const router = express.Router();
@@ -65,6 +66,12 @@ router.post('/createSlider', SliderController.createSlider);
 router.get('/editSlider/:id', SliderController.editSlider);
 router.put('/updateSlider/:id', SliderController.updateSlider);
 router.delete('/deleteSlider/:id', SliderController.deleteSlider);
+
+router.get('/services/', ServiceController.getServices);
+router.post('/services/add', ServiceController.createService);
+router.get('/services/:id', ServiceController.editService);
+router.put('/services/:id', ServiceController.updateService);
+router.delete('/services/:id', ServiceController.deleteService);
 
 // Define routes for footer
 router.get('/footers', FooterController.getFooter);

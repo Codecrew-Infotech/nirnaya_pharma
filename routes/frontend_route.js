@@ -29,7 +29,7 @@ route.get('/projects', MediaController.getProject);
 route.get('/project-detail', MediaController.getProjectDetails);
 route.get('/services', MediaController.getService);
 route.get('/service-detail', MediaController.getServiceDetails);
-route.get('/team', MediaController.getTeam);
+route.get('/teams', MediaController.getTeam);
 route.get('/testimonials', MediaController.getTestimonial);
 
 
