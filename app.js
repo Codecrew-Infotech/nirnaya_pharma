@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const route = require('./routes/route');
+const frontend_route = require('./routes/frontend_route.js');
 const apiRoute = require('./api/routes/pageRoutes');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session')
@@ -9,7 +10,10 @@ const cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 const dotenv = require('dotenv')
 const mongoose = require('./db/db'); 
+const cors = require('cors'); 
 
+
+app.use(cors());
 dotenv.config({ path: "./config.env" });
 app.use(express.urlencoded({ extended: true })); 
 app.set('view engine', 'ejs');
@@ -24,8 +28,10 @@ app.set('layout', 'partials/layout-vertical');
 app.use(expressLayouts);
 
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
-app.use('/', route);
+app.use('/', frontend_route);
+app.use('/admin', route);
 app.use('/api', apiRoute);
 
 app.use((err, req, res, next) => {

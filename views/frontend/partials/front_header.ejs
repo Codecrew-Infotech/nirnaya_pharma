@@ -1,0 +1,174 @@
+<% 
+// Get the first header (or you can filter by specific criteria)
+const headerConfig = header && header.length > 0 ? header[0] : null;
+%>
+
+<% if (headerConfig && headerConfig.visible) { %>
+<header id="site-header" class="site-header mobile-header-blue header-style-1">
+    
+    <!-- Top bar start -->
+    <% if (headerConfig.topbar && headerConfig.topbar.visible) { %>
+    <div id="header_topbar" class="header-topbar md-hidden sm-hidden clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- social icons -->
+                    <% if (headerConfig.topbar.socialLinks && headerConfig.topbar.socialLinks.length > 0) { %>
+                    <ul class="social-list fleft">
+                        <% headerConfig.topbar.socialLinks.forEach(function(social) { %>
+                            <% if (social.visible) { %>
+                            <li>
+                                <a href="<%= social.link %>" target="_blank">
+                                    <i class="fa fa-<%= social.icon %>"></i>
+                                </a>
+                            </li>
+                            <% } %>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                    <!-- social icons close -->
+                    
+                    <!-- Opening Hours -->
+                    <% if (headerConfig.topbar.openingHours && headerConfig.topbar.openingHours.visible && headerConfig.topbar.openingHours.value) { %>
+                    <div class="topbar-text fright">
+                        <%= headerConfig.topbar.openingHours.label %> : <%= headerConfig.topbar.openingHours.value %>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <!-- Top bar close -->
+
+    <!-- Main header start -->
+    <div class="main-header md-hidden sm-hidden">
+        <div class="main-header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-wrap-table">
+                            <!-- Logo -->
+                            <div id="site-logo" class="site-logo col-media-left col-media-middle">
+                                <a href="/">
+                                    <% if (headerConfig.headerlogo) { %>
+                                    <img class="logo-static" src="/<%= headerConfig.headerlogo %>" alt="<%= headerConfig.name %>">
+                                    <img class="logo-scroll" src="/<%= headerConfig.headerlogo %>" alt="<%= headerConfig.name %>">
+                                    <% } else { %>
+                                    <img class="logo-static" src="/fonts/images/logo-white.svg" alt="Logo">
+                                    <img class="logo-scroll" src="/fonts/images/logo-white.svg" alt="Logo">
+                                    <% } %>
+                                </a>
+                            </div>
+                            
+                            <div class="col-media-body col-media-middle">
+                                <!-- contact info -->
+                                <ul class="info-list info_on_right_side fright">
+                                    <% if (headerConfig.address && headerConfig.address.visible && headerConfig.address.value) { %>
+                                    <li>
+                                        <span><%= headerConfig.address.lable %>: <strong><%= headerConfig.address.value.replace(/\n/g, '<br>') %></strong></span>
+                                    </li>
+                                    <% } %>
+                                    
+                                    <% if (headerConfig.contact && headerConfig.contact.visible && headerConfig.contact.value) { %>
+                                    <li>
+                                        <span><%= headerConfig.contact.lable %>: <strong class="font-size18"><%= headerConfig.contact.value %></strong></span>
+                                    </li>
+                                    <% } %>
+                                </ul>
+                                <!-- contact info close -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="header-mainnav">
+                            <!-- CTA / Search / Cart Section -->
+                            
+                            
+                            <!-- Navigation Menu -->
+                            <div id="site-navigation" class="main-navigation fleft">
+                                <ul id="primary-menu" class="menu">
+                                    <% if (headerConfig.menu && headerConfig.menu.length > 0) { %>
+                                        <% headerConfig.menu.forEach(function(menuItem) { %>
+                                            <% if (menuItem.visible) { %>
+                                            <li class="<%= menuItem.submenu && menuItem.submenu.length > 0 ? 'menu-item-has-children' : '' %>">
+                                                <a href="<%= menuItem.link %>"><%= menuItem.name %></a>
+                                                
+                                                <% if (menuItem.submenu && menuItem.submenu.length > 0) { %>
+                                                <ul class="sub-menu">
+                                                    <% menuItem.submenu.forEach(function(subItem) { %>
+                                                        <% if (subItem.visible) { %>
+                                                        <li><a href="<%= subItem.link %>"><%= subItem.name %></a></li>
+                                                        <% } %>
+                                                    <% }); %>
+                                                </ul>
+                                                <% } %>
+                                            </li>
+                                            <% } %>
+                                        <% }); %>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <!-- #site-navigation -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main header close -->
+    
+    <!-- Mobile Header -->
+    <div class="header_mobile">
+        <div class="mlogo_wrapper clearfix">
+            <div class="mobile_logo">
+                <a href="/">
+                    <% if (headerConfig.headerlogo) { %>
+                    <img src="/uploads/<%= headerConfig.headerlogo %>" alt="<%= headerConfig.name %>">
+                    <% } else { %>
+                    <img src="/fonts/images/logo-white.svg" alt="Logo">
+                    <% } %>
+                </a>
+            </div>
+            <div id="mmenu_toggle">
+                <button></button>
+            </div>
+        </div>
+        
+        <div class="mmenu_wrapper">
+            <div class="mobile_nav collapse">
+                <ul id="menu-main-menu" class="mobile_mainmenu">
+                    <% if (headerConfig.menu && headerConfig.menu.length > 0) { %>
+                        <% headerConfig.menu.forEach(function(menuItem) { %>
+                            <% if (menuItem.visible) { %>
+                            <li class="<%= menuItem.submenu && menuItem.submenu.length > 0 ? 'menu-item-has-children' : '' %>">
+                                <a href="<%= menuItem.link %>"><%= menuItem.name %></a>
+                                
+                                <% if (menuItem.submenu && menuItem.submenu.length > 0) { %>
+                                <ul class="sub-menu">
+                                    <% menuItem.submenu.forEach(function(subItem) { %>
+                                        <% if (subItem.visible) { %>
+                                        <li><a href="<%= subItem.link %>"><%= subItem.name %></a></li>
+                                        <% } %>
+                                    <% }); %>
+                                </ul>
+                                <% } %>
+                            </li>
+                            <% } %>
+                        <% }); %>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<% } else { %>
+<!-- Header is not visible or not configured -->
+<% } %>
