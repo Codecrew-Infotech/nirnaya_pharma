@@ -46,14 +46,14 @@
     </label>
     <% } %>
 
-  <input type="file" class="<%if (service && service.image) {%>form-control<% }else{%>hidden-file-input<% } %>" id="featuredImage" name="image" accept="image/*">
+  <input type="file" class="<%if(service && service.image){%>form-control<%}else{%>hidden-file-input<%}%>" id="featuredImage" name="image" accept="image/*">
 </div>
     </div>
 
     <!-- Content -->
     <div class="row mb-3">
       <div class="col-12">
-        <label for="description" class="form-label">description</label>
+        <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description" placeholder="Write your blog description here..."><%=service.description%></textarea>
       </div>
     </div>

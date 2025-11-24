@@ -10,6 +10,12 @@ const UserController = require('../controller/UserController');
 const RolePermissionController = require('../controller/RolePermissionController');
 const ServiceController = require('../controller/ServiceController');
 
+
+
+route.get('/', (req, res, next) => {
+  res.render('index', {title: 'Index'});
+})
+
 route.get('/pages', pageController.getPage);
 route.get('/pages/add', pageController.addPage);
 // route.get('/add-page', pageController.addPage);
@@ -318,9 +324,7 @@ route.get('/icons-lineawesome', (req, res, next) => {
   res.render('icons-lineawesome', {title: 'Icons Lineawesome'});
 })
 
-route.get('/', (req, res, next) => {
-  res.render('index', {title: 'Index'});
-})
+
 
 route.get('/index', (req, res, next) => {
   res.render('index', {title: 'Index'});

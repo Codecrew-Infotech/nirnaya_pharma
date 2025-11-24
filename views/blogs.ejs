@@ -15,7 +15,7 @@
                                     <h4 class="card-title">Blogs Details</h4>
                                 </div>
                             </div>
-                            <a href="/blog/add" class="btn btn-primary">Add Blog</a>
+                            <a href="/admin/blog/add" class="btn btn-primary">Add Blog</a>
                         </div>
                         <div class="card-body pt-0">
                             <div class="table-responsive">
@@ -42,7 +42,7 @@
                                                     <%= blogs[i].isPublished ? 'Published' : 'Draft' %>
                                                 </td>
                                                 <td>
-                                                    <a href="/blogs/<%= blogs[i]._id %>">View Blog</a>
+                                                    <a href="/admin/blogs/<%= blogs[i]._id %>">View Blog</a>
                                                 </td>
                                             </tr>
                                             <% } %>

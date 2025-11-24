@@ -82,7 +82,7 @@ SliderController.updateSlider = async (req, res) => {
         await axios.put(`${process.env.API_URL}/api/updateSlider/${sliderId}`, {
             image, title, desc, link, titleCategory, sliderBtn, info, order, isActive
         });
-        res.redirect('/sliders');
+        res.redirect('/admin/sliders');
     } catch (error) {
         console.error('Error updating slider:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });

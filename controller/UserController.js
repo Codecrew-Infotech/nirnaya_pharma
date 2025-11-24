@@ -41,7 +41,7 @@ UserController.createUser = async (req, res) => {
         };
 
         await axios.post(`${process.env.API_URL}/api/createUser`, newUser);
-        res.redirect('/users');
+        res.redirect('/admin/users');
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).send('Error creating user');
@@ -85,7 +85,7 @@ UserController.updateUser = async (req, res) => {
         };
 
         await axios.put(`${process.env.API_URL}/api/updateUser/${userId}`, updatedUser);
-        res.redirect('/users');
+        res.redirect('/admin/users');
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).send('Error updating user');
@@ -95,7 +95,7 @@ UserController.deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
         await axios.delete(`${process.env.API_URL}/api/deleteUser/${userId}`);
-        res.redirect('/users');
+        res.redirect('/admin/users');
     } catch (error) {
         console.error('Error deleting user:', error);
         res.status(500).send('Error deleting user');

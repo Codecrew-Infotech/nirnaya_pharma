@@ -69,7 +69,7 @@ blogController.createBlog = async (req, res, next) => {
             featuredImage: image ? image.name : null, 
         });
 
-        res.redirect('/blogs');
+        res.redirect('/admin/blogs');
     } catch (error) {
         console.error('Error creating blog:', error.message);
         return res.status(500).json({
@@ -101,7 +101,7 @@ blogController.updateBlog = async (req, res, next) => {
             return res.status(404).json({ message: 'Blog not found' });
         }
         console.log('Blog updated successfully:', response.data);
-        res.redirect('/blogs');
+        res.redirect('/admin/blogs');
     } catch (error) {
         console.error('Error updating blog:', error.message);
         return res.status(500).json({ success: false, message: error.message || 'Internal server error' });

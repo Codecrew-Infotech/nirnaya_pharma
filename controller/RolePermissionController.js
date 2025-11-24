@@ -20,7 +20,7 @@ RolePermissionController.addRole = (req, res) => {
 RolePermissionController.createRole = async (req, res) => {
     try {
         await axios.post(`${process.env.API_URL}/api/createRole`, req.body);
-        res.redirect('/roles');
+        res.redirect('/admin/roles');
     } catch (error) {
         console.error("Error creating role:", error);
         res.status(500).send("Internal Server Error");
@@ -43,7 +43,7 @@ RolePermissionController.editRole = async (req, res) => {
 RolePermissionController.updateRole = async (req, res) => {
     try {
         await axios.put(`${process.env.API_URL}/api/updateRole/${req.params.id}`, req.body);
-        res.redirect('/roles');
+        res.redirect('/admin/roles');
     } catch (error) {
         console.error("Error updating role:", error);
         res.status(500).send("Internal Server Error");
@@ -66,7 +66,7 @@ RolePermissionController.addPermission = (req, res) => {
 RolePermissionController.createPermission = async (req, res) => {
     try {
         await axios.post(`${process.env.API_URL}/api/createPermission`, req.body);
-        res.redirect('/permissions');
+        res.redirect('/admin/permissions');
     } catch (error) {
         console.error("Error creating permission:", error);
         res.status(500).send("Internal Server Error");
@@ -89,7 +89,7 @@ RolePermissionController.editPermission = async (req, res) => {
 RolePermissionController.updatePermission = async (req, res) => {
     try {
         await axios.put(`${process.env.API_URL}/api/updatePermission/${req.params.id}`, req.body);
-        res.redirect('/permissions');
+        res.redirect('/admin/permissions');
     } catch (error) {
         console.error("Error updating permission:", error);
         res.status(500).send("Internal Server Error");
@@ -135,7 +135,7 @@ RolePermissionController.createRolePermission = async (req, res) => {
             permission_id: Array.isArray(permissions) ? permissions : [permissions]
         }
         await axios.post(`${process.env.API_URL}/api/createRolePermission`, payload);
-        res.redirect(`/role-permission/${role_id}`);
+        res.redirect(`/admin/role-permission/${role_id}`);
     } catch (error) {
         console.error("Error creating role permission:", error);
         res.status(500).send("Internal Server Error");

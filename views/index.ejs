@@ -1,8 +1,9 @@
 <%- contentFor('extra_css') %>
 <script>
     var result = localStorage.getItem('rizz_user');
+    console.log(result,"resultresultresultresult");
     if (!result) {
-        window.location.href = "/auth-login";
+        window.location.href = "/admin/auth-login";
     }
 </script>
 

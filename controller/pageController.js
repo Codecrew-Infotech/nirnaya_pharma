@@ -22,7 +22,7 @@ pageController.addpageData = async (req, res, next) => {
         const { name, slug, metadata } = req.body;
         const pageData = await axios.post(`/api/createPage`, { name, slug, metadata });
         console.log('Page data added successfully:', JSON.stringify(pageData));
-        res.redirect('/pages');
+        res.redirect('/admin/pages');
     } catch (error) {
         console.error('Error adding page data:', error.message);
         return res.status(500).json({ success: false, message: error.message || 'Internal server error' });
@@ -54,7 +54,7 @@ pageController.createPagesection = async (req, res, next) => {
         const { name, content } = req.body;
         const pageSectionData = await axios.post(`${process.env.API_URL}/api/createSection`, { name, content });
         console.log('Page section data added successfully:', JSON.stringify(pageSectionData.data));
-        res.redirect('/sections');
+        res.redirect('/admin/sections');
     } catch (error) {
         console.error('Error adding page section data:', error.message);
         return res.status(500).json({ success: false, message: error.message || 'Internal server error' });
@@ -83,7 +83,7 @@ pageController.updateSection = async (req, res, next) => {
         if (!updatedSection.data.success) {
             return res.status(404).json({ success: false, message: 'Section not found' });
         }
-        res.redirect('/sections');
+        res.redirect('/admin/sections');
     } catch (error) {
         console.error('Error updating section:', error);
         return res.status(500).json({ success: false, message: 'Internal server error' });

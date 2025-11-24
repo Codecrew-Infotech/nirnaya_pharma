@@ -24,7 +24,7 @@ FooterController.createFooter = async (req, res, next) => {
         }
         req.body.logoUrl = image ? image.name : null;
         await axios.post(`${process.env.API_URL}/api/createFooter`, req.body);
-        res.redirect('/footers');
+        res.redirect('/admin/footers');
     } catch (error) {
         next(error);
     }
@@ -64,7 +64,7 @@ FooterController.updateFooter = async (req, res, next) => {
     req.body.logoUrl = logoFilename;
 
     await axios.put(`${process.env.API_URL}/api/updateFooter/${req.params.id}`, req.body);
-    res.redirect('/footers');
+    res.redirect('/admin/footers');
   } catch (error) {
     next(error);
   }

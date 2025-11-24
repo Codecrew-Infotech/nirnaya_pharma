@@ -20,7 +20,7 @@ route.use(async (req, res, next) => {
 
 route.get('/', MediaController.getHome);
 route.get('/about', MediaController.getAbout);
-route.get('/blog', MediaController.getBlog);
+route.get('/blogs', MediaController.getBlog);
 route.get('/career', MediaController.getCareer);
 route.get('/contact', MediaController.getContact);
 route.get('/how-it-work', MediaController.getWork);
@@ -31,6 +31,7 @@ route.get('/services', MediaController.getService);
 route.get('/service-detail', MediaController.getServiceDetails);
 route.get('/teams', MediaController.getTeam);
 route.get('/testimonials', MediaController.getTestimonial);
+
 
 
 module.exports = route;

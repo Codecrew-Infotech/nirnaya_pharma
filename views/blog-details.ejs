@@ -379,7 +379,7 @@
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-12">
-            <a href="/blogs" class="back-btn">
+            <a href="/admin/blogs" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
                 Back to Blogs
             </a>
@@ -578,7 +578,7 @@
             .then(response => {
                 if (response.ok) {
                     alert('Blog deleted successfully!');
-                    window.location.href = '/blogs';
+                    window.location.href = '/admin/blogs';
                 } else {
                     throw new Error('Failed to delete blog');
                 }
