@@ -5628,7 +5628,7 @@ div.line-chart .chart-legend li {
   background-color: #fff;
   color: #fff;
   padding: 80px 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; */
 }
 
 .promise-container {
@@ -5649,15 +5649,14 @@ div.line-chart .chart-legend li {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 12px;
-  color: #ccc;
+  color: #000;
 }
 
 .section-title {
   font-size: 56px;
-  font-weight: 300;
+  font-weight: 800;
   margin: 0 0 50px 0;
   line-height: 1.2;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .features-list {
@@ -5707,14 +5706,13 @@ div.line-chart .chart-legend li {
   font-size: 24px;
   font-weight: 400;
   margin: 0 0 12px 0;
-  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .feature-description {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.6;
   margin: 0;
-  color: #ccc;
+  color: #000;
 }
 
 .promise-image {
