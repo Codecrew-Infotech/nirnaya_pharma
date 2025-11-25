@@ -4,120 +4,118 @@
             <div class="row">
 
                 <% if (footer.about?.visible) { %>
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget widget_media_image">
-                        <a href="/">
-                            <img src="<%= footer.about.logoUrl %>" alt="logo">
-                        </a>
-                    </div>
-
-                    <div class="widget_text widget widget_custom_html">
-                        <div class="textwidget custom-html-widget">
-
-                            <% if (footer.about.description) { %>
-                            <p><%= footer.about.description %></p>
-                            <% } %>
-
-                            <p>
-                                <a href="/about" class="pagelink gray">About
-                                    us</a>
-                            </p>
-
-                            <div class="ot-socials bg-white">
-                                <% footer.about.socialLinks
-                                .filter(link => link.visible)
-                                .forEach(link => { %>
-
-                                <a target="_blank" href="<%= link.link %>">
-                                    <i class="<%= link.iconClass %>"></i>
-                                </a>
-
-                                <% }) %>
-                            </div>
-
+                    <div class="col-md-3 col-sm-6">
+                        <div class="widget widget_media_image">
+                            <a href="/">
+                                <img src="<%= footer.about.logoUrl %>" alt="logo">
+                            </a>
                         </div>
-                    </div>
-                </div>
-                <% } %>
 
-                <div class="col-md-3 col-sm-6">
-                    <section
-                        class="widget_text widget widget_custom_html padding-left">
-                        <h4 class="widget-title"><%= footer.platformName %></h4>
-                        <div class="textwidget custom-html-widget">
-                            <ul class="padd-left">
-                                <% footer.platformLinks
-                                .filter(x => x.visible)
-                                .forEach(link => { %>
+                        <div class="widget_text widget widget_custom_html">
+                            <div class="textwidget custom-html-widget">
 
-                                <li>
-                                    <a href="<%= link.link %>"><%= link.name
-                                        %></a>
-                                </li>
-
-                                <% }) %>
-                            </ul>
-                        </div>
-                    </section>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <section
-                        class="widget_text widget widget_custom_html padding-left">
-                        <h4 class="widget-title"><%= footer.companyName %></h4>
-                        <div class="textwidget custom-html-widget">
-                            <ul class="padd-left">
-
-                                <% footer.companyLinks
-                                .filter(x => x.visible)
-                                .forEach(link => { %>
-
-                                <li>
-                                    <a href="<%= link.link %>"><%= link.name
-                                        %></a>
-                                </li>
-
-                                <% }) %>
-
-                            </ul>
-                        </div>
-                    </section>
-                </div>
-
-                <% if (footer.subscription?.visible) { %>
-                <div class="col-md-3 col-sm-6">
-                    <section id="mc4wp_form_widget-1"
-                        class="widget widget_mc4wp_form_widget">
-                        <h4 class="widget-title"><%= footer.formName %></h4>
-
-                        <form id="mc4wp-form-1"
-                            class="mc4wp-form mc4wp-form-1696" method="post"
-                            data-id="1696" data-name="Consultax Subscribe">
-                            <div class="mc4wp-form-fields">
-                                <div class="footer-sub">
-                                    <% if (footer.subscription.infoText) { %>
-                                    <input type="text" name="NAME"
-                                        placeholder="<%= footer.subscription.infoText %>"
-                                        required>
+                                <% if (footer.about.description) { %>
+                                    <p>
+                                        <%= footer.about.description %>
+                                    </p>
                                     <% } %>
-                                    <input type="email" name="EMAIL"
-                                        placeholder="<%= footer.subscription.placeholder %>"
-                                        required>
-                                    <input type="submit" class="btn"
-                                        value="Subscribe">
-                                </div>
+
+                                        <p>
+                                            <a href="/about" class="pagelink gray">About
+                                                us</a>
+                                        </p>
+
+                                        <div class="ot-socials bg-white">
+                                            <% footer.about.socialLinks .filter(link=> link.visible)
+                                                .forEach(link => { %>
+                                            <a target="_blank" href="<%= link.link %>" rel="noopener noreferrer"><i
+                                                    class="<%= link.iconClass %>"></i></a>
+                                                     <% }) %>
+                                            
+                                        </div>
+
+                                        
+
                             </div>
-                            <input type="hidden" name="_mc4wp_timestamp"
-                                value="1560227031">
-                            <input type="hidden" name="_mc4wp_form_id"
-                                value="1696">
-                            <input type="hidden" name="_mc4wp_form_element_id"
-                                value="mc4wp-form-1">
-                            <div class="mc4wp-response"></div>
-                        </form>
-                    </section>
-                </div>
-                <% } %>
+                        </div>
+                    </div>
+                    <% } %>
+
+                        <div class="col-md-3 col-sm-6">
+                            <section class="widget_text widget widget_custom_html padding-left">
+                                <h4 class="widget-title">
+                                    <%= footer.platformName %>
+                                </h4>
+                                <div class="textwidget custom-html-widget">
+                                    <ul class="padd-left">
+                                        <% footer.platformLinks .filter(x=> x.visible)
+                                            .forEach(link => { %>
+
+                                            <li>
+                                                <a href="<%= link.link %>">
+                                                    <%= link.name %>
+                                                </a>
+                                            </li>
+
+                                            <% }) %>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <section class="widget_text widget widget_custom_html padding-left">
+                                <h4 class="widget-title">
+                                    <%= footer.companyName %>
+                                </h4>
+                                <div class="textwidget custom-html-widget">
+                                    <ul class="padd-left">
+
+                                        <% footer.companyLinks .filter(x=> x.visible)
+                                            .forEach(link => { %>
+
+                                            <li>
+                                                <a href="<%= link.link %>">
+                                                    <%= link.name %>
+                                                </a>
+                                            </li>
+
+                                            <% }) %>
+
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+
+                        <% if (footer.subscription?.visible) { %>
+                            <div class="col-md-3 col-sm-6">
+                                <section id="mc4wp_form_widget-1" class="widget widget_mc4wp_form_widget">
+                                    <h4 class="widget-title">
+                                        <%= footer.formName %>
+                                    </h4>
+
+                                    <form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-1696" method="post"
+                                        data-id="1696" data-name="Consultax Subscribe">
+                                        <div class="mc4wp-form-fields">
+                                            <div class="footer-sub">
+                                                <% if (footer.subscription.infoText) { %>
+                                                    <input type="text" name="NAME"
+                                                        placeholder="<%= footer.subscription.infoText %>" required>
+                                                    <% } %>
+                                                        <input type="email" name="EMAIL"
+                                                            placeholder="<%= footer.subscription.placeholder %>"
+                                                            required>
+                                                        <input type="submit" class="btn" value="Subscribe">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="_mc4wp_timestamp" value="1560227031">
+                                        <input type="hidden" name="_mc4wp_form_id" value="1696">
+                                        <input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1">
+                                        <div class="mc4wp-response"></div>
+                                    </form>
+                                </section>
+                            </div>
+                            <% } %>
 
             </div>
         </div>
@@ -129,10 +127,10 @@
 
                 <div class="col-md-6">
                     <% if (footer.copyright?.visible) { %>
-                    <div class="footer-copyright">
-                        <%= footer.copyright.text %>
-                    </div>
-                    <% } %>
+                        <div class="footer-copyright">
+                            <%= footer.copyright.text %>
+                        </div>
+                        <% } %>
                 </div>
 
                 <div class="col-md-6">

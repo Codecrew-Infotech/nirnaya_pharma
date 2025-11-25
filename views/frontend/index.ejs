@@ -16,9 +16,8 @@
                                     <li data-transition="fade" data-slotamount="10" data-masterspeed="default"
                                         data-thumb="">
                                         <!--  BACKGROUND IMAGE -->
-                                        <img src="/slide-home1.jpg" alt=""
-                                            data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
-                                            data-bgparallax="10" />
+                                        <img src="/slide-home1.jpg" alt="" data-bgposition="center center"
+                                            data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" />
                                         <div class="tp-caption tp-resizeme" data-x="right" data-hoffset="['0']"
                                             data-y="bottom" data-voffset="" data-width="['auto','320','auto','320']"
                                             data-transform_idle="o:1;"
@@ -36,7 +35,9 @@
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1500" data-whitespace="['nowrap','nowrap','nowrap','normal']"
                                             data-fontsize="['14','14','14','14']" data-responsive_offset="on">
-                                            <p><%= slide.info %></p>
+                                            <p>
+                                                <%= slide.info %>
+                                            </p>
                                         </div>
                                         <div class="tp-caption tp-resizeme font-second text-second bolder"
                                             data-x="['left']" data-hoffset="['0','15','15','15']" data-y="center"
@@ -47,7 +48,9 @@
                                             data-start="1700" data-whitespace="['normal']"
                                             data-fontsize="['50','50','40','30']"
                                             data-lineheight="['60','60','50','40']" data-responsive_offset="on">
-                                            <p><%= slide.title %></p>
+                                            <p>
+                                                <%= slide.title %>
+                                            </p>
                                         </div>
                                         <div class="tp-caption tp-resizeme sh3" data-x="['left']"
                                             data-hoffset="['0','15','15','15']" data-y="center"
@@ -58,7 +61,9 @@
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1900" data-fontsize="['16','16','14','12']"
                                             data-lineheight="['24','24','18','16']" data-responsive_offset="on">
-                                            <p><%= slide.desc %></p>
+                                            <p>
+                                                <%= slide.desc %>
+                                            </p>
                                         </div>
                                         <div class="tp-caption" data-x="['left']" data-hoffset="['0','15','15','15']"
                                             data-y="bottom" data-voffset="['185','185','185','185']"
@@ -66,7 +71,9 @@
                                             data-transform_in="x:100px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="2100">
-                                            <a class="btn" href="<%= slide.link %>"><%= slide.sliderBtn %></a>
+                                            <a class="btn" href="<%= slide.link %>">
+                                                <%= slide.sliderBtn %>
+                                            </a>
                                         </div>
                                     </li>
                                     <% }) %>
@@ -154,68 +161,77 @@
                             </div>
                         </div>
                     </section>
-                    <section
-                        class="wpb_row row-fluid section-padd row-has-fill row-o-equal-height row-o-content-middle row-flex bg-light">
-                        <div class="container">
-                            <div class="row">
-                                <div class="wpb_column column_container col-sm-12">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div
-                                                class="row wpb_row inner row-fluid row-o-equal-height row-o-content-middle row-flex">
-                                                <div
-                                                    class="wpb_column column_container col-sm-12 col-md-6 col-has-fill custom-padd-1 vc_custom_1553849412190">
-                                                    <div class="column-inner">
-                                                        <div class="wpb_wrapper"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="bg-second wpb_column column_container col-sm-12 col-md-6">
-                                                    <div class="column-inner">
-                                                        <div class="wpb_wrapper">
-                                                            <div class="empty_space_60 lg-hidden h60"><span
-                                                                    class="empty_space_inner"></span></div>
+                   
 
-                                                            <div class="section-head padding-box-2 text-light">
-                                                                <h6><span>WHO WE ARE</span></h6>
-                                                                <h2 class="section-title">Our Mission,<br>Values and
-                                                                    Motto</h2>
-                                                            </div>
+                    <section class="promise-section">
+                        <div class="promise-container">
+                            <div class="promise-content">
+                                <p class="section-label">Features</p>
+                                <h2 class="section-title">Our Promise</h2>
 
-                                                            <div
-                                                                class="wpb_text_column wpb_content_element padding-box-2 text-light">
-                                                                <div class="wpb_wrapper">
-                                                                    <p>A putrid, nicotine-shaded mist loomed over
-                                                                        Beijing on Thursday after a massive sandstorm
-                                                                        slammed into the Chinese capital bringing the
-                                                                        latest airpocalypse to this smog-choked city.
-                                                                    </p>
+                                <div class="features-list">
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="feature-details">
+                                            <h3 class="feature-title">Honesty</h3>
+                                            <p class="feature-description">We are committed to delivering unbiased and
+                                                transparent advice to help you make informed decisions.</p>
+                                        </div>
+                                    </div>
 
-                                                                </div>
-                                                            </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="feature-details">
+                                            <h3 class="feature-title">Reliability</h3>
+                                            <p class="feature-description">Dependable and easy access to support your
+                                                business needs with confidentiality.</p>
+                                        </div>
+                                    </div>
 
-                                                            <div
-                                                                class="wpb_text_column wpb_content_element paddtop-75 padding-box-2 info-box text-light">
-                                                                <div class="wpb_wrapper">
-                                                                    <div class="sign">
-                                                                        <p><img class="alignnone size-full wp-image-1087"
-                                                                                src="/sign1.png" alt=""
-                                                                                width="79" height="49"></p>
-                                                                        <h5>James Patterson</h5>
-                                                                        <p>Founder &amp; CEO
-                                                                        </p>
-                                                                    </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="feature-details">
+                                            <h3 class="feature-title">Experience</h3>
+                                            <p class="feature-description">With over 42 years of industry experience, we
+                                                have a deep understanding of the pharma manufacturing landscape, Human
+                                                Behaviour, effective communication to provide realistic solutions which
+                                                are operationally executable and sustainable.</p>
+                                        </div>
+                                    </div>
 
-                                                                </div>
-                                                            </div>
-                                                            <div class="empty_space_60 lg-hidden"><span
-                                                                    class="empty_space_inner"></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="feature-item">
+                                        <div class="feature-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="feature-details">
+                                            <h3 class="feature-title">Flexibility and Ownership</h3>
+                                            <p class="feature-description">Our ownership-driven approach and flexible
+                                                services are designed to align with your business goals.</p>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="promise-image">
+                                <img src="/why-choos-us.webp" alt="Why Choose Us - Puzzle pieces with question marks">
                             </div>
                         </div>
                     </section>
@@ -249,25 +265,30 @@
                                     </div>
                                 </div>
                                 <% services.forEach(service=> { %>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-cube ion-logo-cube"></i>
-                                                <div class="content-box">
-                                                    <h4><%= service.name %></h4>
-                                                    <p><%= service.description %>
-                                                    </p>
-                                                    <a class="link-box pagelink" href="/services/<%= service.slug %>"
-                                                        target="_self">Read more</a>
+                                    <div class="wpb_column column_container col-sm-6 col-md-4">
+                                        <div class="column-inner">
+                                            <div class="wpb_wrapper">
+                                                <div class="service-box icon-box  ionic  hover-box">
+                                                    <i class="ion-md-cube ion-logo-cube"></i>
+                                                    <div class="content-box">
+                                                        <h4>
+                                                            <%= service.name %>
+                                                        </h4>
+                                                        <p>
+                                                            <%= service.description %>
+                                                        </p>
+                                                        <a class="link-box pagelink"
+                                                            href="/services/<%= service.slug %>" target="_self">Read
+                                                            more</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="empty_space_30"><span class="empty_space_inner"></span>
                                                 </div>
                                             </div>
-
-                                            <div class="empty_space_30"><span class="empty_space_inner"></span></div>
                                         </div>
                                     </div>
-                                </div>
-                                <% }) %>
+                                    <% }) %>
                             </div>
                         </div>
                     </section>
@@ -316,13 +337,12 @@
                                                 <div class="col-md-12">
                                                     <div class="project-item">
 
-                                                        <div class="slide-img"><img
-                                                                src="/case-slide5.jpg" alt=""></div>
+                                                        <div class="slide-img"><img src="/case-slide5.jpg" alt=""></div>
 
                                                         <div class="inner row">
                                                             <div class="col-md-3">
-                                                                <img src="/logo3.png"
-                                                                    alt="logo"> Contract Project: May 22, 2017
+                                                                <img src="/logo3.png" alt="logo"> Contract Project: May
+                                                                22, 2017
                                                                 <div class="gaps lg-hidden"></div>
                                                             </div>
                                                             <div class="col-md-9">
@@ -341,13 +361,12 @@
                                                 <div class="col-md-12">
                                                     <div class="project-item">
 
-                                                        <div class="slide-img"><img
-                                                                src="/case-slide5.jpg" alt=""></div>
+                                                        <div class="slide-img"><img src="/case-slide5.jpg" alt=""></div>
 
                                                         <div class="inner row">
                                                             <div class="col-md-3">
-                                                                <img src="logo2.png"
-                                                                    alt="logo"> Contract Project: November 15, 2018
+                                                                <img src="logo2.png" alt="logo"> Contract Project:
+                                                                November 15, 2018
                                                                 <div class="gaps lg-hidden"></div>
                                                             </div>
                                                             <div class="col-md-9">
@@ -366,13 +385,12 @@
                                                 <div class="col-md-12">
                                                     <div class="project-item">
 
-                                                        <div class="slide-img"><img
-                                                                src="case-slide6.jpg" alt=""></div>
+                                                        <div class="slide-img"><img src="case-slide6.jpg" alt=""></div>
 
                                                         <div class="inner row">
                                                             <div class="col-md-3">
-                                                                <img src="logo4.png"
-                                                                    alt="logo"> Contract Project: September 14, 2017
+                                                                <img src="logo4.png" alt="logo"> Contract Project:
+                                                                September 14, 2017
                                                                 <div class="gaps lg-hidden"></div>
                                                             </div>
                                                             <div class="col-md-9">
@@ -391,13 +409,12 @@
                                                 <div class="col-md-12">
                                                     <div class="project-item">
 
-                                                        <div class="slide-img"><img
-                                                                src="case-slide2.jpg" alt=""></div>
+                                                        <div class="slide-img"><img src="case-slide2.jpg" alt=""></div>
 
                                                         <div class="inner row">
                                                             <div class="col-md-3">
-                                                                <img src="logo5.png"
-                                                                    alt="logo"> Contract Project: April 24, 2016
+                                                                <img src="logo5.png" alt="logo"> Contract Project: April
+                                                                24, 2016
                                                                 <div class="gaps lg-hidden"></div>
                                                             </div>
                                                             <div class="col-md-9">
@@ -545,38 +562,45 @@
                                             <div class="news-slider posts-grid row" data-show="3" data-auto="true">
 
                                                 <% blogs.forEach(blog=> { %>
-                                                <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post">
-                                                                    <img src="/<%= blog.featuredImage %>"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date"><%= blog.createdAt %></time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="/category/<%= blog.categories[0].slug %>"><%= blog.categories[0].name %></a>
-                                                                    </span>
+                                                    <div>
+                                                        <article class="news-item content-area">
+                                                            <div class="inner-item radius-top">
+                                                                <div class="thumb-image">
+                                                                    <a href="post">
+                                                                        <img src="/<%= blog.featuredImage %>" alt="">
+                                                                    </a>
                                                                 </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="/blog<%= blog.slug %>"><%= blog.title %></a>
-                                                                </h4>
-                                                                <p>
-                                                                   <%= blog.content %>
-                                                                </p>
-                                                                <a class="post-link" href="/blog<%= blog.slug %>">Read more</a>
+                                                                <div class="inner-post radius-bottom">
+                                                                    <div class="entry-meta">
+                                                                        <span class="posted-on">
+                                                                            <time class="entry-date">
+                                                                                <%= blog.createdAt %>
+                                                                            </time>
+                                                                        </span>
+                                                                        <span class="posted-in">
+                                                                            <a
+                                                                                href="/category/<%= blog.categories[0].slug %>">
+                                                                                <%= blog.categories[0].name %>
+                                                                            </a>
+                                                                        </span>
+                                                                    </div>
+                                                                    <h4 class="entry-title">
+                                                                        <a href="/blog<%= blog.slug %>">
+                                                                            <%= blog.title %>
+                                                                        </a>
+                                                                    </h4>
+                                                                    <p>
+                                                                        <%= blog.content %>
+                                                                    </p>
+                                                                    <a class="post-link"
+                                                                        href="/blog<%= blog.slug %>">Read more</a>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                                <% }) %>
+                                                        </article>
+                                                    </div>
+                                                    <% }) %>
 
-                                                
+
 
                                             </div>
                                         </div>
@@ -603,9 +627,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="/avatar4.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="/avatar4.png"
+                                                                class="client-img" alt="">
                                                             <h5>Quynh Anh<span class="font12 normal">from Hanoi</span>
                                                             </h5>
                                                         </div>
@@ -623,9 +646,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="/avatar1.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="/avatar1.png"
+                                                                class="client-img" alt="">
                                                             <h5>Nora Roberts<span class="font12 normal">from
                                                                     Paris</span></h5>
                                                         </div>
@@ -644,9 +666,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="avatar2.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="avatar2.png"
+                                                                class="client-img" alt="">
                                                             <h5>John Doe<span class="font12 normal">from Beijing</span>
                                                             </h5>
                                                         </div>
@@ -665,9 +686,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="avatar4.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="avatar4.png"
+                                                                class="client-img" alt="">
                                                             <h5>Quynh Anh<span class="font12 normal">from Hanoi</span>
                                                             </h5>
                                                         </div>
@@ -685,9 +705,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="avatar5.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="avatar5.png"
+                                                                class="client-img" alt="">
                                                             <h5>Nora Roberts<span class="font12 normal">from
                                                                     Paris</span></h5>
                                                         </div>
@@ -706,9 +725,8 @@
                                                 <div>
                                                     <div class="testi-item box-shadow-hover">
                                                         <div class="testi-head">
-                                                            <img width="50" height="50"
-                                                                src="avatar6.png" class="client-img"
-                                                                alt="">
+                                                            <img width="50" height="50" src="avatar6.png"
+                                                                class="client-img" alt="">
                                                             <h5>John Doe<span class="font12 normal">from Beijing</span>
                                                             </h5>
                                                         </div>

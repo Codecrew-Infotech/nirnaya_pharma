@@ -18,7 +18,7 @@ SliderController.createSlider = async (req, res) => {
         const newSlider = new Slider({
             image, title, desc, link, order, info, titleCategory, sliderBtn, isActive
         });
-        
+
         await newSlider.save();
         res.status(201).json(newSlider);
     } catch (error) {
@@ -55,6 +55,7 @@ SliderController.updateSlider = async (req, res) => {
             console.log('File moved successfully');
         }
         const { title, desc, link, titleCategory, info, sliderBtn, order, isActive } = req.body;
+        console.log(image, title, desc, link, order, info, titleCategory, sliderBtn, isActive);
         const updatedSlider = await Slider.findByIdAndUpdate(sliderId, {
             image, title, desc, link, order, info, titleCategory, sliderBtn, isActive
         }, { new: true });

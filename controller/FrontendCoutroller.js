@@ -10,6 +10,8 @@ const FrontendCoutroller = {};
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
+        console.log(sliders,"sliders");
+
         let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');
         blogs = blogs.map(b => {
             return {
@@ -19,7 +21,7 @@ FrontendCoutroller.getHome = async (req, res) => {
             };
         });
         const services = await Service.find();
-        console.log(blogs[0].categories, "blogs");
+        console.log(blogs, "blogs");
         res.render('frontend/index', {
             title: 'Home',
             layout: false,
