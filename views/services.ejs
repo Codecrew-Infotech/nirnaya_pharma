@@ -41,7 +41,10 @@
                                                     <%= services[i].visible ? 'Published' : 'Draft' %>
                                                 </td>
                                                 <td>
-                                                    <a href="/admin/services/<%= services[i]._id %>">View service</a>
+                                                    <a href="/admin/services/<%= services[i]._id %>">View</a>
+                                                    |
+                                                    <a class="text-danger delete-service" href="/admin/services/<%= services[i]._id %>/delete">Delete</a>
+
                                                 </td>
                                             </tr>
                                             <% } %>
@@ -60,3 +63,51 @@
 
             <script src="/libs/simple-datatables/umd/simple-datatables.js"></script>
             <script src="/js/pages/datatable.init.js"></script>
+                        <!-- Delete confirmation modal -->
+                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this service? This action cannot be undone.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <a href="#" class="btn btn-danger btn-confirm">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            (function(){
+                                // Attach handlers to delete links
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var deleteLinks = document.querySelectorAll('.delete-service');
+                                    var modalEl = document.getElementById('confirmDeleteModal');
+                                    if (!modalEl) return;
+                                    var bsModal = null;
+                                    try { bsModal = new bootstrap.Modal(modalEl); } catch (e) { bsModal = null; }
+
+                                    deleteLinks.forEach(function(link){
+                                        link.addEventListener('click', function(e){
+                                            // prevent default navigation; show confirmation
+                                            e.preventDefault();
+                                            var href = this.getAttribute('href');
+                                            var confirmBtn = modalEl.querySelector('.btn-confirm');
+                                            if (confirmBtn) {
+                                                confirmBtn.setAttribute('href', href);
+                                                // In case JavaScript navigation is preferred, keep as anchor; otherwise leave as-is to allow normal GET
+                                            }
+                                            if (bsModal) bsModal.show();
+                                            else if (confirm('Are you sure you want to delete this service?')) {
+                                                window.location.href = href;
+                                            }
+                                        });
+                                    });
+                                });
+                            })();
+                        </script>

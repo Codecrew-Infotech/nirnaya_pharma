@@ -1,6 +1,6 @@
 <% 
 // Get the first header (or you can filter by specific criteria)
-const headerConfig = header && header.length > 0 ? header[0] : null;
+const headerConfig = header || null;
 %>
 
 <% if (headerConfig && headerConfig.visible) { %>

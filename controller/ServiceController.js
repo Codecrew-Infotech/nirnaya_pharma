@@ -16,7 +16,7 @@ ServiceController.addService = async (req, res) => {
 }
 ServiceController.createService = async (req, res) => {
     try {
-        const { name, content, description, visible } = req.body;
+        const { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
         const imageFile = req.files?.image || null;
         
         if (imageFile) {
@@ -26,10 +26,16 @@ ServiceController.createService = async (req, res) => {
         
         const newService = await axios.post(`${process.env.API_URL}/api/services/add`, {
             name,
+            slug,
             content,
             description,
             visible,
-            image: imageFile ? imageFile.name : null
+            image: imageFile ? imageFile.name : null,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            canonicalUrl,
+            publishDate
         });
         console.log("Created service:", newService.data);
         res.redirect('/admin/services');
@@ -55,7 +61,18 @@ ServiceController.editServices = async (req, res) => {
 
 ServiceController.updateServices = async (req, res) => {
     try {
-        const { name, content, description, visible } = req.body;
+        const { 
+            name, 
+            slug, 
+            content, 
+            description, 
+            visible, 
+            metaTitle, 
+            metaDescription, 
+            metaKeywords, 
+            canonicalUrl, 
+            publishDate 
+        } = req.body;
         const imageFile = req.files?.image || null;
         
         if (imageFile) {
@@ -63,14 +80,31 @@ ServiceController.updateServices = async (req, res) => {
             await imageFile.mv(uploadPath);
         }
         
-        const newService = await axios.post(`${process.env.API_URL}/api/services/${req.params.id}`, {
+        const newService = await axios.put(`${process.env.API_URL}/api/services/${req.params.id}`, {
             name,
+            slug,
             content,
             description,
             visible,
-            image: imageFile ? imageFile.name : null
+            image: imageFile ? imageFile.name : null,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            canonicalUrl,
+            publishDate
         });
         console.log("Created service:", newService.data);
+        res.redirect('/admin/services');
+    } catch (error) {
+        console.error("Error fetching roles:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+ServiceController.deleteServices = async (req, res) => {
+    try {
+        const id = req.params.id
+        await axios.delete(`${process.env.API_URL}/api/services/${id}`)
         res.redirect('/admin/services');
     } catch (error) {
         console.error("Error fetching roles:", error);

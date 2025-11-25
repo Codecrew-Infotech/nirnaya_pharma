@@ -1,5 +1,6 @@
 const Blog = require('../api/model/Blog');
 const Slider = require('../api/model/Slider');
+const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
 
 const FrontendCoutroller = {};
@@ -7,7 +8,7 @@ const FrontendCoutroller = {};
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
-        console.log(sliders, "sliders")
+
         res.render('frontend/index', {
             title: 'Home',
             layout: false,
@@ -263,9 +264,11 @@ FrontendCoutroller.getProjectDetails = async (req, res) => {
 };
 FrontendCoutroller.getService = async (req, res) => {
     try {
+        const services = await Service.find({ visible: true });
         res.render('frontend/services', {
-            title: 'Home',
+            title: 'Services',
             layout: false,
+            services,
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
@@ -277,9 +280,14 @@ FrontendCoutroller.getService = async (req, res) => {
 };
 FrontendCoutroller.getServiceDetails = async (req, res) => {
     try {
+        const slug = req.params.slug;
+        const services = await Service.find({ visible: true }).select('name slug');
+        const service = await Service.findOne({ slug: slug, visible: true });
+        if(!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
         res.render('frontend/service-detail', {
-            title: 'Home',
+            title: 'Service Details',
             layout: false,
+            service, services,
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
