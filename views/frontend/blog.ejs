@@ -43,21 +43,30 @@
 
 														<div class="entry-meta">
 															<span class="posted-on">
-																<time class="entry-date published"><%= blog.createdAt %></time>
+																<time class="entry-date published">
+																	<%= blog.createdAt %>
+																</time>
 															</span>
 															<% blog.categories.forEach(category=> { %>
-															<span class="posted-in">
-																<a href="#" rel="category tag"><%= category.name %></a>
-															</span>
-															<% }); %>
+																<span class="posted-in">
+																	<a href="#" rel="category tag">
+																		<%= category.name %>
+																	</a>
+																</span>
+																<% }); %>
 														</div>
 														<!-- .entry-meta -->
-														<h4 class="entry-title"><a href="/blog/<%= blog.slug %>" rel="bookmark"><%= blog.title %></a></h4>
+														<h4 class="entry-title"><a href="/blog/<%= blog.slug %>"
+																rel="bookmark">
+																<%= blog.title %>
+															</a></h4>
 													</header>
 													<!-- .entry-header -->
 
 													<div class="entry-summary">
-														<p><%= blog.content %></p>
+														<p>
+															<%= blog.content %>
+														</p>
 													</div>
 													<!-- .entry-content -->
 
@@ -83,80 +92,59 @@
 
 								<aside id="sidebar"
 									class="widget-area primary-sidebar col-lg-4 col-md-4 col-sm-12 col-xs-12">
-									<section id="search-2" class="widget widget_search">
-										<form role="search" method="get" id="search-form" class="search-form"
-											action="#">
-											<input type="search" class="search-field" placeholder="Enter keyword..."
-												value="" name="s">
-											<button type="submit" class="search-submit"><i
-													class="fa fa-search"></i></button>
-										</form>
-									</section>
-									<section id="categories-2" class="widget widget_categories">
-										<h4 class="widget-title">Categories</h4>
-										<ul>
-											<li><a href="#">Business</a></li>
-											<li class="cat-item cat-item-3"><a href="#">Consulting</a></li>
-											<li class="cat-item cat-item-4"><a href="#">Finacial</a></li>
-											<li class="cat-item cat-item-5"><a href="#">Franchising</a></li>
-											<li class="cat-item cat-item-6"><a href="#">Personal Injury</a></li>
-											<li class="cat-item cat-item-1"><a href="#">Uncategorized</a></li>
-										</ul>
-									</section>
-									<section id="recent_news-1" class="widget widget_recent_news">
-										<h4 class="widget-title">Latest News</h4>
-										<ul class="recent-news clearfix">
+									<% if (categories && categories.length> 0) { %>
+										<section id="categories-2" class="widget widget_categories">
+											<h4 class="widget-title">Categories</h4>
+											<ul>
+												<% categories.forEach(cat=> { %>
+													<li class="cat-item">
+														<a href="/category/<%= cat.slug %>">
+															<%= cat.name %>
+														</a>
+													</li>
+													<% }); %>
+											</ul>
+										</section>
+										<% } %>
+										
+											<% if (latestPosts && latestPosts.length> 0) { %>
+												<section id="recent_news-1" class="widget widget_recent_news">
+													<h4 class="widget-title">Latest News</h4>
+													<ul class="recent-news clearfix">
+														<% latestPosts.forEach(post=> { %>
+															<li class="clearfix">
+																<% if (post.featuredImage) { %>
+																	<div class="thumb">
+																		<a href="/blog/<%= post.slug %>">
+																			<img src="/<%= post.featuredImage %>"
+																				alt="<%= post.title %>">
+																		</a>
+																	</div>
+																	<% } %>
+																		<div class="entry-header">
+																			<h6>
+																				<a href="/blog/<%= post.slug %>">
+																					<%= post.title %>
+																				</a>
+																			</h6>
+																			<span class="post-on">
+																				<span class="entry-date">
+																					<%= new
+																						Date(post.createdAt).toLocaleDateString('en-US',
+																						{ year: 'numeric' ,
+																						month: 'long' , day: 'numeric'
+																						}) %>
+																				</span>
+																			</span>
+																		</div>
+															</li>
+															<% }); %>
+													</ul>
+												</section>
+												<% } %>
 
-											<li class="clearfix ">
-												<div class="thumb">
-													<a href="post">
-														<img src="https://via.placeholder.com/68x70" alt="">
-													</a>
-												</div>
-												<div class="entry-header">
-													<h6>
-														<a href="post">Investment Update, Fourth Quarter 2018</a>
-													</h6>
-													<span class="post-on">
-														<span class="entry-date">August 14, 2018</span>
-													</span>
-												</div>
-											</li>
-											<li class="clearfix ">
-												<div class="thumb">
-													<a href="post">
-														<img src="https://via.placeholder.com/68x70" alt="">
-													</a>
-												</div>
-												<div class="entry-header">
-													<h6>
-														<a href="post">Cutting Your Restaurant’s Operations Costs</a>
-													</h6>
-													<span class="post-on">
-														<span class="entry-date">April 22, 2018</span>
-													</span>
-												</div>
-											</li>
-											<li class="clearfix ">
-												<div class="thumb">
-													<a href="post">
-														<img src="https://via.placeholder.com/68x70" alt="">
-													</a>
-												</div>
-												<div class="entry-header">
-													<h6>
-														<a href="post">Solution financial for good startup</a>
-													</h6>
-													<span class="post-on">
-														<span class="entry-date">September 11, 2017</span>
-													</span>
-												</div>
-											</li>
 
-										</ul>
-
-									</section>
-									<!-- <section id="archives-3" class="widget widget_archive">
+													<!-- <section id="archives-3" class="widget widget_archive">
 						        <h4 class="widget-title">Archives</h4>
 						        <label class="screen-reader-text" for="archives-dropdown-3">Archives</label>
 						        <select id="archives-dropdown-3" name="archive-dropdown">

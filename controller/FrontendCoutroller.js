@@ -1,5 +1,6 @@
 const Blog = require('../api/model/Blog');
 const Slider = require('../api/model/Slider');
+const category = require('../api/model/Category');
 
 const FrontendCoutroller = {};
 
@@ -10,7 +11,10 @@ FrontendCoutroller.getHome = async (req, res) => {
         res.render('frontend/index', {
             title: 'Home',
             layout: false,
-            sliders: sliders
+            sliders: sliders,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
 
@@ -23,6 +27,9 @@ FrontendCoutroller.getAbout = async (req, res) => {
         res.render('frontend/about', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -65,11 +72,21 @@ FrontendCoutroller.getBlog = async (req, res) => {
                 content: shortContent(b.content, 200)
             };
         });
-        console.log(blogs, "blogs");
+        const latestPosts = await Blog.find()
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .select('title slug createdAt featuredImage');
+        const categories = await category.find();
         res.render('frontend/blog', {
             title: 'Blog',
             layout: false,
-            blogs: blogs
+            blogs: blogs,
+            latestPosts,
+            categories,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
+
         });
 
     } catch (error) {
@@ -83,6 +100,9 @@ FrontendCoutroller.getCareer = async (req, res) => {
         res.render('frontend/career', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -94,6 +114,9 @@ FrontendCoutroller.getContact = async (req, res) => {
         res.render('frontend/contact', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -105,28 +128,119 @@ FrontendCoutroller.getWork = async (req, res) => {
         res.render('frontend/how-it-work', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
-FrontendCoutroller.getPost = async (req, res) => {
+FrontendCoutroller.getPostDetails = async (req, res) => {
     try {
+        const slug = req.params.slug;
+        const blog = await Blog.findOne({ slug }).populate('categories', 'name slug');
+        if (!blog) {
+            return res.status(404).send('Blog post not found');
+        }
+        const latestPosts = await Blog.find()
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .select('title slug createdAt featuredImage');
+        const categories = await category.find();
+
+
         res.render('frontend/post', {
             title: 'Home',
             layout: false,
+            blog,
+            categories,
+            latestPosts,
+            metaTitle: blog.metaTitle,
+            metaDescription: blog.metaDescription,
+            metaKeywords: blog.metaTitle || []
         });
+
     } catch (error) {
         console.error('Error fetching media:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+FrontendCoutroller.getCategoryPost = async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        const categoryData = await category.findOne({ slug });
+
+        // Handle category not found
+        if (!categoryData) {
+            return res.status(404).render('frontend/404', {
+                title: 'Category Not Found',
+                layout: false
+            });
+        }
+
+        // Fetch posts for this category
+        let latestPosts = await Blog.find({
+            categories: categoryData._id,
+            isPublished: true
+        })
+            .populate('categories', 'name slug')
+            .sort({ createdAt: -1 })
+            .select('title slug createdAt featuredImage content');
+
+        // Format the posts
+        latestPosts = latestPosts.map(b => {
+            return {
+                ...b._doc,
+                createdAt: formatDate(b.createdAt),
+                content: shortContent(b.content, 200)
+            };
+        });
+
+        res.render('frontend/categorypost', {
+            title: categoryData.name + ' - Posts',
+            metaTitle: categoryData.metaTitle || categoryData.name,
+            metaDescription: categoryData.metaDescription || categoryData.description,
+            metaKeywords: categoryData.metaKeywords || [],
+            layout: false,
+            categoryData,
+            latestPosts
+        });
+    } catch (error) {
+        console.error('Error fetching category posts:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+// Helper functions (if not already defined)
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function shortContent(htmlContent, maxLength = 200) {
+    // Remove HTML tags
+    const plainText = htmlContent.replace(/<[^>]*>/g, '');
+
+    // Trim to maxLength
+    if (plainText.length > maxLength) {
+        return plainText.substring(0, maxLength).trim() + '...';
+    }
+
+    return plainText;
+}
 FrontendCoutroller.getProject = async (req, res) => {
     try {
         res.render('frontend/projects', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -138,6 +252,9 @@ FrontendCoutroller.getProjectDetails = async (req, res) => {
         res.render('frontend/project-detail', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -149,6 +266,9 @@ FrontendCoutroller.getService = async (req, res) => {
         res.render('frontend/services', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -160,6 +280,9 @@ FrontendCoutroller.getServiceDetails = async (req, res) => {
         res.render('frontend/service-detail', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -171,6 +294,9 @@ FrontendCoutroller.getTeam = async (req, res) => {
         res.render('frontend/team', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
@@ -182,6 +308,9 @@ FrontendCoutroller.getTestimonial = async (req, res) => {
         res.render('frontend/testimonials', {
             title: 'Home',
             layout: false,
+            metaTitle: "",
+            metaDescription: "",
+            metaKeywords: []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
