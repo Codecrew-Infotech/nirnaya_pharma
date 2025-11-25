@@ -15,7 +15,7 @@
                                     <h4 class="card-title">Footer Details</h4>
                                 </div>
                             </div>
-                            <a href="/footer/add" class="btn btn-primary">Add Footer</a>
+                            <a href="/admin/footer/add" class="btn btn-primary">Add Footer</a>
                         </div>
                         <div class="card-body pt-0">
                             <div class="table-responsive">
@@ -48,9 +48,10 @@
                                                             <%= footer[i].name %>
                                                         </td>
                                                         <td>
-                                                            <%= footer[i].visible === true ? 'Published' : 'Draft' %>
+                                                            <%= footer[i].visible===true ? 'Published' : 'Draft' %>
                                                         </td>
-                                                        <td><a href="/edit-footer/<%= footer[i]._id %>">View Footer</a>
+                                                        <td><a href="/admin/edit-footer/<%= footer[i]._id %>">View
+                                                                Footer</a>
                                                         </td>
                                                     </tr>
                                                     <% } %>
