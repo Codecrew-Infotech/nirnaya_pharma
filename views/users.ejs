@@ -15,7 +15,7 @@
                                     <h4 class="card-title">User Details</h4>
                                 </div>
                             </div>
-                            <a href="/user/add" class="btn btn-primary">Add User</a>
+                            <a href="/admin/user/add" class="btn btn-primary">Add User</a>
                         </div>
                         <div class="card-body pt-0">
                             <div class="table-responsive">
@@ -49,11 +49,11 @@
                                                             <%= users[i].name %>
                                                         </td>
                                                         <td>
-                                                            <%= users[i].role %>
+                                                            <%= users[i].role_id.name %>
                                                         <td>
                                                             <%= users[i].isActive === true ? 'Active' : 'Inactive' %>
                                                         </td>
-                                                        <td><a href="/edit-user/<%= users[i]._id %>">View user</a>
+                                                        <td><a href="/admin/edit-user/<%= users[i]._id %>">View user</a>
                                                         </td>
                                                     </tr>
                                                     <% } %>

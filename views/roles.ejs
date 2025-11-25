@@ -15,7 +15,7 @@
                                     <h4 class="card-title">User Details</h4>
                                 </div>
                             </div>
-                            <a href="/role/add" class="btn btn-primary">Add Role</a>
+                            <a href="/admin/role/add" class="btn btn-primary">Add Role</a>
                         </div>
                         <div class="card-body pt-0">
                             <div class="table-responsive">
@@ -52,10 +52,10 @@
                                                             <%= roles[i].description %>
                                                         </td>
                                                         <td>
-                                                            <a href="/role-permission/<%= roles[i]._id %>">Manage Permissions</a>
+                                                            <a href="/admin/role-permission/<%= roles[i]._id %>">Manage Permissions</a>
                                                         </td>
                                                         <td>
-                                                            <a href="/edit-role/<%= roles[i]._id %>">View role</a>
+                                                            <a href="/admin/edit-role/<%= roles[i]._id %>">View role</a>
                                                         </td>
                                                     </tr>
                                                     <% } %>

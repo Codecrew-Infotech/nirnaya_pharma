@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<%- include('partials/front_head'); %>
+
+<body class="royal_preloader">
+	<div id="page" class="site">
+
+		<!-- #site-header -->
+		<%- include('partials/front_header'); %>
+		<div id="content" class="site-content">
+			<div class="page-header" style="background-image: url('/bg-blog.jpg');">
+				<div class="container">
+					<div class="breadc-box no-line">
+						<div class="row">
+							<div class="col-md-6">
+								<h1 class="page-title"><%= categoryData.name %></h1>
+								<% if (categoryData.description) { %>
+								<p style="color: #fff; margin-top: 10px; font-size: 14px;"><%= categoryData.description %></p>
+								<% } %>
+							</div>
+							<div class="col-md-6 mobile-left text-right">
+								<ul id="breadcrumbs" class="breadcrumbs none-style">
+									<li><a href="/">Home</a></li>
+									<li><a href="/blog">Blog</a></li>
+									<li class="active"><%= categoryData.name %></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="entry-content">
+				<div class="container">
+					<div class="row">
+
+						<div id="primary" class="content-area col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<main id="main" class="site-main">
+								
+								<% if (latestPosts && latestPosts.length > 0) { %>
+								<div class="row">
+									<% latestPosts.forEach(blog => { %>
+									<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+										<article class="post-box post type-post hentry" style="margin-bottom: 30px;">
+											<% if (blog.featuredImage) { %>
+											<div class="entry-media">
+												<a href="/blog/<%= blog.slug %>">
+													<img src="/<%= blog.featuredImage %>" alt="<%= blog.title %>" style="width: 100%; height: 250px; object-fit: cover;">
+												</a>
+											</div>
+											<% } %>
+											<div class="inner-post">
+												<header class="entry-header">
+													<div class="entry-meta">
+														<span class="posted-on">
+															<time class="entry-date published"><%= blog.createdAt %></time>
+														</span>
+													</div>
+													<h4 class="entry-title">
+														<a href="/blog/<%= blog.slug %>" rel="bookmark"><%= blog.title %></a>
+													</h4>
+												</header>
+
+												<div class="entry-summary">
+													<p><%- blog.content %></p>
+												</div>
+
+												<footer class="entry-footer">
+													<a class="post-link" href="/blog/<%= blog.slug %>">Read more</a>
+												</footer>
+											</div>
+										</article>
+									</div>
+									<% }); %>
+								</div>
+								<% } else { %>
+								<div class="row">
+									<div class="col-md-12 text-center" style="padding: 60px 0;">
+										<h3>No posts found in this category</h3>
+										<p>Check back later for new content.</p>
+										<a href="/blog" class="btn" style="margin-top: 20px;">View All Posts</a>
+									</div>
+								</div>
+								<% } %>
+
+								<!-- Pagination (optional - add if needed) -->
+								<!-- <ul class="page-pagination none-style">
+									<li><span aria-current="page" class="page-numbers current">1</span></li>
+									<li><a class="page-numbers" href="#">2</a></li>
+									<li><a class="next page-numbers" href="#"><i class="fa fa-angle-right"></i></a></li>
+								</ul> -->
+
+							</main>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- #content -->
+		<%- include('partials/front_footer'); %>
+
+	</div>
+
+	<%- include('partials/front_javascript'); %>
+
+</body>
+
+</html>

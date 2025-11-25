@@ -15,7 +15,7 @@
                                     <h4 class="card-title">User Details</h4>
                                 </div>
                             </div>
-                            <a href="/permission/add" class="btn btn-primary">Add Permission</a>
+                            <a href="/admin/permission/add" class="btn btn-primary">Add Permission</a>
                         </div>
                         <div class="card-body pt-0">
                             <div class="table-responsive">
@@ -47,7 +47,7 @@
                                                             <%= permissions[i].description %>
                                                         </td>
                                                         
-                                                        <td><a href="/edit-permission/<%= permissions[i]._id %>">View permission</a>
+                                                        <td><a href="/admin/edit-permission/<%= permissions[i]._id %>">View permission</a>
                                                         </td>
                                                     </tr>
                                                     <% } %>

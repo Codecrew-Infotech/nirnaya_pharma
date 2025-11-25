@@ -34,11 +34,10 @@
       <div class="col-md-6">
         <label for="role" class="form-label">Role</label>
         <select class="form-control" id="role" name="role" required>
-          <option value="admin">Admin</option>
-          <option value="editor">Editor</option>
-          <option value="author" selected>Author</option>
-          <option value="teacher">Teacher</option>
-          <option value="student">Student</option>
+          <% roles.forEach(role => { %>
+            <option value="<%= role._id %>"><%= role.name.charAt(0).toUpperCase() + role.name.slice(1) %></option>
+          <% }); %>
+          
         </select>
       </div>
     </div>

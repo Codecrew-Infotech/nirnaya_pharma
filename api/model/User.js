@@ -27,16 +27,14 @@ const userSchema = new mongoose.Schema(
             required: true,
             select: false, 
         },
-
         profileImage: {
             type: String, 
             default: '',
         },
-
-        role: {
-            type: String,
-            enum: ['admin', 'editor', 'author', 'teacher', 'student'],
-            default: 'author',
+         role_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Role',
+            required: true,
         },
         resetToken: {
             type: String,

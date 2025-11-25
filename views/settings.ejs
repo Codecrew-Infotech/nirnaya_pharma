@@ -1,0 +1,74 @@
+<%- contentFor('extra_css') %>
+
+    <link href="/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
+
+    <%- contentFor('content') %>
+
+        <div class="container-xxl">
+
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">Settings Details</h4>
+                                </div>
+                            </div>
+                            <a href="/admin/setting/add" class="btn btn-primary">Add Settings</a>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="table-responsive">
+                                <table class="table datatable" id="datatable_1">
+                                    <thead class="table-light">
+                                        <tr>
+                                          
+                                            <th>No</th>
+                                            <th>Key</th>
+                                            <th>Type</th>
+                                            <th>Value</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i=0; i < settings.length; i++) { %>
+                                            <tr>
+                                                <td >
+                                                    <%= i + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= settings[i].key %>
+                                                </td>
+                                                <td>
+                                                    <%= settings[i].type %>
+                                                </td>
+                                                <td>
+                                                    <% if (settings[i].type === 'image') { %>
+                                                        <img src="/<%= settings[i].value %>" alt="Setting Image" style="max-width: 100px; max-height: 100px; object-fit: cover;">
+                                                    <% } else { %>
+                                                        <%= settings[i].value %>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/setting/edit/<%= settings[i]._id %>" class="btn btn-sm btn-warning">Edit</a>
+                                                    <form action="/admin/setting/delete/<%= settings[i]._id %>" method="GET" style="display:inline;">
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this setting?')">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div> <!--end col-->
+            </div><!--end row-->
+
+        </div><!-- container -->
+
+        <%- contentFor('extra_javascript') %>
+
+            <script src="/libs/simple-datatables/umd/simple-datatables.js"></script>
+            <script src="/js/pages/datatable.init.js"></script>

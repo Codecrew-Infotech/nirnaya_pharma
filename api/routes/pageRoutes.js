@@ -10,6 +10,7 @@ const FooterController = require('../controller/FooterController');
 const HeaderController = require('../controller/HeaderController');
 const RolePermissionController = require('../controller/RolePermissionController');
 const ServiceController = require('../controller/ServiceController');
+const SettingsController = require('../controller/SettingsController');
 
 
 const router = express.Router();
@@ -115,6 +116,13 @@ router.get('/editRolePermission/:id', RolePermissionController.editRolePermissio
 router.put('/updateRolePermission/:id', RolePermissionController.updateRolePermission);
 router.delete('/deleteRolePermission/:id', RolePermissionController.deleteRolePermission);
 router.get('/findbyrole/:id', RolePermissionController.findByRoleId);
+
+// Define route for Settings
+router.get('/settings',  SettingsController.getSettings);
+router.post('/createSettings',  SettingsController.createSettings);
+router.get('/editSettings/:id',  SettingsController.editSettings);
+router.put('/updateSettings/:id',  SettingsController.updateSettings);
+router.delete('/deleteSettings/:id',  SettingsController.deleteSettings);
 
 // router.get('/insertmany', RolePermissionController.insertMany);
 
