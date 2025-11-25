@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <%- include('partials/front_head'); %>
+
+<body class="royal_preloader">
+	<div id="page" class="site">
+        
+        <!-- #site-header -->
+        <%- include('partials/front_header'); %>
+
+        <div id="content" class="site-content">
+            <div class="container">
+                <div class="error-404 text-center">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="page-content">
+                                    <h1 class="bolder display-5">404!</h1>
+                                    <p class="lead">Sorry, the page you are looking for cannot be found or may have been removed.</p>
+                                    <a href="/" class="btn">Back to Home</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- #content -->
+    <%- include('partials/front_footer'); %>
+
+    <!-- #site-footer -->
+</div>
+
+    <%- include('partials/front_javascript'); %>
+
+</body>
+</html>

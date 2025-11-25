@@ -11,8 +11,10 @@ const upload = require('express-fileupload');
 const dotenv = require('dotenv')
 const mongoose = require('./db/db');
 const cors = require('cors');
+const logger = require('morgan');
 const port = process.env.PORT || 3000;
 
+app.use(logger("dev"));
 app.use(cors());
 dotenv.config({ path: "./config.env" });
 app.use(express.urlencoded({ extended: true }));
@@ -51,9 +53,6 @@ app.use((err, req, res, next) => {
 
   })
 });
-
-
-const http = require("http").createServer(app);
 
 app.listen(port, () => {
   console.log(`server is runnig at port http://localhost:${port}`);

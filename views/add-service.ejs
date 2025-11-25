@@ -11,7 +11,11 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="e.g. My Amazing Service Post" required>
+        <input type="text" class="form-control" id="name" name="name" placeholder="e.g. My Amazing Service Post" required oninput="generateSlugAndMetaTitle()">
+      </div>
+      <div class="col-md-6">
+        <label for="slug" class="form-label">Slug</label>
+        <input type="text" class="form-control" id="slug" name="slug" placeholder="service-slug (auto-generated)" >
       </div>
       <!-- Featured Image -->
        <div class="col-md-6">
@@ -38,7 +42,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="metaTitle" class="form-label">Meta Title</label>
-        <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="SEO title for search engines" oninput="generateSlug()">
+        <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="SEO title for search engines">
         <small class="form-text text-muted">Leave empty to use main title</small>
       </div>
       <div class="col-md-6">
@@ -55,6 +59,12 @@
       <div class="col-md-6">
         <label for="canonicalUrl" class="form-label">Canonical URL</label>
         <input type="url" class="form-control" id="canonicalUrl" name="canonicalUrl" placeholder="https://example.com/canonical-url">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="publishDate" class="form-label">Publish Date</label>
+        <input type="date" class="form-control" id="publishDate" name="publishDate">
       </div>
     </div>
 
@@ -136,8 +146,9 @@
     document.getElementById('isPublished').value = isPublished;
   }
 
-  function generateSlug() {
+  function generateSlugAndMetaTitle() {
     const title = document.getElementById('name').value;
+    document.getElementById('metaTitle').value = title;
     const slug = title.toLowerCase()
                       .trim()
                       .replace(/[^a-z0-9]+/g, '-')

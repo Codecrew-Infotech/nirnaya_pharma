@@ -97,11 +97,12 @@ route.get('/role-permission/:id', RolePermissionController.getRolePermissions);
 route.post('/role-permission/:id', RolePermissionController.createRolePermission);
 
 // define routes for services
-route.get('/services/', ServiceController.getServices);
+route.get('/services', ServiceController.getServices);
 route.get('/services/add', ServiceController.addService);
 route.post('/services/add', ServiceController.createService);
 route.get('/services/:id', ServiceController.editServices);
 route.post('/services/:id', ServiceController.updateServices);
+route.get('/services/:id/delete', ServiceController.deleteServices);
 // route.post('/services/add', ServiceController.getServices);
 // route.post('/services/:id', ServiceController.updateServices);
 // route.get('/services:id/', ServiceController.getServices);

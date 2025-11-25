@@ -15,13 +15,28 @@ ServiceController.getServices = async (req, res) => {
 // Create a new service
 ServiceController.createService = async (req, res) => {
     try {
-        const { name, content, description, visible, image } = req.body;
+        // Handle file upload (if using multipart/form-data)
+        let imageName = req.body.image || null;
+
+        const { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
+
+        // metaKeywords may be sent as comma-separated string or as array
+        let keywords = [];
+        if (Array.isArray(metaKeywords)) keywords = metaKeywords;
+        else if (typeof metaKeywords === 'string' && metaKeywords.trim()) keywords = metaKeywords.split(',').map(k => k.trim()).filter(Boolean);
+
         const newService = new Service({
             name,
+            slug,
             description,
             content,
             visible,
-            image
+            image: imageName,
+            metaTitle,
+            metaDescription,
+            metaKeywords: keywords,
+            canonicalUrl,
+            publishDate: publishDate ? new Date(publishDate) : undefined
         });
         await newService.save();
         res.status(201).json(newService);
@@ -49,21 +64,28 @@ ServiceController.editService = async (req, res) => {
 ServiceController.updateService = async (req, res) => {
     try {
         const serviceId = req.params.id;
+        // Handle file upload if present
+        let imageName = req.body.image || null;
 
-        const { title, content, visible, image } = req.body;
-        const updatedService = await Service.findByIdAndUpdate(
-            serviceId,
-            { title, content, image, visible },
-            { new: true }
-        );
+        const { name, slug, description, content, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
+
+        let keywords = [];
+        if (Array.isArray(metaKeywords)) keywords = metaKeywords;
+        else if (typeof metaKeywords === 'string' && metaKeywords.trim()) keywords = metaKeywords.split(',').map(k => k.trim()).filter(Boolean);
+
+        let updatedData = { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords: keywords, canonicalUrl };
+        if (imageName) updatedData.image = imageName;
+        if (publishDate) updatedData.publishDate = new Date(publishDate);
+
+        const updatedService = await Service.findByIdAndUpdate(serviceId, updatedData, { new: true });
         if (!updatedService) {
-            return res.status(404).json({ message: 'Service not found' });
+            return res.status(404).json({ message: "Service not found" });
         }
         res.status(200).json(updatedService);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating service', error });
+        res.status(500).json({ message: "Error updating service", error });
     }
-}
+};
 
 // Delete a service
 ServiceController.deleteService = async (req, res) => {

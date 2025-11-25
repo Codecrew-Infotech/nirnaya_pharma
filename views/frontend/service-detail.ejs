@@ -13,13 +13,13 @@
 			        <div class="breadc-box no-line">
 			            <div class="row">
 			                <div class="col-md-6">
-			                    <h1 class="page-title">Financial Consulting</h1>
+			                    <h1 class="page-title"><%= service.name %></h1>
 			                </div>
 			                <div class="col-md-6 mobile-left text-right">
 			                    <ul id="breadcrumbs" class="breadcrumbs none-style">
 			                        <li><a href="/">Home</a></li>
 			                        <li><a href="services">Services</a></li>
-			                        <li class="active">Financial Consulting</li>
+			                        <li class="active"><%= service.name %></li>
 			                    </ul>
 			                </div>
 			            </div>
@@ -42,16 +42,14 @@
 						                            <div class="wpb_column column_container col-sm-12">
 						                                <div class="column-inner">
 						                                    <div class="wpb_wrapper">
-						                                        <h2>Our specific work</h2>
+						                                        <h2><%= service.name %></h2>
 						                                        <div class="wpb_text_column wpb_content_element">
 						                                            <div class="wpb_wrapper">
-						                                                <p>Just before European Union leaders agreed their guidelines for the Brexit negotiations last week, the president of the EU council, Donald Tusk, said: It is clear that progress on people, money and Ireland must come first. It was rather startling to find Irish concerns up there on the list of fundamental priorities, with the rights of EU citizens in Britain.</p>
-						                                                <p>And when the guidelines were agreed, it was clear that this was more than rhetoric. EU governments have essentially committed themselves to allowing Northern Ireland to rejoin the EU if Ireland is united. This is a very big dealrather startling to find Irish concerns up there on the list of fundamental priorities,.</p>
-
+						                                                <%- service.content %>
 						                                            </div>
 						                                        </div>
 						                                        <div class="empty_space_30"></div>
-						                                        <h4>Our process</h4>
+						                                      <!--   <h4>Our process</h4>
 						                                        <div class="wpb_text_column wpb_content_element">
 						                                            <div class="wpb_wrapper">
 						                                                <p><strong><span class="orange">Step 1: </span></strong> Receive and Evaluate
@@ -72,7 +70,7 @@
 						                                                <p>Britain’s departure from the EU is (in principle) to be final; Northern Ireland’s is now contingent. Britain is getting a divorce; Northern Ireland is being offered a trial separation. For Britain, there is a one-way ticket; for Northern Ireland, there is an automatic right of return. The implicit offer is two unions for the price of one: unite Ireland and you reunite with Europe.</p>
 
 						                                            </div>
-						                                        </div>
+						                                        </div> -->
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -91,15 +89,10 @@
 						        <h4 class="widget-title">Services</h4>
 						        <div class="menu-service-menu-container">
 						            <ul id="menu-service-menu" class="menu">
-						                <li><a href="service-detail">Audit &amp; Assurance</a></li>
-						                <li class="current-menu-item"><a href="service-detail">Financial Consulting</a></li>
-						                <li><a href="service-detail">Trades & Stocks</a></li>
-						                <li><a href="service-detail">Strategic Planning</a></li>
-						                <li><a href="service-detail">Financial Projections</a></li>
-						                <li><a href="service-detail">Bonds & Commodities</a></li>
-						                <li><a href="service-detail">Taxes and Efficiency</a></li>
-						                <li><a href="service-detail">Finance and Restructuring</a></li>
-						                <li><a href="service-detail">International Business</a></li>
+										<% services.forEach(function(item, i) { %>
+										<%const isActiveService = (item.slug === service.slug);%>
+						                <li class="<%=isActiveService ? 'current-menu-item' : '' %>"><a href="/services/<%= item.slug %>"><%= item.name %></a></li>
+										<% }); %>
 						        </div>
 						    </section>
 						    <section id="text-1" class="widget widget_text bg-second text-light">

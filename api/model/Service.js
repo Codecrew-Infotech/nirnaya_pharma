@@ -35,10 +35,13 @@ const serviceSchema = new mongoose.Schema({
         trim: true
     },
     metaKeywords: {
-        type: String,
         type: [String],
+        default: []
     },
-    
+    canonicalUrl: {
+        type: String,
+        trim: true
+    },
     publishDate: {
         type: Date,
     }
