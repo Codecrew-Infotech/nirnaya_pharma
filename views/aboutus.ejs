@@ -1,0 +1,117 @@
+
+<%- contentFor('extra_css') %>
+
+<link href="/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
+
+<%- contentFor('content') %>
+
+<div class="container-xxl">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="card-title">About Us Details</h4>
+            </div>
+          </div>
+          <a href="/admin/aboutus/add" class="btn btn-primary">Add About Us</a>
+        </div>
+        <div class="card-body pt-0">
+          <% if (aboutUs && aboutUs.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table datatable" id="datatable_1">
+                <thead class="table-light">
+                  <tr>
+                    <th>No</th>
+                    <th>Owner Name</th>
+                    <th>Education</th>
+                    <th>Sections</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% aboutUs.forEach((item, i) => { %>
+                    <tr>
+                      <td><%= i + 1 %></td>
+                      <td><%= item.ownerDetail?.name %></td>
+                      <td><%= item.ownerDetail?.educationInfo %></td>
+                      <td><%= item.sections?.length || 0 %></td>
+                      <td>
+                        <span class="badge <%= item.visible ? 'bg-success' : 'bg-warning' %>">
+                          <%= item.visible ? 'Published' : 'Draft' %>
+                        </span>
+                      </td>
+                      <td>
+                        <a href="/admin/aboutus/<%= item._id %>" class="btn btn-sm btn-info">Edit</a>
+                        |
+                        <a class="btn btn-sm btn-danger delete-aboutus" href="/admin/aboutus/<%= item._id %>/delete">Delete</a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <div class="alert alert-info" role="alert">
+              No About Us records found. <a href="/admin/aboutus/add">Create one now</a>
+            </div>
+          <% } %>
+        </div><!--end card-body-->
+      </div><!--end card-->
+    </div> <!--end col-->
+  </div><!--end row-->
+</div><!-- container -->
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this About Us record? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="#" class="btn btn-danger btn-confirm">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- contentFor('extra_javascript') %>
+
+<script src="/libs/simple-datatables/umd/simple-datatables.js"></script>
+<script src="/js/pages/datatable.init.js"></script>
+
+<script>
+  (function(){
+    // Attach handlers to delete links
+    document.addEventListener('DOMContentLoaded', function () {
+      var deleteLinks = document.querySelectorAll('.delete-aboutus');
+      var modalEl = document.getElementById('confirmDeleteModal');
+      if (!modalEl) return;
+      var bsModal = null;
+      try { bsModal = new bootstrap.Modal(modalEl); } catch (e) { bsModal = null; }
+
+      deleteLinks.forEach(function(link){
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          var href = this.getAttribute('href');
+          var confirmBtn = modalEl.querySelector('.btn-confirm');
+          if (confirmBtn) {
+            confirmBtn.setAttribute('href', href);
+          }
+          if (bsModal) bsModal.show();
+          else if (confirm('Are you sure you want to delete this About Us record?')) {
+            window.location.href = href;
+          }
+        });
+      });
+    });
+  })();
+</script>

@@ -10,6 +10,7 @@ const UserController = require('../controller/UserController');
 const RolePermissionController = require('../controller/RolePermissionController');
 const ServiceController = require('../controller/ServiceController');
 const SettingsController = require('../controller/SettingsController');
+const AboutUsController = require('../controller/AboutUsController');
 
 const { requireAuth, requireAuthAPI, redirectIfAuthenticated } = require('../middlewere/auth');
 
@@ -114,10 +115,14 @@ route.post('/services/add', ServiceController.createService);
 route.get('/services/:id', ServiceController.editServices);
 route.post('/services/:id', ServiceController.updateServices);
 route.get('/services/:id/delete', ServiceController.deleteServices);
-// route.post('/services/add', ServiceController.getServices);
-// route.post('/services/:id', ServiceController.updateServices);
-// route.get('/services:id/', ServiceController.getServices);
 
+// define routes for AboutUs
+route.get('/aboutus', AboutUsController.getAboutUsPage);
+route.get('/aboutus/add', AboutUsController.addAboutUs);
+route.post('/aboutus/add', AboutUsController.createAboutUs);
+route.get('/aboutus/:id', AboutUsController.editAboutUs);
+route.post('/aboutus/:id', AboutUsController.updateAboutUs);
+route.get('/aboutus/:id/delete', AboutUsController.deleteAboutUs);
 
 
 // define routes for Settings

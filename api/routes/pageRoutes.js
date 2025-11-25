@@ -11,6 +11,7 @@ const HeaderController = require('../controller/HeaderController');
 const RolePermissionController = require('../controller/RolePermissionController');
 const ServiceController = require('../controller/ServiceController');
 const SettingsController = require('../controller/SettingsController');
+const AboutUsController = require('../controller/AboutUsController');
 
 
 const router = express.Router();
@@ -123,6 +124,13 @@ router.post('/createSettings',  SettingsController.createSettings);
 router.get('/editSettings/:id',  SettingsController.editSettings);
 router.put('/updateSettings/:id',  SettingsController.updateSettings);
 router.delete('/deleteSettings/:id',  SettingsController.deleteSettings);
+
+// Define routes for AboutUs
+router.get('/aboutus', AboutUsController.getAboutUs);
+router.post('/aboutus', AboutUsController.createAboutUs);
+router.get('/aboutus/:id', AboutUsController.getAboutUsById);
+router.put('/aboutus/:id', AboutUsController.updateAboutUs);
+router.delete('/aboutus/:id', AboutUsController.deleteAboutUs);
 
 // router.get('/insertmany', RolePermissionController.insertMany);
 

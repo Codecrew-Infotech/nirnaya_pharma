@@ -1,0 +1,201 @@
+<%- contentFor('extra_css') %>
+
+<%- contentFor('content') %>
+
+<div class="container-xxl mt-4">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="card-title">Owner Details</h4>
+      </div>
+      <div class="card-body">
+        <!-- Owner Name -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="ownerName" class="form-label">Owner Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="ownerName" name="ownerDetail[name]" placeholder="Owner name" value="<%= aboutUs.ownerDetail?.name %>" required>
+          </div>
+          <!-- Owner Image -->
+          <div class="col-md-6">
+            <label class="form-label">Owner Image</label>
+            <% if (aboutUs.ownerDetail?.image) { %>
+              <div class="mb-2">
+                <img src="/<%= aboutUs.ownerDetail.image %>" alt="Owner" style="max-width: 150px; border-radius: 4px;">
+              </div>
+              <small class="form-text text-muted">Image already exists. Upload a new one to replace it.</small>
+              <input type="file" class="form-control mt-2" id="ownerImage" name="image" accept="image/*">
+            <% } else { %>
+              <input type="file" class="form-control" id="ownerImage" name="image" accept="image/*">
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Education Info -->
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="educationInfo" class="form-label">Education Info</label>
+            <input type="text" class="form-control" id="educationInfo" name="ownerDetail[educationInfo]" placeholder="e.g. B.Tech in Computer Science" value="<%= aboutUs.ownerDetail?.educationInfo %>">
+          </div>
+        </div>
+
+        <!-- Owner Content -->
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="ownerContent" class="form-label">About Owner</label>
+            <textarea class="form-control" id="ownerContent" name="ownerDetail[content]" rows="5" placeholder="Write about the owner..."><%= aboutUs.ownerDetail?.content %></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sections -->
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title mb-0">Sections</h4>
+        <button type="button" class="btn btn-primary btn-sm" id="addSectionBtn">Add Section</button>
+      </div>
+      <div class="card-body">
+        <div id="sectionsContainer">
+          <!-- Sections will be added here dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Publish Status -->
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">Status</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="visible" id="published" value="true" <%= aboutUs.visible ? 'checked' : '' %>>
+            <label class="form-check-label" for="published">Published</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="visible" id="draft" value="false" <%= !aboutUs.visible ? 'checked' : '' %>>
+            <label class="form-check-label" for="draft">Draft</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success me-2">
+          <i class="fas fa-save"></i> Update
+        </button>
+        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/39.0.1/ckeditor.min.js"></script>
+<script>
+  let sectionCount = 0;
+  const editors = {};
+
+  function initializeCKEditor(sectionIndex) {
+    const editorId = `sectionContent_${sectionIndex}`;
+    const element = document.querySelector(`#${editorId}`);
+    
+    if (element && !editors[sectionIndex]) {
+      ClassicEditor
+        .create(element, {
+          toolbar: {
+            items: [
+              'heading', '|',
+              'bold', 'italic', 'underline', '|',
+              'link', 'bulletedList', 'numberedList', '|',
+              'undo', 'redo'
+            ]
+          },
+          language: 'en'
+        })
+        .then(editorInstance => {
+          editors[sectionIndex] = editorInstance;
+        })
+        .catch(error => {
+          console.error('Error initializing CKEditor:', error);
+        });
+    }
+  }
+
+  function addSection(title = '', subTitle = '', content = '', isExisting = false) {
+    const container = document.getElementById('sectionsContainer');
+    const sectionIndex = sectionCount++;
+    
+    const sectionHTML = `
+      <div class="card mb-3 section-item" data-index="${sectionIndex}">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Section ${sectionIndex + 1}</h5>
+          <button type="button" class="btn btn-danger btn-sm" onclick="removeSection(${sectionIndex})">Remove</button>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="sections[${sectionIndex}][title]" placeholder="Section title" value="${title}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Subtitle</label>
+              <input type="text" class="form-control" name="sections[${sectionIndex}][subTitle]" placeholder="Section subtitle" value="${subTitle}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label class="form-label">Content</label>
+              <textarea class="form-control" id="sectionContent_${sectionIndex}" name="sections[${sectionIndex}][content]" rows="5" placeholder="Section content...">${content}</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', sectionHTML);
+    initializeCKEditor(sectionIndex);
+  }
+
+  function removeSection(index) {
+    const sectionItem = document.querySelector(`[data-index="${index}"]`);
+    if (sectionItem) {
+      if (editors[index]) {
+        editors[index].destroy().then(() => {
+          delete editors[index];
+          sectionItem.remove();
+        }).catch(error => console.error('Error destroying editor:', error));
+      } else {
+        sectionItem.remove();
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('addSectionBtn').addEventListener('click', function() {
+      addSection();
+    });
+    
+    // Load existing sections
+    const existingSections = <%- JSON.stringify(aboutUs.sections || []) %>;
+    if (existingSections.length > 0) {
+      existingSections.forEach((section, index) => {
+        addSection(section.title, section.subTitle, section.content, true);
+      });
+    } else {
+      // Add one default section if none exist
+      addSection();
+    }
+  });
+
+  // Handle form submission - sync all CKEditor content before submit
+  document.querySelector('form').addEventListener('submit', function(e) {
+    Object.keys(editors).forEach(index => {
+      const textarea = document.querySelector(`textarea[name="sections[${index}][content]"]`);
+      if (textarea && editors[index]) {
+        textarea.value = editors[index].getData();
+      }
+    });
+  });
+</script>
+
+<%- contentFor('extra_javascript') %>

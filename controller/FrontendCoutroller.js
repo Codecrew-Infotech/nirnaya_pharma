@@ -3,6 +3,7 @@ const Slider = require('../api/model/Slider');
 const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
 const Settings = require('../api/model/Settings');
+const AboutUs = require('../api/model/AboutUs');
 
 const FrontendCoutroller = {};
 
@@ -37,9 +38,11 @@ FrontendCoutroller.getHome = async (req, res) => {
 };
 FrontendCoutroller.getAbout = async (req, res) => {
     try {
+        const aboutUs = await AboutUs.findOne({visible:true})
         res.render('frontend/about', {
             title: 'Home',
             layout: false,
+            aboutUs,
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
