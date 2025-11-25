@@ -4,7 +4,7 @@
     //Preloader
     Royal_Preloader.config({
         mode           : 'logo',
-        logo           : 'images/logo-blue.png',
+        logo           : '/logo-blue.png',
         logo_size      : [187, 40],
         showProgress   : true,
         showPercentage : true,
