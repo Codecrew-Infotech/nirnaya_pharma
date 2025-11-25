@@ -2,17 +2,29 @@ const Blog = require('../api/model/Blog');
 const Slider = require('../api/model/Slider');
 const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
+const Settings = require('../api/model/Settings');
 
 const FrontendCoutroller = {};
 
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
-
+        let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');
+        blogs = blogs.map(b => {
+            return {
+                ...b._doc,
+                createdAt: formatDate(b.createdAt),
+                content: shortContent(b.content, 200)
+            };
+        });
+        const services = await Service.find();
+        console.log(blogs[0].categories, "blogs");
         res.render('frontend/index', {
             title: 'Home',
             layout: false,
             sliders: sliders,
+            blogs: blogs,
+            services: services,
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
@@ -112,9 +124,16 @@ FrontendCoutroller.getCareer = async (req, res) => {
 };
 FrontendCoutroller.getContact = async (req, res) => {
     try {
+        const settingsData = await Settings.find()
+        console.log(settingsData);
+        const settingsMap = {};
+        settingsData.forEach(item => {
+            settingsMap[item.key] = item.value;
+        });
         res.render('frontend/contact', {
             title: 'Home',
             layout: false,
+            settings: settingsMap,
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
@@ -283,7 +302,7 @@ FrontendCoutroller.getServiceDetails = async (req, res) => {
         const slug = req.params.slug;
         const services = await Service.find({ visible: true }).select('name slug');
         const service = await Service.findOne({ slug: slug, visible: true });
-        if(!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
+        if (!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
         res.render('frontend/service-detail', {
             title: 'Service Details',
             layout: false,

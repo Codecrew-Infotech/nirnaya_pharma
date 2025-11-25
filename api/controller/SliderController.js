@@ -48,8 +48,8 @@ SliderController.updateSlider = async (req, res) => {
 
         // Handle file upload if present
         if (req.files && req.files.image) {
-            const image = req.files.image;
-            const uploadPath = `uploads/${image.name}`;
+            let image = req.files.image;
+            let uploadPath = `uploads/${image.name}`;
             await image.mv(uploadPath);
             image = image.name;
             console.log('File moved successfully');
@@ -63,7 +63,8 @@ SliderController.updateSlider = async (req, res) => {
         }
         res.status(200).json({ status: 'success', data: updatedSlider });
     } catch (error) {
-        res.status(500).json({ message: 'Error updating slider', error });
+        console.log(error);
+        res.status(500).json({ message: 'Error updating slider API', error });
     }
 };
 // Delete a slider

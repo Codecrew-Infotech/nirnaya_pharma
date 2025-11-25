@@ -14,7 +14,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const port = process.env.PORT || 3000;
 
-app.use(logger("dev"));
+// app.use(logger("dev"));
 app.use(cors());
 dotenv.config({ path: "./config.env" });
 app.use(express.urlencoded({ extended: true }));

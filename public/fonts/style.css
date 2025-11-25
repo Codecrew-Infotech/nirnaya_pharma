@@ -924,6 +924,14 @@ img {
   max-width: 100%;
   /* Adhere to container width. */
 }
+.site-logo a img{
+    height: auto !important;
+    max-width: 50% !important;
+}
+.mobile_logo a img{
+    height: auto !important;
+    max-width: 50% !important;
+}
 
 figure {
   margin: 1em 0;
@@ -2399,7 +2407,7 @@ ul.info-list.info_on_right_side li:last-child {
 }
 
 .boxed-content .section-padd {
-  padding: 95px 100px;
+  padding: 50px 50px;
 }
 
 .entry-content {

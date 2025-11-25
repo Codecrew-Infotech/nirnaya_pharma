@@ -240,7 +240,7 @@
                                         <div class="wpb_wrapper">
                                             <div class="wpb_text_column wpb_content_element text-right mobile-left">
                                                 <div class="wpb_wrapper">
-                                                    <p><a class="pagelink gray" href="services.html">All services</a>
+                                                    <p><a class="pagelink gray" href="services">All services</a>
                                                     </p>
 
                                                 </div>
@@ -248,36 +248,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-umbrella ion-logo-umbrella"></i>
-                                                <div class="content-box">
-                                                    <h4>Audit &amp; Assurance</h4>
-                                                    <p>Senectus accumsan malesuada cursus dapibus sem primis cubilia,
-                                                        per potenti fermentu massa pulvinar turpis taciti, pellentesque.
-                                                    </p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
-                                                        target="_self">Read more</a>
-                                                </div>
-                                            </div>
-
-                                            <div class="empty_space_30"><span class="empty_space_inner"></span></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <% services.forEach(service=> { %>
                                 <div class="wpb_column column_container col-sm-6 col-md-4">
                                     <div class="column-inner">
                                         <div class="wpb_wrapper">
                                             <div class="service-box icon-box  ionic  hover-box">
                                                 <i class="ion-md-cube ion-logo-cube"></i>
                                                 <div class="content-box">
-                                                    <h4>Financial Consulting</h4>
-                                                    <p>Justo luctus mus ultricies habitasse dictumst senectus habitant,
-                                                        primis erat mauris odio faucibus cras non interdum purus sociis.
+                                                    <h4><%= service.name %></h4>
+                                                    <p><%= service.description %>
                                                     </p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
+                                                    <a class="link-box pagelink" href="/services/<%= service.slug %>"
                                                         target="_self">Read more</a>
                                                 </div>
                                             </div>
@@ -286,83 +267,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-podium ion-logo-podium"></i>
-                                                <div class="content-box">
-                                                    <h4>Trades &amp; Stocks</h4>
-                                                    <p>Risus aenean ultricies integer purus sociis luctus tristique,
-                                                        sodales fusce ante maecenas massa cum est, ligula hac cursus.
-                                                    </p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
-                                                        target="_self">Read more</a>
-                                                </div>
-                                            </div>
-
-                                            <div class="empty_space_30"><span class="empty_space_inner"></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-list-box ion-logo-list-box"></i>
-                                                <div class="content-box">
-                                                    <h4>Strategic Planning</h4>
-                                                    <p>Mus leo mauris nec erat ullamcorper orci nascetur, est faucibus
-                                                        auctor natoque tempus eu, eros condimentum et taciti rhoncus.
-                                                    </p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
-                                                        target="_self">Read more</a>
-                                                </div>
-                                            </div>
-
-                                            <div class="empty_space_30 lg-hidden"><span
-                                                    class="empty_space_inner"></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-cash ion-logo-cash"></i>
-                                                <div class="content-box">
-                                                    <h4>Financial Projections</h4>
-                                                    <p>Varius scelerisque tristique condimentum habitant dui euismod
-                                                        auctor lacinia maecenas cubilia eleifend erat, purus malesuada.
-                                                    </p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
-                                                        target="_self">Read more</a>
-                                                </div>
-                                            </div>
-
-                                            <div class="empty_space_30 lg-hidden md-hidden"><span
-                                                    class="empty_space_inner"></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wpb_column column_container col-sm-6 col-md-4">
-                                    <div class="column-inner">
-                                        <div class="wpb_wrapper">
-                                            <div class="service-box icon-box  ionic  hover-box">
-                                                <i class="ion-md-wallet ion-logo-wallet"></i>
-                                                <div class="content-box">
-                                                    <h4>Bonds &amp; Commodities</h4>
-                                                    <p>Dis vel quam partur+ient et molestie at morbi vehicula mus
-                                                        phasellussenectus congue lacinia pulvinar turpis taciti,
-                                                        pellentesque.</p>
-                                                    <a class="link-box pagelink" href="service-detail.html"
-                                                        target="_self">Read more</a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                                <% }) %>
                             </div>
                         </div>
                     </section>
@@ -639,209 +544,39 @@
                                         <div class="wpb_wrapper">
                                             <div class="news-slider posts-grid row" data-show="3" data-auto="true">
 
+                                                <% blogs.forEach(blog=> { %>
                                                 <div>
                                                     <article class="news-item content-area">
                                                         <div class="inner-item radius-top">
                                                             <div class="thumb-image">
                                                                 <a href="post">
-                                                                    <img src="/blog3-650x350.jpg"
+                                                                    <img src="/<%= blog.featuredImage %>"
                                                                         alt="">
                                                                 </a>
                                                             </div>
                                                             <div class="inner-post radius-bottom">
                                                                 <div class="entry-meta">
                                                                     <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
+                                                                        <time class="entry-date"><%= blog.createdAt %></time>
                                                                     </span>
                                                                     <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
+                                                                        <a href="/category/<%= blog.categories[0].slug %>"><%= blog.categories[0].name %></a>
                                                                     </span>
                                                                 </div>
                                                                 <h4 class="entry-title">
-                                                                    <a href="post">Solution financial for good
-                                                                        startup</a>
+                                                                    <a href="/blog<%= blog.slug %>"><%= blog.title %></a>
                                                                 </h4>
                                                                 <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
+                                                                   <%= blog.content %>
                                                                 </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
+                                                                <a class="post-link" href="/blog<%= blog.slug %>">Read more</a>
                                                             </div>
                                                         </div>
                                                     </article>
                                                 </div>
+                                                <% }) %>
 
-                                                <!-- <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post.html">
-                                                                    <img src="/blog4-650x350.jpg"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
-                                                                    </span>
-                                                                </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="post.html">Why Tech Should Behave More Like
-                                                                        Finance</a>
-                                                                </h4>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
-                                                                </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div>
-
-                                                <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post">
-                                                                    <img src="/blog2-650x350.jpg"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
-                                                                    </span>
-                                                                </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="post.html">Cutting Your Restaurant’s
-                                                                        Operations Costs</a>
-                                                                </h4>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
-                                                                </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div>
-
-                                                <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post">
-                                                                    <img src="/blog2-650x350.jpg"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
-                                                                    </span>
-                                                                </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="post.html">Solution financial for good
-                                                                        startup</a>
-                                                                </h4>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
-                                                                </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div>
-
-                                                <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post">
-                                                                    <img src="/blog2-650x350.jpg"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
-                                                                    </span>
-                                                                </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="post.html">Cutting Your Restaurant’s
-                                                                        Operations Costs</a>
-                                                                </h4>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
-                                                                </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div>
-
-                                                <div>
-                                                    <article class="news-item content-area">
-                                                        <div class="inner-item radius-top">
-                                                            <div class="thumb-image">
-                                                                <a href="post">
-                                                                    <img src="/blog2-650x350.jpg"
-                                                                        alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="inner-post radius-bottom">
-                                                                <div class="entry-meta">
-                                                                    <span class="posted-on">
-                                                                        <time class="entry-date">September 11,
-                                                                            2017</time>
-                                                                    </span>
-                                                                    <span class="posted-in">
-                                                                        <a href="#">Consulting</a>
-                                                                    </span>
-                                                                </div>
-                                                                <h4 class="entry-title">
-                                                                    <a href="post.html">Why Tech Should Behave More Like
-                                                                        Finance</a>
-                                                                </h4>
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet consectetur adipiscing
-                                                                    elit ad, tincidunt senectus felis platea natoque
-                                                                    mattis....
-                                                                </p>
-                                                                <a class="post-link" href="post.html">Read more</a>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div> -->
+                                                
 
                                             </div>
                                         </div>
