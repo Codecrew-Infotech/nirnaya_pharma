@@ -7,7 +7,6 @@ const AboutUsController = {};
 AboutUsController.getAboutUsPage = async (req, res) => {
     try {
         const response = await axios.get(`${process.env.API_URL}/api/aboutus`);
-        console.log(response,"response")
         const aboutUsData = response.data.length > 0 ? response.data : null;
         res.render('aboutus', { aboutUs: aboutUsData, title: 'About Us', layout: 'partials/layout-vertical' });
     } catch (error) {
@@ -41,7 +40,6 @@ AboutUsController.createAboutUs = async (req, res) => {
             visible
         });
 
-        console.log('Created AboutUs:', newAboutUs.data);
         res.redirect('/admin/aboutus');
     } catch (error) {
         console.error('Error creating AboutUs:', error.message);
@@ -80,7 +78,6 @@ AboutUsController.updateAboutUs = async (req, res) => {
             visible
         });
 
-        console.log('Updated AboutUs:', updatedAboutUs.data);
         res.redirect('/admin/aboutus');
     } catch (error) {
         console.error('Error updating AboutUs:', error);

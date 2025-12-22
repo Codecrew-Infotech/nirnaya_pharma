@@ -14,16 +14,9 @@
                         <div class="widget_text widget widget_custom_html">
                             <div class="textwidget custom-html-widget">
 
-                                <% if (footer.about.description) { %>
-                                    <p>
-                                        <%= footer.about.description %>
-                                    </p>
-                                    <% } %>
+                              
 
-                                        <p>
-                                            <a href="/about" class="pagelink gray">About
-                                                us</a>
-                                        </p>
+                                <button class="quick-enquiry-btn">Quick Enquiry</button>
 
                                         <div class="ot-socials bg-white">
                                             <% footer.about.socialLinks .filter(link=> link.visible)
@@ -85,6 +78,66 @@
                                     </ul>
                                 </div>
                             </section>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                        <section class="widget_text widget widget_custom_html padding-left">
+                        <h4 class="widget-title">Contact</h4>
+
+                        <div class="textwidget custom-html-widget">
+                            <ul class="padd-left contact-info">
+
+                            <% if (settings.indian_address) { %>
+                            <li>
+                                <i class="fa fa-map-marker"></i>
+                                <span>
+                                <strong>India:</strong> <%= settings.indian_address %>
+                                </span>
+                            </li>
+                            <% } %>
+
+                            <% if (settings.us_address) { %>
+                            <li>
+                                <i class="fa fa-map-marker"></i>
+                                <span>
+                                <strong>USA:</strong> <%= settings.us_address %>
+                                </span>
+                            </li>
+                            <% } %>
+
+                            <% if (settings.email) { %>
+                            <li>
+                                <i class="fa fa-envelope"></i>
+                                <a href="mailto:<%= settings.email %>" class="mail-info">
+                                <%= settings.email %>
+                                </a>
+                            </li>
+                            <% } %>
+
+                            <% if (settings.mobile1) { %>
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <span><strong>India:</strong> <%= settings.mobile1 %></span>
+                            </li>
+                            <% } %>
+
+                            <% if (settings.mobile) { %>
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <span><%= settings.mobile %></span>
+                            </li>
+                            <% } %>
+
+                            <% if (settings.us_mobile) { %>
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <span><strong>USA:</strong> <%= settings.us_mobile %></span>
+                            </li>
+                            <% } %>
+
+                            </ul>
+                        </div>
+                        </section>
+
                         </div>
 
                         <% if (footer.subscription?.visible) { %>
@@ -149,3 +202,368 @@
 
     <a id="back-to-top" href="#" class="show"></a>
 </footer>
+
+<!-- Add this popup HTML at the end of your footer, just before the closing </footer> tag -->
+
+<!-- Quick Enquiry Popup -->
+<div id="enquiryPopup" class="enquiry-popup-overlay" style="display: none;">
+    <div class="enquiry-popup-container">
+        <div class="enquiry-popup-header">
+            <h2>Quick Enquiry</h2>
+            <button class="enquiry-close-btn">&times;</button>
+        </div>
+        
+        <div class="enquiry-popup-body">
+            <div id="enquiryMessage" class="enquiry-message" style="display: none;"></div>
+            
+            <div class="enquiry-form-row">
+                <div class="enquiry-form-group">
+                    <label>First Name <span class="required">*</span></label>
+                    <input type="text" id="firstname" name="firstname" required>
+                </div>
+                
+                <div class="enquiry-form-group">
+                    <label>Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastname" name="lastname" required>
+                </div>
+            </div>
+            
+            <div class="enquiry-form-row">
+                <div class="enquiry-form-group">
+                    <label>Phone <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="enquiry-form-group">
+                    <label>Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+            
+            <div class="enquiry-form-group">
+                <label>Company</label>
+                <input type="text" id="company" name="company">
+            </div>
+            
+            <div class="enquiry-form-group">
+                <label>Subject <span class="required">*</span></label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            
+            <div class="enquiry-form-group">
+                <label>Message <span class="required">*</span></label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            
+            <div class="enquiry-form-actions">
+                <button type="button" id="submitEnquiry" class="enquiry-submit-btn">
+                    <span class="btn-text">Submit Enquiry</span>
+                    <span class="btn-loading" style="display: none;">Submitting...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Popup Overlay */
+.enquiry-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Popup Container */
+.enquiry-popup-container {
+    background: #fff;
+    max-width: 700px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* Popup Header */
+.enquiry-popup-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.enquiry-popup-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.enquiry-close-btn {
+    background: none;
+    border: none;
+    font-size: 32px;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enquiry-close-btn:hover {
+    color: #333;
+}
+
+/* Popup Body */
+.enquiry-popup-body {
+    padding: 24px;
+}
+
+/* Form Styles */
+.enquiry-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.enquiry-form-group {
+    margin-bottom: 16px;
+}
+
+.enquiry-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.enquiry-form-group input,
+.enquiry-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.enquiry-form-group input:focus,
+.enquiry-form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.enquiry-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Message Box */
+.enquiry-message {
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.enquiry-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.enquiry-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Form Actions */
+.enquiry-form-actions {
+    /* display: flex; */
+    gap: 12px;
+    text-align: center;
+    margin-top: 24px;
+}
+
+.enquiry-submit-btn,
+.enquiry-cancel-btn {
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+}
+
+.enquiry-submit-btn {
+    background-color: #f26522;;
+    color: #fff;
+    flex: 1;
+}
+
+.enquiry-submit-btn:hover:not(:disabled) {
+    background-color: #f0c13e;
+}
+
+.enquiry-submit-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.enquiry-cancel-btn {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 24px;
+}
+
+.enquiry-cancel-btn:hover {
+    background-color: #f5f5f5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .enquiry-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .enquiry-popup-container {
+        margin: 0;
+        border-radius: 0;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('enquiryPopup');
+    const openBtn = document.querySelector('.quick-enquiry-btn');
+    const closeBtns = document.querySelectorAll('.enquiry-close-btn, .enquiry-cancel-btn');
+    const submitBtn = document.getElementById('submitEnquiry');
+    const messageBox = document.getElementById('enquiryMessage');
+    
+    // Open popup
+    openBtn.addEventListener('click', function() {
+        popup.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Close popup
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            clearForm();
+        });
+    });
+    
+    // Close on outside click
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            clearForm();
+        }
+    });
+    
+    // Submit form
+    submitBtn.addEventListener('click', async function() {
+        const formData = {
+            firstname: document.getElementById('firstname').value.trim(),
+            lastname: document.getElementById('lastname').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            company: document.getElementById('company').value.trim(),
+            subject: document.getElementById('subject').value.trim(),
+            message: document.getElementById('message').value.trim()
+        };
+        
+        // Validate required fields
+        if (!formData.firstname || !formData.lastname || !formData.phone || 
+            !formData.email || !formData.subject || !formData.message) {
+            showMessage('Please fill in all required fields', 'error');
+            return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            showMessage('Please enter a valid email address', 'error');
+            return;
+        }
+        
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.btn-text').style.display = 'none';
+        submitBtn.querySelector('.btn-loading').style.display = 'inline';
+        
+        try {
+            const response = await fetch('http://localhost:4000/api/createContact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showMessage('Enquiry submitted successfully!', 'success');
+                clearForm();
+                
+                // Close popup after 2 seconds
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    messageBox.style.display = 'none';
+                }, 2000);
+            } else {
+                showMessage(data.message || 'Failed to submit enquiry', 'error');
+            }
+        } catch (error) {
+            showMessage('Network error. Please try again.', 'error', error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.querySelector('.btn-text').style.display = 'inline';
+            submitBtn.querySelector('.btn-loading').style.display = 'none';
+        }
+    });
+    
+    function showMessage(text, type) {
+        messageBox.textContent = text;
+        messageBox.className = 'enquiry-message ' + type;
+        messageBox.style.display = 'block';
+    }
+    
+    function clearForm() {
+        document.getElementById('firstname').value = '';
+        document.getElementById('lastname').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('company').value = '';
+        document.getElementById('subject').value = '';
+        document.getElementById('message').value = '';
+        messageBox.style.display = 'none';
+    }
+});
+</script>

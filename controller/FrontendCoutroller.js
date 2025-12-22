@@ -4,13 +4,14 @@ const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
 const Settings = require('../api/model/Settings');
 const AboutUs = require('../api/model/AboutUs');
+const contact = require('../api/model/contact');
 
 const FrontendCoutroller = {};
 
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
-        console.log(sliders,"sliders");
+        console.log(sliders, "sliders");
 
         let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');
         blogs = blogs.map(b => {
@@ -40,7 +41,8 @@ FrontendCoutroller.getHome = async (req, res) => {
 };
 FrontendCoutroller.getAbout = async (req, res) => {
     try {
-        const aboutUs = await AboutUs.findOne({visible:true})
+        const aboutUs = await AboutUs.findOne({ visible: true })
+        console.log(aboutUs);
         res.render('frontend/about', {
             title: 'Home',
             layout: false,
@@ -148,6 +150,19 @@ FrontendCoutroller.getContact = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+FrontendCoutroller.createContact = async (req, res) => {
+    try {
+        const { firstname, lastname, phone, email, company, subject, message } = req.body;
+        const newContact = new contact({ firstname, lastname, phone, email, company, subject, message });
+        await newContact.save();
+        req.flash('success', 'Thank you! Your message has been sent.');
+        res.redirect('/contact');
+    } catch (error) {
+        req.flash('error', 'Something went wrong. Please try again.');
+        res.redirect('/contact');
+    }
+}
 FrontendCoutroller.getWork = async (req, res) => {
     try {
         res.render('frontend/how-it-work', {

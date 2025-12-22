@@ -24,7 +24,6 @@ FooterController.activeFooter = async (req, res) => {
 
 
 FooterController.createFooter = async (req, res) => {
-  console.log(req.body, "Create API call");
   try {
 
     const body = req.body;
@@ -114,7 +113,6 @@ FooterController.editFooter = async (req, res) => {
 }
 
 FooterController.updateFooter = async (req, res) => {
-  console.log(req.body, "Update API call");
   try {
 
     const body = req.body;

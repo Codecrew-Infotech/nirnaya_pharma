@@ -12,7 +12,6 @@ FooterController.getFooter = async (req, res, next) => {
 }
 
 FooterController.createFooter = async (req, res, next) => {
-    console.log("create calling");
     try {
      
         const image = req.files?.['about[logoImage]'] || null;

@@ -8,7 +8,6 @@ const RolePermissionController = {}
 RolePermissionController.getRoles = async (req, res) => {
     try {
         const roles = await Role.find({ deletedAt: null }).sort({ createdAt: -1 });
-        console.log(roles,"roles");
         res.status(200).json(roles);
     } catch (error) {
         console.error("Error fetching roles:", error);
@@ -313,9 +312,7 @@ RolePermissionController.insertMany = async (req, res) => {
         ]
 
         const newRolePermissions = await Role.insertMany(roles);
-        console.log(`Inserted ${newRolePermissions.length} roles.`);
         const newPermissions = await Permissions.insertMany(permissions);
-        console.log(`Inserted ${newPermissions.length} permissions.`);
         res.status(201).json("Roles and permissions inserted successfully");
     } catch (error) {
         console.error("Error inserting role-permissions:", error);

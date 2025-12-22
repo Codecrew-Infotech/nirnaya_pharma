@@ -32,22 +32,27 @@
 									<div class="container">
 										<div class="row">
 											<div class="wpb_column column_container col-sm-12">
-												<div class="column-inner">
-													<% aboutUs.sections.forEach(section => { %>
-													<div class="wpb_wrapper">
-														<div class="section-head ">
-															<h6><span><%=section.subTitle%></span></h6>
-															<h2 class="section-title"><%=section.title%></h2>
-														</div>
+												<% if (aboutUs.sections && aboutUs.sections.length> 0) { %>
+													<% const section=aboutUs.sections[0]; %>
 
-														<div class="wpb_text_column wpb_content_element ">
-															<div class="wpb_wrapper">
-																<%-section.content%>
+														<div class="wpb_wrapper">
+															<div class="section-head">
+																<h6><span>
+																		<%= section.subTitle %>
+																	</span></h6>
+																<h2 class="section-title">
+																	<%= section.title %>
+																</h2>
+															</div>
+
+															<div class="wpb_text_column wpb_content_element">
+																<div class="wpb_wrapper">
+																	<%- section.content %>
+																</div>
 															</div>
 														</div>
-													</div>
-													<%})%>
-												</div>
+														<% } %>
+
 											</div>
 											<div class="wpb_column column_container col-sm-12">
 												<div class="column-inner">
@@ -76,8 +81,12 @@
 																			class="wpb_text_column wpb_content_element text-light info-box padd-box">
 																			<div class="wpb_wrapper">
 																				<div class="sign">
-																					<h5><%=aboutUs.ownerDetail.name%></h5>
-																					<p><%=aboutUs.ownerDetail.educationInfo%></p>
+																					<h5>
+																						<%=aboutUs.ownerDetail.name%>
+																					</h5>
+																					<p>
+																						<%=aboutUs.ownerDetail.educationInfo%>
+																					</p>
 																				</div>
 																			</div>
 																		</div>
@@ -87,6 +96,34 @@
 														</div>
 													</div>
 												</div>
+											</div>
+
+											<div class="wpb_column column_container col-sm-12">
+												<% if (aboutUs.sections && aboutUs.sections.length> 1) { %>
+													<% aboutUs.sections.slice(1).forEach(section=> { %>
+
+														<div class="wpb_wrapper" style="
+    margin-top: 25px;
+">
+															<div class="section-head">
+																<h6><span>
+																		<%= section.subTitle %>
+																	</span></h6>
+																<h2 class="section-title">
+																	<%= section.title %>
+																</h2>
+															</div>
+
+															<div class="wpb_text_column wpb_content_element">
+																<div class="wpb_wrapper">
+																	<%- section.content %>
+																</div>
+															</div>
+														</div>
+
+														<% }) %>
+															<% } %>
+
 											</div>
 
 

@@ -23,7 +23,6 @@ PageController.createPage = async (req, res) => {
     if (metadata && typeof metadata.keywords === 'string') {
       metadata.keywords = metadata.keywords.split(',').map(k => k.trim());
     }
-    console.log(name, slug, metadata, 'Request body for creating page');
     await Page.create({ name, slug, metadata })
     res.status(201).json({ success: true, data: newPage });
   } catch (error) {
