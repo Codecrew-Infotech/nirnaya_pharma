@@ -125,6 +125,11 @@ route.post('/aboutus/:id', AboutUsController.updateAboutUs);
 route.get('/aboutus/:id/delete', AboutUsController.deleteAboutUs);
 
 
+// define route for user contact messages
+route.get('/contacts', UserController.getContacts);
+route.get('/contact/:id', UserController.getContactById);
+route.get('/deleteContact/:id', UserController.deleteContact);
+
 // define routes for Settings
 
 route.get('/settings', SettingsController.getSettings);

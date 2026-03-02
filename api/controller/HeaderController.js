@@ -112,7 +112,6 @@ HeaderController.createHeader = async (req, res) => {
       visible
     };
 
-    console.log("Parsed Header Data:", JSON.stringify(headerData, null, 2));
 
     const newHeader = new header(headerData); 
     await newHeader.save();
@@ -146,7 +145,6 @@ HeaderController.editHeader = async (req, res) => {
 };
 
 HeaderController.updateHeader = async (req, res) => {
-  console.log("API call to update header");
   try {
     const body = req.body;
 
@@ -238,7 +236,6 @@ HeaderController.updateHeader = async (req, res) => {
       visible
     };
 
-    console.log("Parsed Updated Header Data:", JSON.stringify(headerData, null, 2));
 
     const updatedHeader = await header.findByIdAndUpdate(
       req.params.id,

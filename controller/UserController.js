@@ -1,4 +1,5 @@
 const axios = require('axios');
+const contact = require('../api/model/contact');
 const UserController = {};
 
 
@@ -68,8 +69,8 @@ UserController.getUsers = async (req, res) => {
 
 UserController.addUser = async (req, res) => {
     try {
-         const roles = await axios.get(`${process.env.API_URL}/api/roles`);
-        res.render('add-user', { title: 'Add User', layout: 'partials/layout-vertical',roles:roles.data });
+        const roles = await axios.get(`${process.env.API_URL}/api/roles`);
+        res.render('add-user', { title: 'Add User', layout: 'partials/layout-vertical', roles: roles.data });
     } catch (error) {
         console.error('Error rendering add user page:', error);
         res.status(500).send('Error rendering add user page');
@@ -111,7 +112,7 @@ UserController.editUser = async (req, res) => {
         const roles = await axios.get(`${process.env.API_URL}/api/roles`);
         console.log(response.data);
         console.log(roles.data);
-        res.render('edit-user', { title: 'Edit User', layout: 'partials/layout-vertical', user: response.data , roles: roles.data });
+        res.render('edit-user', { title: 'Edit User', layout: 'partials/layout-vertical', user: response.data, roles: roles.data });
     } catch (error) {
         console.error('Error fetching user for edit:', error);
         res.status(500).send('Error fetching user for edit');
@@ -125,7 +126,7 @@ UserController.updateUser = async (req, res) => {
         const image = req.files?.profileImage || null;
 
         let profileImage;
-        
+
         if (image) {
             const uploadPath = `uploads/${image.name}`;
             await image.mv(uploadPath);
@@ -160,6 +161,45 @@ UserController.deleteUser = async (req, res) => {
         console.error('Error deleting user:', error);
         res.status(500).send('Error deleting user');
     }
-}   
+}
+
+
+
+UserController.getContacts = async (req, res) => {
+    try {
+        const contacts = await contact.find().sort({ createdAt: -1 });
+        res.render('contacts', { title: 'Contact Messages', layout: 'partials/layout-vertical', contacts });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching contacts', error });
+    }
+};
+
+
+
+UserController.getContactById = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const contactData = await contact.findById(contactId);
+        if (!contactData) {
+            return res.status(404).json({ message: 'Contact message not found' });
+        }
+        res.status(200).json(contactData);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching contact message', error });
+    }
+};
+
+UserController.deleteContact = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const deletedContact = await contact.findByIdAndDelete(contactId);
+        if (!deletedContact) {
+            return res.status(404).json({ message: 'Contact message not found' });
+        }
+        res.redirect('/admin/contacts');
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting contact message', error });
+    }
+};
 
 module.exports = UserController;

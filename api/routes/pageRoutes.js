@@ -23,6 +23,10 @@ router.get('/editUser/:id', UserController.editUser);
 router.put('/updateUser/:id', UserController.updateUser);
 router.delete('/deleteUser/:id', UserController.deleteUser);
 
+
+// define route for user contact messages
+router.post('/createContact', UserController.createContact);
+
 // Define routes for authentication
 router.post('/login', UserController.login);
 router.post('/register', UserController.register);

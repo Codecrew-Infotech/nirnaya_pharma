@@ -1,13 +1,13 @@
 const user = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const contact = require('../model/contact');
 const UserController = {};
 
 // Get all users
 UserController.getUsers = async (req, res) => {
     try {
         const users = await user.find().select('-password').populate('role_id');
-        console.log(users, "users");
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users', error });
@@ -89,7 +89,6 @@ UserController.deleteUser = async (req, res) => {
 UserController.login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        console.log(email, password)
         const foundUser = await user.findOne({ email }).select('+password');
 
         if (!foundUser) {
@@ -100,7 +99,6 @@ UserController.login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-        console.log(foundUser, "Found user details");
         const token = jwt.sign(
             { id: foundUser._id, email: foundUser.email, role_id: foundUser.role_id },
             process.env.JWT_SECRET,
@@ -132,5 +130,54 @@ UserController.register = async (req, res) => {
         res.status(500).json({ message: 'Error registering user', error });
     }
 }
+
+
+
+UserController.getContacts = async (req, res) => {
+    try {
+        const contacts = await Contact.find().sort({ createdAt: -1 });
+        res.status(200).json(contacts);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching contacts', error });
+    }
+};
+
+UserController.createContact = async (req, res) => {
+    try {
+        const { firstname, lastname, phone, email, company, subject, message } = req.body;
+        const newContact = new contact({ firstname, lastname, phone, email, company, subject, message });
+        await newContact.save();
+        res.status(201).json({ message: 'Contact message created successfully', contact: newContact });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error creating contact message', error });
+    }
+};
+
+UserController.getContactById = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const contact = await Contact.findById(contactId);
+        if (!contact) {
+            return res.status(404).json({ message: 'Contact message not found' });
+        }
+        res.status(200).json(contact);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching contact message', error });
+    }
+};
+
+UserController.deleteContact = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const deletedContact = await Contact.findByIdAndDelete(contactId);
+        if (!deletedContact) {
+            return res.status(404).json({ message: 'Contact message not found' });
+        }
+        res.status(200).json({ message: 'Contact message deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting contact message', error });
+    }
+};
 
 module.exports = UserController;

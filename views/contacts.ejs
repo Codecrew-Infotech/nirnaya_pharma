@@ -1,0 +1,76 @@
+<%- contentFor('extra_css') %>
+<link href="/libs/simple-datatables/style.css" rel="stylesheet" />
+
+<%- contentFor('content') %>
+<div class="container-xxl">
+  <div class="row justify-content-center">
+    <div class="col-12">
+
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h4 class="card-title mb-0">Contact Messages</h4>
+        </div>
+
+        <div class="card-body pt-0">
+          <div class="table-responsive">
+            <table class="table datatable" id="datatable_1">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Company</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if (!contacts || contacts.length === 0) { %>
+                  <tr>
+                    <td colspan="8" class="text-center text-muted">
+                      No contact messages found
+                    </td>
+                  </tr>
+                <% } else { %>
+
+                  <% contacts.forEach((item, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td>
+                      <td><%= item.firstname %> <%= item.lastname %></td>
+                      <td><%= item.email %></td>
+                      <td><%= item.phone || '-' %></td>
+                      <td><%= item.company || '-' %></td>
+                      <td><%= item.subject || '-' %></td>
+                      <td style="max-width: 280px;">
+                        <div class="text-truncate" title="<%= item.message %>">
+                          <%= item.message %>
+                        </div>
+                      </td>
+                      <td>
+                        <%= new Date(item.createdAt).toLocaleDateString('en-IN') %>
+                      </td>
+                        <td>
+                            <a class="btn btn-sm btn-danger delete-contact" href="/admin/deleteContact/<%= item._id %>" >Delete</a>
+                        </td>
+                    </tr>
+                  <% }) %>
+
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- contentFor('extra_javascript') %>
+<script src="/libs/simple-datatables/umd/simple-datatables.js"></script>
+<script src="/js/pages/datatable.init.js"></script>

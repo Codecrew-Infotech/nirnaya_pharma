@@ -37,7 +37,6 @@ ServiceController.createService = async (req, res) => {
             canonicalUrl,
             publishDate
         });
-        console.log("Created service:", newService.data);
         res.redirect('/admin/services');
     } catch (error) {
         console.error("Error fetching roles:", error);
@@ -93,7 +92,6 @@ ServiceController.updateServices = async (req, res) => {
             canonicalUrl,
             publishDate
         });
-        console.log("Created service:", newService.data);
         res.redirect('/admin/services');
     } catch (error) {
         console.error("Error fetching roles:", error);

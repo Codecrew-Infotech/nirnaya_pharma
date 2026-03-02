@@ -4,12 +4,14 @@ const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
 const Settings = require('../api/model/Settings');
 const AboutUs = require('../api/model/AboutUs');
+const contact = require('../api/model/contact');
 
 const FrontendCoutroller = {};
 
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
+        console.log(sliders, "sliders");
         console.log(sliders, "sliders");
 
         let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');

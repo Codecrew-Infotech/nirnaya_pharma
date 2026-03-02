@@ -13,7 +13,6 @@ sectionController.getSections = async (req, res) => {
 }
 sectionController.createSection = async (req, res) => {
   try {
-    console.log(req.body,"req.body|req.body")
     const { name, content, otherData } = req.body;
     const newSection = new section({ name, content, otherData });
     await newSection.save();
@@ -51,7 +50,6 @@ sectionController.updateSection = async (req, res) => {
   }
 }
 sectionController.deleteSection = async (req, res) => {
-  console.log("delete section");
   try {
     const id = req.params.id;
     const deletedSection = await section.findByIdAndDelete(id);

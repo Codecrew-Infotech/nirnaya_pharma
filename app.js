@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 const dotenv = require('dotenv')
 const mongoose = require('./db/db');
+const flash = require('connect-flash');
 const cors = require('cors');
 const logger = require('morgan');
 const port = process.env.PORT || 3000;
@@ -25,6 +26,14 @@ app.use(upload());
 app.use(express.json());
 app.use(session({ resave: false, saveUninitialized: true, secret: 'nodedemo' }));
 app.use(cookieParser());
+app.use(flash());
+
+// make flash available in all EJS files
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash('success');
+  res.locals.errorMsg = req.flash('error');
+  next();
+});
 
 app.set('layout', 'partials/layout-vertical');
 app.use(expressLayouts);

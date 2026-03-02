@@ -53,7 +53,6 @@ BlogController.updateBlog = async (req, res) => {
             const uploadPath = `uploads/${image.name}`;
             await image.mv(uploadPath);
             featuredImage = image.name;
-            console.log('File moved successfully');
         }
 
         const { title, content, metaTitle, metaDescription, metaKeywords, slug, isPublished } = req.body;
@@ -74,7 +73,6 @@ BlogController.updateBlog = async (req, res) => {
         if (!updatedBlog) {
             return res.status(404).json({ message: 'Blog not found' });
         }
-        console.log('Blog updated successfully:', updatedBlog);
         res.status(200).json(updatedBlog);
     } catch (error) {
         res.status(500).json({ message: 'Error updating blog', error });

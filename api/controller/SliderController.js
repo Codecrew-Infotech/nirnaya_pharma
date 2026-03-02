@@ -22,7 +22,6 @@ SliderController.createSlider = async (req, res) => {
         await newSlider.save();
         res.status(201).json(newSlider);
     } catch (error) {
-        console.log
         res.status(500).json({ message: 'Error creating slider', error });
     }
 };
@@ -52,10 +51,8 @@ SliderController.updateSlider = async (req, res) => {
             let uploadPath = `uploads/${image.name}`;
             await image.mv(uploadPath);
             image = image.name;
-            console.log('File moved successfully');
         }
         const { title, desc, link, titleCategory, info, sliderBtn, order, isActive } = req.body;
-        console.log(image, title, desc, link, order, info, titleCategory, sliderBtn, isActive);
         const updatedSlider = await Slider.findByIdAndUpdate(sliderId, {
             image, title, desc, link, order, info, titleCategory, sliderBtn, isActive
         }, { new: true });
