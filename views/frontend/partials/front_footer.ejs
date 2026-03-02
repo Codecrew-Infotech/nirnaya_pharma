@@ -180,13 +180,14 @@
 
                 <div class="col-md-6">
                     <% if (footer.copyright?.visible) { %>
+
                         <div class="footer-copyright">
-                            <%= footer.copyright.text %>
+                           ©<% const currentYear = new Date().getFullYear(); %> <%= currentYear %> <%= footer.copyright.text %>
                         </div>
                         <% } %>
                 </div>
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="footer-nav text-right mobile-center">
                         <ul class="none-style">
                             <li><a href="#">Terms and Conditions</a></li>
@@ -194,7 +195,7 @@
                             <li><a href="#">FAQs</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>

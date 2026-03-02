@@ -428,7 +428,7 @@ h4,
 h5,
 h6 {
     font-family: "Montserrat", sans-serif;
-    font-weight: 800;
+    font-weight: 400;
     line-height: 1.2;
     margin: 0 0 20px;
     color: #000;
@@ -2882,7 +2882,7 @@ ul.info-list.info_on_right_side li:last-child {
 }
 
 .main-footer .widget.padding-left {
-    padding-left: 70px;
+    padding-left: 40px;
 }
 
 .main-footer ul {
