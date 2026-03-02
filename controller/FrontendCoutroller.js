@@ -10,7 +10,7 @@ const FrontendCoutroller = {};
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
-        console.log(sliders,"sliders");
+        console.log(sliders, "sliders");
 
         let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');
         blogs = blogs.map(b => {
@@ -40,7 +40,7 @@ FrontendCoutroller.getHome = async (req, res) => {
 };
 FrontendCoutroller.getAbout = async (req, res) => {
     try {
-        const aboutUs = await AboutUs.findOne({visible:true})
+        const aboutUs = await AboutUs.findOne({ visible: true })
         res.render('frontend/about', {
             title: 'Home',
             layout: false,
@@ -148,6 +148,28 @@ FrontendCoutroller.getContact = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+FrontendCoutroller.postContact = async (req, res) => {
+    try {
+        const { firstName, lastName, phone, email, company, subject, message } = req.body;
+        const Contact = require('../api/model/contact');
+        const newContact = new Contact({
+            firstName,
+            lastName,
+            phone,
+            email,
+            company,
+            subject,
+            message
+        });
+        await newContact.save();
+        res.redirect('/contact?success=true');
+    } catch (error) {
+        console.error('Error submitting contact form:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
 FrontendCoutroller.getWork = async (req, res) => {
     try {
         res.render('frontend/how-it-work', {
@@ -305,6 +327,12 @@ FrontendCoutroller.getService = async (req, res) => {
 FrontendCoutroller.getServiceDetails = async (req, res) => {
     try {
         const slug = req.params.slug;
+        const settingsData = await Settings.find()
+        console.log(settingsData);
+        const settingsMap = {};
+        settingsData.forEach(item => {
+            settingsMap[item.key] = item.value;
+        });
         const services = await Service.find({ visible: true }).select('name slug');
         const service = await Service.findOne({ slug: slug, visible: true });
         if (!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
@@ -312,12 +340,33 @@ FrontendCoutroller.getServiceDetails = async (req, res) => {
             title: 'Service Details',
             layout: false,
             service, services,
-            metaTitle: "",
-            metaDescription: "",
-            metaKeywords: []
+            metaTitle: service.metaTitle || service.name,
+            settings: settingsMap,
+            metaDescription: service.metaDescription || "",
+            metaKeywords: service.metaKeywords || []
         });
     } catch (error) {
         console.error('Error fetching media:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+FrontendCoutroller.postContactDetails = async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        const service = await Service.findOne({ slug: slug, visible: true });
+        if (!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
+        const {  phone, email  } = req.body;
+        const Contact = require('../api/model/contact');
+        const newContact = new Contact({
+            firstName: service.name,
+            lastName: "",
+            phone, email, company: "", subject: "", message: ""
+        });
+        await newContact.save();
+        res.redirect('/services/' + slug + '?success=true');
+    } catch (error) {
+        console.error('Error saving contact:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };

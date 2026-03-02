@@ -16,7 +16,7 @@
                                     <li data-transition="fade" data-slotamount="10" data-masterspeed="default"
                                         data-thumb="">
                                         <!--  BACKGROUND IMAGE -->
-                                        <img src="/slide-home1.jpg" alt="" data-bgposition="center center"
+                                        <img src="/<%= slide.image %>" alt="" data-bgposition="center center"
                                             data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" />
                                         <div class="tp-caption tp-resizeme" data-x="right" data-hoffset="['0']"
                                             data-y="bottom" data-voffset="" data-width="['auto','320','auto','320']"
@@ -24,8 +24,8 @@
                                             data-transform_in="x:550px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1000" data-responsive_offset="on">
-                                            <img class="img-responsive md-hidden sm-hidden xs-hidden"
-                                                src="/<%= slide.image %>" alt="Image">
+                                            <!-- <img class="img-responsive md-hidden sm-hidden xs-hidden"
+                                                src="/<%= slide.image %>" alt="Image"> -->
                                         </div>
                                         <div class="tp-caption tp-resizeme font-second text-second bolder"
                                             data-x="['left']" data-hoffset="['0','15','15','15']" data-y="top"
@@ -161,80 +161,154 @@
                             </div>
                         </div>
                     </section>
-                   
 
-                    <section class="promise-section">
-                        <div class="promise-container">
-                            <div class="promise-content">
-                                <p class="section-label">Features</p>
-                                <h2 class="section-title">Our Promise</h2>
 
-                                <div class="features-list">
-                                    <div class="feature-item">
-                                        <div class="feature-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                        <div class="feature-details">
-                                            <h3 class="feature-title">Honesty</h3>
-                                            <p class="feature-description">We are committed to delivering unbiased and
-                                                transparent advice to help you make informed decisions.</p>
-                                        </div>
-                                    </div>
+                    <section
+                        class="wpb_row row-fluid section-padd row-has-fill row-o-equal-height row-o-content-middle row-flex bg-light">
+                        <div class="container">
+                            <div class="row">
+                                <div class="wpb_column column_container col-sm-12">
+                                    <div class="column-inner">
+                                        <div class="wpb_wrapper">
+                                            <div
+                                                class="row wpb_row inner row-fluid row-o-equal-height row-o-content-middle row-flex">
+                                                <div
+                                                    class="wpb_column column_container col-sm-12 col-md-6 col-has-fill custom-padd-1">
+                                                    <div class="column-inner">
+                                                        <div class="wpb_wrapper"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-second wpb_column column_container col-sm-12 col-md-6">
+                                                    <div class="column-inner">
+                                                        <div class="wpb_wrapper">
+                                                            <div class="empty_space_60 lg-hidden h60"><span
+                                                                    class="empty_space_inner"></span></div>
 
-                                    <div class="feature-item">
-                                        <div class="feature-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                        <div class="feature-details">
-                                            <h3 class="feature-title">Reliability</h3>
-                                            <p class="feature-description">Dependable and easy access to support your
-                                                business needs with confidentiality.</p>
-                                        </div>
-                                    </div>
+                                                            <div class="section-head padding-box-2 text-light">
+                                                                <h6><span>WHO WE ARE</span></h6>
+                                                                <h2 class="section-title">Our Mission
+                                                                </h2>
+                                                            </div>
 
-                                    <div class="feature-item">
-                                        <div class="feature-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                        <div class="feature-details">
-                                            <h3 class="feature-title">Experience</h3>
-                                            <p class="feature-description">With over 42 years of industry experience, we
-                                                have a deep understanding of the pharma manufacturing landscape, Human
-                                                Behaviour, effective communication to provide realistic solutions which
-                                                are operationally executable and sustainable.</p>
-                                        </div>
-                                    </div>
+                                                            <div
+                                                                class="wpb_text_column wpb_content_element padding-box-2 text-light">
+                                                                <div class="wpb_wrapper">
+                                                                    <p>At Nirnaya Pharma Management Services LLP, we are
+                                                                        committed to hand hold SME pharma organisations
+                                                                        by fostering a culture of innovation,
+                                                                        collaboration, and excellence. Our mission is to
+                                                                        help our clients with a system-based approach
+                                                                        that focuses on building sustainable,
+                                                                        quality-driven organizations to meet the
+                                                                        challenges of an ever-evolving industry and
+                                                                        remain adoptable.
+                                                                    </p>
 
-                                    <div class="feature-item">
-                                        <div class="feature-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                        <div class="feature-details">
-                                            <h3 class="feature-title">Flexibility and Ownership</h3>
-                                            <p class="feature-description">Our ownership-driven approach and flexible
-                                                services are designed to align with your business goals.</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="wpb_text_column wpb_content_element paddtop-75 padding-box-2 info-box text-light">
+                                                                <div class="wpb_wrapper">
+                                                                    <div class="sign">
+
+                                                                        <h5>Ketan Naik</h5>
+                                                                        <p>M.Pharm, MBA, Ph.D
+                                                                        </p>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="empty_space_60 lg-hidden"><span
+                                                                    class="empty_space_inner"></span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="promise-image">
-                                <img src="/why-choos-us.webp" alt="Why Choose Us - Puzzle pieces with question marks">
+                    </section>
+
+
+                    <!-- <section class="wpb_row row-fluid row-o-equal-height row-o-content-top row-flex relative">
+                        <div class="container" style="margin-top: 189px;">
+                            <div class="row">
+                                <div class="top-120 wpb_column column_container col-sm-12">
+                                    <div class="column-inner">
+                                        <div class="wpb_wrapper">
+                                            <div
+                                                class="row wpb_row inner row-fluid row-o-equal-height row-o-content-top row-flex">
+                                                <div
+                                                    class="wpb_column column_container col-sm-12 col-md-4 col-has-fill bg-why-choose">
+                                                    <div class="column-inner"></div>
+                                                </div>
+                                                <div
+                                                    class="wpb_column column_container col-sm-12 col-md-8 col-has-fill bg-light">
+                                                    <div class="column-inner">
+                                                        <div class="wpb_wrapper">
+                                                            <div
+                                                                class="wpb_text_column wpb_content_element padding-box-3">
+                                                                <div class="wpb_wrapper">
+                                                                    <div class="section-head ">
+                                                                        <h6>OUR FEATURED</h6>
+                                                                        <h2 class="section-title">Why choose us?</h2>
+                                                                    </div>
+                                                                    <div class="gaps"></div>
+                                                                    <p>Roncus eu id tristique sollicitudin euismod
+                                                                        vestibulum non lectus, senectus conub
+                                                                        purusnatoque neque ullamcorper cubilia faucibus,
+                                                                        ac eget ultrices hab aliquam molestie. Duis
+                                                                        pulvinar ultricies accumsan tortor platea.</p>
+                                                                    <div class="three-boxes">
+                                                                        <div class="simple-box">
+                                                                            <div class="inner box-shadow-hover">
+                                                                                <p><i class="ion-ios-bulb">bulb</i></p>
+                                                                                <h6>Honesty</h6>
+                                                                                <p>We are committed to delivering unbiased and transparent advice to help you make informed decisions.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="simple-box">
+                                                                            <div class="inner box-shadow-hover">
+                                                                                <p><i class="ion-md-rocket">rocket</i>
+                                                                                </p>
+                                                                                <h6>Reliability</h6>
+                                                                                <p>Dependable and easy access to support your business needs with confidentiality.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="simple-box">
+                                                                            <div class="inner box-shadow-hover">
+                                                                                <p><i class="ion-ios-apps">apps</i></p>
+                                                                                <h6>Experience</h6>
+                                                                                <p>With 42+ years of experience, we bring deep insight into pharma manufacturing, human behaviour, and communication to deliver realistic, executable, and sustainable solutions.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="simple-box">
+                                                                            <div class="inner box-shadow-hover">
+                                                                                <p><i class="ion-ios-apps">apps</i></p>
+                                                                                <h6>Flexibility and Ownership</h6>
+                                                                                <p>Our ownership-driven approach and flexible services are designed to align with your business goals.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
+
+
                     <section class="wpb_row row-fluid section-padd">
                         <div class="container">
                             <div class="row">
@@ -264,31 +338,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                <% services.forEach(service=> { %>
-                                    <div class="wpb_column column_container col-sm-6 col-md-4">
-                                        <div class="column-inner">
-                                            <div class="wpb_wrapper">
-                                                <div class="service-box icon-box  ionic  hover-box">
-                                                    <i class="ion-md-cube ion-logo-cube"></i>
-                                                    <div class="content-box">
-                                                        <h4>
-                                                            <%= service.name %>
-                                                        </h4>
-                                                        <p>
-                                                            <%= service.description %>
-                                                        </p>
-                                                        <a class="link-box pagelink"
-                                                            href="/services/<%= service.slug %>" target="_self">Read
-                                                            more</a>
-                                                    </div>
+                                <% services.forEach((service, index) => { %>
+
+                                <div class="wpb_column column_container col-sm-6 col-md-6">
+                                    <div class="column-inner">
+                                        <div class="wpb_wrapper">
+                                            <div class="service-box icon-box ionic hover-box">
+
+                                                <% 
+                                                    let icons = [
+                                                        "ion-md-construct",          // 1
+                                                        "ion-md-settings",           // 2
+                                                        "ion-md-analytics",          // 3
+                                                        "ion-md-analytics"           // 4
+                                                    ];
+                                                %>
+
+                                                <i class="<%= icons[index % icons.length] %>"></i>
+
+                                                <div class="content-box">
+                                                    <h4><%= service.name %></h4>
+                                                    <p><%= service.description %></p>
+                                                    <a class="link-box pagelink"
+                                                    href="/services/<%= service.slug %>">
+                                                    Read more
+                                                    </a>
                                                 </div>
 
-                                                <div class="empty_space_30"><span class="empty_space_inner"></span>
-                                                </div>
+                                            </div>
+
+                                            <div class="empty_space_30">
+                                                <span class="empty_space_inner"></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <% }) %>
+                                </div>
+
+                            <% }) %>
                             </div>
                         </div>
                     </section>
@@ -485,16 +571,12 @@
                                                                 <select name="your-service"
                                                                     class="wpcf7-form-control wpcf7-select"
                                                                     aria-invalid="false">
-                                                                    <option value="Audit &amp; Assurance">Audit &amp;
+                                                                    <option value="Strategic Facility Planning &amp; Commissioning">Strategic Facility Planning &amp; Commissioning
                                                                         Assurance</option>
-                                                                    <option value="Financial Consulting">Financial
-                                                                        Consulting</option>
-                                                                    <option value="Trades &amp; Stocks">Trades &amp;
-                                                                        Stocks</option>
-                                                                    <option value="Strategic Planning">Strategic
-                                                                        Planning</option>
-                                                                    <option value="Financial Projections">Financial
-                                                                        Projections</option>
+                                                                    <option value="Operational Excellence & Remediation">Operational Excellence & Remediation</option>
+                                                                    <option value="Pharma Transactional Due Diligence">Pharma Transactional Due Diligence</option>
+                                                                    <option value="Global Regulatory Strategy & Compliance">Global Regulatory Strategy & Compliance</option>
+                                                                    
                                                                 </select>
                                                             </span>
                                                         </div>
@@ -856,6 +938,8 @@
                             </div>
                         </div>
                     </section>
+
+
 
                 </div>
                 <!-- #content -->

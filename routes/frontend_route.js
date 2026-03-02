@@ -26,6 +26,7 @@ route.get('/about', MediaController.getAbout);
 route.get('/blogs', MediaController.getBlog);
 route.get('/career', MediaController.getCareer);
 route.get('/contact', MediaController.getContact);
+route.post('/contact', MediaController.postContact);
 route.get('/how-it-work', MediaController.getWork);
 route.get('/blog/:slug', MediaController.getPostDetails);
 route.get('/category/:slug', MediaController.getCategoryPost);
@@ -33,6 +34,7 @@ route.get('/projects', MediaController.getProject);
 route.get('/project-detail', MediaController.getProjectDetails);
 route.get('/services', MediaController.getService);
 route.get('/services/:slug', MediaController.getServiceDetails);
+route.post('/services/:slug', MediaController.postContactDetails);
 route.get('/teams', MediaController.getTeam);
 route.get('/testimonials', MediaController.getTestimonial);
 route.get('/xyz', (req, res, next) => {

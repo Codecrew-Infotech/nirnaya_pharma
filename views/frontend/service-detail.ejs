@@ -95,16 +95,14 @@
 										<% }); %>
 						        </div>
 						    </section>
-						    <!-- <section id="text-1" class="widget widget_text bg-second text-light">
+						    <section id="text-1" class="widget widget_text bg-second text-light">
 						        <h4 class="widget-title">Do you need support !</h4>
 						        <div class="textwidget">
 						            <ul class="semi-bold">
-						                <li><span class="normal">Phone:</span> <a href="tel:+1253 1245 1245">+1253 1245 1245</a></li>
-						                <li><span class="normal">Office London:</span> Flat 60, Ross Green,
-						                    <br> South Lilyberg, Q7M 8ZV, London,
-						                    <br> England
+						                <li><span class="normal">Phone:</span> <a href="tel:<%= settings.mobile %>"><%= settings.mobile %></a></li>
+						                <li><span class="normal">Office:</span> <%= settings.indian_address %>
 						                </li>
-						                <li><span class="normal">Mail:</span> <a href="mailto:info.londonconsulting.com">info.londonconsulting.com</a></li>
+						                <li><span class="normal">Mail:</span> <a href="mailto:<%= settings.email %>"><%= settings.email %></a></li>
 						            </ul>
 						            <div class="gaps style-parent"></div>
 						            <div class="wpcf7">
@@ -112,17 +110,17 @@
 						                <form action="#" method="post" class="wpcf7-form">
 						                    <p>
 						                    	<span class="wpcf7-form-control-wrap your-email">
-							                    	<input type="email" name="your-email" value="" size="40" class="wpcf7-form-control" required="" placeholder="Email Address">
+							                    	<input type="email" name="email" value="" size="40" class="wpcf7-form-control" required="" placeholder="Email Address">
 							                    </span>
 						                    	<span class="wpcf7-form-control-wrap your-phone">
-						                    		<input type="tel" name="your-phone" value="" size="40" class="wpcf7-form-control" required="true" placeholder="Phone Number">
+						                    		<input type="tel" name="phone" value="" size="40" class="wpcf7-form-control" required="true" placeholder="Phone Number">
 						                    	</span>
 						                        <input type="submit" value="SUBMIT" class="wpcf7-form-control wpcf7-submit btn">
 						                    </p>
 						                </form>
 						            </div>
 						        </div>
-						    </section> -->
+						    </section>
 						</aside>
 
 					</div>

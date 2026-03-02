@@ -3396,7 +3396,7 @@ object {
 .simple-box {
   padding: 0 10px;
   float: left;
-  width: 33.33%;
+  width: 49%;
   text-align: center;
 }
 
@@ -5473,7 +5473,7 @@ div.line-chart .chart-legend li {
 .bg-why-choose {
   padding-top: 300px;
   padding-bottom: 213px;
-  background-image: url(https://via.placeholder.com/750x960/333);
+  background-image: url(/whyus-image.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -5545,7 +5545,7 @@ div.line-chart .chart-legend li {
 .custom-padd-1 {
   padding-top: 300px;
   padding-bottom: 250px;
-  background: url(https://via.placeholder.com/586x550) no-repeat center;
+  background: url(/bg-home1-image.jpg) no-repeat center;
   background-size: cover;
 }
 
@@ -5653,8 +5653,8 @@ div.line-chart .chart-legend li {
 }
 
 .section-title {
-  font-size: 56px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 600;
   margin: 0 0 50px 0;
   line-height: 1.2;
 }

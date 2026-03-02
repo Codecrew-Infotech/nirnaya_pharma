@@ -21,7 +21,7 @@ UserController.createUser = async (req, res) => {
             name,
             username,
             email,
-            password, // Ensure to hash the password before saving in production
+            password, 
             profileImage,
             role_id: role
         });
