@@ -139,14 +139,19 @@
 																			class="wpcf7-form-control-wrap your-fname"><input
 																				type="text" name="firstName" value=""
 																				size="40" class="wpcf7-form-control"
-																				required=""
-																				placeholder="First Name"></span></div>
+																				
+																				placeholder="First Name">
+																			<span class="field-error" id="err-firstName">First name is required.</span>
+																			</span></div>
 																	<div class="col-md-6"><span
 																			class="wpcf7-form-control-wrap your-lname"><input
 																				type="text" name="lastName" value=""
 																				size="40" class="wpcf7-form-control"
-																				required=""
-																				placeholder="Last Name"></span></div>
+																				
+																				placeholder="Last Name"><span class="field-error" id="err-lastName">Last name is required.</span></span>
+																				
+																			
+																			</div>
 																</div>
 																<div class="row">
 																	<div class="col-md-6"><span
@@ -154,14 +159,18 @@
 																				type="text" name="phone" value=""
 																				type="text" name="phone" value=""
 																				size="40" class="wpcf7-form-control"
-																				placeholder="Phone Number"></span></div>
+																				placeholder="Phone Number"><span class="field-error" id="err-phone">Phone number is required.</span></span>
+																			
+																			</div>
 																	<div class="col-md-6"><span
 																			class="wpcf7-form-control-wrap your-email"><input
 																				type="email" name="email" value=""
 																				type="email" name="email" value=""
 																				size="40" class="wpcf7-form-control"
-																				required=""
-																				placeholder="Email Address"></span>
+																				
+																				placeholder="Email Address">
+																			<span class="field-error" id="err-email">Email address is required.</span>
+																			</span>
 																	</div>
 																</div>
 																<div class="row">
@@ -170,20 +179,25 @@
 																				type="text" name="company" value=""
 																				type="text" name="company" value=""
 																				size="40" class="wpcf7-form-control"
-																				placeholder="Your Company"></span></div>
+																				placeholder="Your Company"><span class="field-error" id="err-company">Company is required.</span></span></div>
 																	<div class="col-md-6"><span
 																			class="wpcf7-form-control-wrap your-subject"><input
 																				type="text" name="subject" value=""
 																				type="text" name="subject" value=""
 																				size="40" class="wpcf7-form-control"
-																				placeholder="Subject"></span></div>
+																				placeholder="Subject"><span class="field-error" id="err-subject">Subject is required.</span></span>
+																			
+																			</div>
 																</div>
 																<div class="contact-mess"><span
 																		class="wpcf7-form-control-wrap your-message"><textarea
 																			name="message" cols="40" rows="10"
 																			name="message" cols="40" rows="10"
-																			class="wpcf7-form-control" required=""
-																			placeholder="Messenger"></textarea></span>
+																			class="wpcf7-form-control" 
+																			placeholder="Messenger"></textarea>
+																			<span class="field-error" id="err-message">Message is required.</span>
+																		</span>
+																		
 																</div>
 																<p>
 																	<input type="submit" value="SUBMIT"
@@ -202,7 +216,7 @@
 														<div class="wpb_single_image wpb_content_element align_center">
 															<figure class="wpb_wrapper figure">
 																<div class="single_image-wrapper box_border_grey"><img
-																		src="/contact.jpg"
+																		src="/contact.jpeg"
 																		class="single_image-img attachment-full" alt="">
 																</div>
 															</figure>

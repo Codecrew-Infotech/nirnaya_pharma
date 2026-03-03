@@ -20,21 +20,8 @@ UserController.verifyLogin = async (req, res) => {
             .populate("role_id");
 
         if (!user || !(await user.comparePassword(password))) {
-            return res.status(401).render('auth-login', {
-                title: 'Login',
-                layout: 'partials/layout-auth',
-                error: 'Invalid email or password.'
-            });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(401).render('auth-login', {
-                title: 'Login',
-                layout: 'partials/layout-auth',
-                error: 'Invalid email or password.'
-            });
+            req.flash('error', 'Invalid email or password.');
+            return res.redirect('/admin/login');  // ✅ redirect only
         }
 
         const token = jwt.sign(
@@ -51,15 +38,13 @@ UserController.verifyLogin = async (req, res) => {
             maxAge: 60 * 60 * 1000
         });
 
+        req.flash('success', 'Login successful!');
         return res.redirect('/admin');
 
     } catch (error) {
         console.error("Login Error:", error);
-        return res.status(500).render('auth-login', {
-            title: 'Login',
-            layout: 'partials/layout-auth',
-            error: 'Something went wrong. Please try again.'
-        });
+        req.flash('error', 'Something went wrong. Please try again.');
+        return res.redirect('/admin/login');  // ✅ redirect
     }
 };
 

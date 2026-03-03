@@ -4,11 +4,11 @@
 
 <body class="royal_preloader">
 	<div id="page" class="site">
-        
+      
         <!-- #site-header -->
         <%- include('partials/front_header'); %>
 		<div id="content" class="site-content">
-			<div class="page-header" style="background-image: url('https://wpdemo.archiwp.com/consultax/wp-content/themes/consultax/images/bg-pheader.jpg');">
+			<div class="page-header" style="background: url('<%= service.bannerImage ? `/${service.bannerImage}` : '' %>') no-repeat center center;">
 			    <div class="container">
 			        <div class="breadc-box no-line">
 			            <div class="row">
@@ -110,10 +110,12 @@
 						                <form action="#" method="post" class="wpcf7-form">
 						                    <p>
 						                    	<span class="wpcf7-form-control-wrap your-email">
-							                    	<input type="email" name="email" value="" size="40" class="wpcf7-form-control" required="" placeholder="Email Address">
+							                    	<input type="email" name="email" value="" size="40" class="wpcf7-form-control"  placeholder="Email Address">
+													<span class="field-error" id="err-email">Email is required.</span>
 							                    </span>
 						                    	<span class="wpcf7-form-control-wrap your-phone">
-						                    		<input type="tel" name="phone" value="" size="40" class="wpcf7-form-control" required="true" placeholder="Phone Number">
+						                    		<input type="tel" name="phone" value="" size="40" class="wpcf7-form-control"  placeholder="Phone Number">
+													<span class="field-error" id="err-phone">Phone is required.</span>
 						                    	</span>
 						                        <input type="submit" value="SUBMIT" class="wpcf7-form-control wpcf7-submit btn">
 						                    </p>

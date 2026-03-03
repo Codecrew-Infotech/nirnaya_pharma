@@ -52,6 +52,17 @@
 
   <input type="file" class="<%if(service && service.image){%>hidden-file-input<%}else{%>form-control<%}%>" id="newImage" name="image" accept="image/*">
 </div>
+
+ <!-- Banner Image -->
+        <div class="col-md-6">
+          <label class="form-label  ">Banner Image</label>
+          <% if (service && service.bannerImage) { %> 
+          <label class="image-upload-container" for="newBannerImage">
+            <img src="/<%= service.bannerImage %>" alt="Current Banner Image">
+          </label>
+          <% } %>
+          <input type="file" class="<%if(service && service.bannerImage){%>hidden-file-input<%}else{%>form-control<%}%>" id="newBannerImage" name="bannerImage" accept="image/*">
+            
     </div>
 
     <!-- Content -->

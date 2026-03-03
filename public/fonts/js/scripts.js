@@ -1,19 +1,19 @@
-(function($) {
-  "use strict";
+(function ($) {
+    "use strict";
 
     //Preloader
     Royal_Preloader.config({
-        mode           : 'logo',
-        logo           : '/Original-Logo-2-PhotoRoom.png-PhotoRoom-1-1.png',
-        logo_size      : [187, 40],
-        showProgress   : true,
-        showPercentage : true,
+        mode: 'logo',
+        logo: '/Original-Logo-2-PhotoRoom.png-PhotoRoom-1-1.png',
+        logo_size: [187, 40],
+        showProgress: true,
+        showPercentage: true,
         text_colour: '#0a0f2b',
-        background:  '#fff'
+        background: '#fff'
     });
 
     //Project Filter
-    $(window).on("load", function(){
+    $(window).on("load", function () {
         var $container = $('#projects');
         $container.isotope({
             itemSelector: '.project-item',
@@ -22,7 +22,7 @@
                 columnWidth: 1
             }
         });
-        $('#filters a').on("click", function() {
+        $('#filters a').on("click", function () {
             var $this = $(this);
             if ($this.hasClass('selected')) {
                 return false;
@@ -40,37 +40,37 @@
 
     //Counter
     var v_count = '0';
-    $(window).on("scroll", function(){
-        $('.fun-facts .number').each(function(){
-            var imagePos = $(this).offset().top;           
+    $(window).on("scroll", function () {
+        $('.fun-facts .number').each(function () {
+            var imagePos = $(this).offset().top;
             var topOfWindow = $(window).scrollTop();
-            if (imagePos < topOfWindow+800 && v_count=='0') {       
+            if (imagePos < topOfWindow + 800 && v_count == '0') {
                 $(function ($) {
                     // start all the timers
-                    $('.fun-facts .number').each(count);                                         
+                    $('.fun-facts .number').each(count);
                     function count(options) {
                         v_count = '1';
                         var $this = $(this);
                         options = $.extend({}, options || {}, $this.data('countToOptions') || {});
                         $this.countTo(options);
                     }
-                });             
+                });
             }
         });
     });
-    
+
 
     //Images Carousel
-    $('.image-carousel').each( function () {
+    $('.image-carousel').each(function () {
         var $s1, $s2, $s3;
-        var $show   = $s1 = $s2 = $(this).data('show');
-        var $arr    = $(this).data('arrow');
-        var $dots   = !$arr;
-        if($(this).hasClass('partner-slider')){
-            $dots    = false;
+        var $show = $s1 = $s2 = $(this).data('show');
+        var $arr = $(this).data('arrow');
+        var $dots = !$arr;
+        if ($(this).hasClass('partner-slider')) {
+            $dots = false;
         }
-        if( 4 > $show > 2 ) { $s1 = $s2 = $show - 1; }
-        if( $show > 3 ) { $s1 = $show - 1; $s2 = $show - 2; $s3 = $show - 3; }
+        if (4 > $show > 2) { $s1 = $s2 = $show - 1; }
+        if ($show > 3) { $s1 = $show - 1; $s2 = $show - 2; $s3 = $show - 3; }
 
         $(this).slick({
             infinite: true,
@@ -81,6 +81,7 @@
             nextArrow: '<button type="button" class="next-nav"><i class="fa fa-angle-right"></i></button>',
             autoplay: true,
             autoplaySpeed: 7000,
+            adaptiveHeight: true,
             responsive: [
                 {
                     breakpoint: 1199,
@@ -134,12 +135,12 @@
     });
 
     //Latest News
-    $('.news-slider').each( function () {
+    $('.news-slider').each(function () {
         var $show = $(this).data('show');
-        var $dot  = $(this).data('dot');
+        var $dot = $(this).data('dot');
         var $auto = $(this).data('auto');
         var $m_show = $show;
-        if( $show >= 3 ) $m_show = $show - 1;
+        if ($show >= 3) $m_show = $show - 1;
         $(this).slick({
             infinite: false,
             slidesToShow: $show,
@@ -150,6 +151,7 @@
             autoplaySpeed: 6000,
             prevArrow: '<button type="button" class="prev-nav"><i class="fa fa-angle-left"></i></button>',
             nextArrow: '<button type="button" class="next-nav"><i class="fa fa-angle-right"></i></button>',
+            adaptiveHeight: false,
             responsive: [
                 {
                     breakpoint: 991,
@@ -183,9 +185,9 @@
     });
 
     //Project Slider 2
-    $('.project-list-2').each( function () {
+    $('.project-list-2').each(function () {
         var $show = $(this).data('show');
-        var $dot  = $(this).data('dot');
+        var $dot = $(this).data('dot');
         var $auto = $(this).data('auto');
         $(this).find('.project-slider-2').slick({
             centerMode: true,
@@ -242,24 +244,24 @@
                 }
             ]
         });
- 
-        $('.btn-left').on("click", function(){
-          $(this).parents('.project-list-2').find('.project-slider-2').slick('slickPrev');
+
+        $('.btn-left').on("click", function () {
+            $(this).parents('.project-list-2').find('.project-slider-2').slick('slickPrev');
         });
 
-        $('.btn-right').on("click", function(){
-          $(this).parents('.project-list-2').find('.project-slider-2').slick('slickNext');
+        $('.btn-right').on("click", function () {
+            $(this).parents('.project-list-2').find('.project-slider-2').slick('slickNext');
         });
 
     });
 
     //Testimonial Slider
-    $('.testi-slider').each( function () {
-        var $show   = $(this).data('show');
-        var $arr    = $(this).data('arrow');
-        var $dots   = !$arr;
+    $('.testi-slider').each(function () {
+        var $show = $(this).data('show');
+        var $arr = $(this).data('arrow');
+        var $dots = !$arr;
         var $m_show = $show;
-        if( $show == 3 ) $m_show = $show - 1;
+        if ($show == 3) $m_show = $show - 1;
         $(this).slick({
             slidesToShow: $show,
             slidesToScroll: 1,
@@ -300,10 +302,10 @@
                 }
             ]
         });
-    });    
+    });
 
     //Testimonial Slider Style 3
-    $('.testi-with-nav').each( function () {
+    $('.testi-with-nav').each(function () {
         $(this).find('.testi-slider-2').slick({
             swipe: false,
             slidesToShow: 1,
@@ -323,11 +325,11 @@
     });
 
     //Team Slider
-    $('.team-slider').each( function () {
-        var $show   = $(this).data('show');
-        var $arr    = $(this).data('arrow');
+    $('.team-slider').each(function () {
+        var $show = $(this).data('show');
+        var $arr = $(this).data('arrow');
         var $m_show = $show;
-        if( $show == 4 ) $m_show = $show - 1;
+        if ($show == 4) $m_show = $show - 1;
         $(this).slick({
             infinite: false,
             slidesToShow: $show,
@@ -373,10 +375,10 @@
     });
 
     //Project Slider
-    $('.project-slider').each( function () {
+    $('.project-slider').each(function () {
         var $show = $(this).data('show');
-        var $arr  = $(this).data('arrow');
-        var $dot  = $(this).data('dot');
+        var $arr = $(this).data('arrow');
+        var $dot = $(this).data('dot');
         var $auto = $(this).data('auto');
         $(this).slick({
             infinite: false,
@@ -421,11 +423,11 @@
     });
 
 
-    
+
 
 
     //Project Slider 3
-    $('.project-with-nav').each( function () {
+    $('.project-with-nav').each(function () {
         $(this).find('.project-images').slick({
             infinite: false,
             swipe: true,
@@ -474,14 +476,14 @@
 
     //Popup Video
     var $video_play = $('.video-btn a');
-    if ($video_play.length > 0 ) {
+    if ($video_play.length > 0) {
         $video_play.magnificPopup({
             type: 'iframe',
             removalDelay: 160,
             preloader: true,
             fixedContentPos: false,
             callbacks: {
-            beforeOpen: function() {
+                beforeOpen: function () {
                     this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
                     this.st.mainClass = this.st.el.attr('data-effect');
                 }
@@ -489,5 +491,5 @@
         });
     }
 
-    
-} )( jQuery );
+
+})(jQuery);

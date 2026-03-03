@@ -17,6 +17,8 @@ AboutUsController.getAboutUsPage = async (req, res) => {
     }
 };
 
+
+
 // Add AboutUs form page
 AboutUsController.addAboutUs = async (req, res) => {
     res.render('add-aboutus', { title: 'Add About Us', layout: 'partials/layout-vertical' });

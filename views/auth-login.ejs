@@ -19,11 +19,17 @@
                                         </div>
                                     </div>
                                     <div class="card-body pt-0">
-                                        <% if (typeof error !=='undefined' && error) { %>
-                                            <div class="alert alert-danger text-center py-2">
-                                                <%= error %>
+                                     <% if (errorMsg.length > 0) { %>
+                                            <div class="alert alert-danger text-center py-2" style="margin-top: 20px;">
+                                                <%= errorMsg[0] %>
                                             </div>
-                                            <% } %>
+                                        <% } %>
+
+                                        <% if (successMsg.length > 0) { %>
+                                            <div class="alert alert-success text-center py-2" style="margin-top: 20px;">
+                                                <%= successMsg[0] %>
+                                            </div>
+                                        <% } %>
 
                                                 <form class="my-4 form" method="POST">
                                                     <div class="form-group mb-2">

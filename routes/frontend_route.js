@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const MediaController = require('../controller/FrontendCoutroller');
+const FrontendCoutroller = require('../controller/FrontendCoutroller');
 const HeaderModel = require('../api/model/Header');
 const FooterModel = require('../api/model/Footer');
 const Settings = require('../api/model/Settings');
@@ -29,22 +29,25 @@ route.use(async (req, res, next) => {
 });
 
 
-route.get('/', MediaController.getHome);
-route.get('/about', MediaController.getAbout);
-route.get('/blogs', MediaController.getBlog);
-route.get('/career', MediaController.getCareer);
-route.get('/contact', MediaController.getContact);
-route.post('/contact', MediaController.postContact);
-route.get('/how-it-work', MediaController.getWork);
-route.get('/blog/:slug', MediaController.getPostDetails);
-route.get('/category/:slug', MediaController.getCategoryPost);
-route.get('/projects', MediaController.getProject);
-route.get('/project-detail', MediaController.getProjectDetails);
-route.get('/services', MediaController.getService);
-route.get('/services/:slug', MediaController.getServiceDetails);
-route.post('/services/:slug', MediaController.postContactDetails);
-route.get('/teams', MediaController.getTeam);
-route.get('/testimonials', MediaController.getTestimonial);
+route.get('/', FrontendCoutroller.getHome);
+route.get('/about', FrontendCoutroller.getAbout);
+route.post('/about', FrontendCoutroller.postFormData);
+route.post('/callback', FrontendCoutroller.postCallback);
+route.get('/blogs', FrontendCoutroller.getBlog);
+route.get('/career', FrontendCoutroller.getCareer);
+route.get('/contact', FrontendCoutroller.getContact);
+route.post('/contact', FrontendCoutroller.postContact);
+route.post('/createContact', FrontendCoutroller.createContact);
+route.get('/how-it-work', FrontendCoutroller.getWork);
+route.get('/blog/:slug', FrontendCoutroller.getPostDetails);
+route.get('/category/:slug', FrontendCoutroller.getCategoryPost);
+route.get('/projects', FrontendCoutroller.getProject);
+route.get('/project-detail', FrontendCoutroller.getProjectDetails);
+route.get('/services', FrontendCoutroller.getService);
+route.get('/services/:slug', FrontendCoutroller.getServiceDetails);
+route.post('/services/:slug', FrontendCoutroller.postContactDetails);
+route.get('/teams', FrontendCoutroller.getTeam);
+route.get('/testimonials', FrontendCoutroller.getTestimonial);
 route.get('/xyz', (req, res, next) => {
     res.render('frontend/404', { title: 'Page not found', layout: false });
 })

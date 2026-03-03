@@ -18,10 +18,18 @@ ServiceController.createService = async (req, res) => {
     try {
         const { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
         const imageFile = req.files?.image || null;
+        const bannerImageFile = req.files?.bannerImage || null;
+
+        let imageName = null;
+        let bannerImageName = null;
         
         if (imageFile) {
             const uploadPath = `uploads/${imageFile.name}`;
             await imageFile.mv(uploadPath);
+        }
+        if (bannerImageFile) {
+            const uploadPath = `uploads/${bannerImageFile.name}`;
+            await bannerImageFile.mv(uploadPath);
         }
         
         const newService = await axios.post(`${process.env.API_URL}/api/services/add`, {
@@ -31,6 +39,7 @@ ServiceController.createService = async (req, res) => {
             description,
             visible,
             image: imageFile ? imageFile.name : null,
+            bannerImage: bannerImageFile ? bannerImageFile.name : null,
             metaTitle,
             metaDescription,
             metaKeywords,
@@ -73,10 +82,18 @@ ServiceController.updateServices = async (req, res) => {
             publishDate 
         } = req.body;
         const imageFile = req.files?.image || null;
+        const bannerImageFile = req.files?.bannerImage || null;
+
+        let imageName = null;
+        let bannerImageName = null;
         
         if (imageFile) {
             const uploadPath = `uploads/${imageFile.name}`;
             await imageFile.mv(uploadPath);
+        }
+        if (bannerImageFile) {
+            const uploadPath = `uploads/${bannerImageFile.name}`;
+            await bannerImageFile.mv(uploadPath);
         }
         
         const newService = await axios.put(`${process.env.API_URL}/api/services/${req.params.id}`, {
@@ -86,6 +103,7 @@ ServiceController.updateServices = async (req, res) => {
             description,
             visible,
             image: imageFile ? imageFile.name : null,
+            bannerImage: bannerImageFile ? bannerImageFile.name : null,
             metaTitle,
             metaDescription,
             metaKeywords,

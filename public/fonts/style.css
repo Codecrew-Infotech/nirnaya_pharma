@@ -407,7 +407,7 @@ h4,
 h5,
 h6 {
   font-family: "Montserrat", sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
   margin: 0 0 20px;
   color: #000;
@@ -2446,6 +2446,13 @@ ul.info-list.info_on_right_side li:last-child {
   margin-bottom: 10px;
 }
 
+.news-item .inner-post {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .content-area .inner-post .entry-meta>span:before {
   content: "|";
   margin: 0 7px;
@@ -2476,6 +2483,7 @@ ul.info-list.info_on_right_side li:last-child {
   display: inline-block;
   line-height: 1.1;
 }
+
 
 .content-area .inner-post .post-link:hover {
   color: #00387a;
@@ -2894,7 +2902,7 @@ ul.info-list.info_on_right_side li:last-child {
 .mail-info::before {
   content: none !important;
   display: none !important;
-  
+
 }
 
 .mail-info {
@@ -3400,9 +3408,37 @@ object {
   margin-bottom: 30px;
 }
 
+.service-box:not(.box-shadow-2) .content-box h4 {
+   min-height: 50px !important;
+}
+.service-box:not(.box-shadow-2) .content-box p {
+   min-height: 80px;
+}
+
+.slick-slide {
+  height: auto !important;
+}
+
+.slick-track {
+  display: flex !important;
+}
+
+.slick-slide>div {
+  display: flex;
+  height: 100%;
+}
+
+.inner-item,
+.inner-post,
+.news-item {
+  height: 100%;
+}
+
 .three-boxes {
   margin: 40px -10px 0;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .simple-box {
@@ -3410,11 +3446,14 @@ object {
   float: left;
   width: 49%;
   text-align: center;
+  padding: 10px;
+  width: 100%;
 }
 
 .simple-box .inner {
   padding: 25px 10px;
   border: 1px solid #dbdbdb;
+  aspect-ratio: 1 / 1;
 }
 
 .simple-box p {
@@ -4493,6 +4532,9 @@ a .service-box {
   -ms-transition: all 0.3s linear;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .news-slider .news-item .inner-item:hover {
@@ -4519,6 +4561,7 @@ a .service-box {
 .news-slider .news-item .post-link {
   color: #737373;
   border-color: #c1c1c1;
+  width: max-content;
 }
 
 .news-slider .news-item .post-link:visited {
@@ -4774,7 +4817,7 @@ div.line-chart .chart-legend li {
   padding-right: 30px;
   padding-bottom: 30px;
   padding-left: 30px;
-  background-image: url(https://via.placeholder.com/500x334);
+  background-image: url(/bg-contact.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -5698,8 +5741,8 @@ div.line-chart .chart-legend li {
 }
 
 .quick-enquiry-btn {
-  background: linear-gradient(135deg, #f5c542, #e6b935);
-  color: #003a7a;
+  background: #f26522;
+  color: #ffffff;
   border: none;
   padding: 12px 22px;
   font-size: 14px;
@@ -5707,12 +5750,45 @@ div.line-chart .chart-legend li {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(245, 197, 66, 0.35);
+  /* box-shadow: 0 6px 16px rgba(245, 197, 66, 0.35); */
+}
+
+/* ==============================
+   Simple WPCF7 Validation Style
+   ============================== */
+
+/* Invalid input */
+.wpcf7-form-control.is-invalid {
+  border: 1px solid #dc3545 !important;
+}
+
+/* Error message */
+.field-error {
+  display: none;
+  font-size: 13px;
+  color: #dc3545;
+  margin-top: 4px;
+}
+
+/* Show error */
+.field-error.visible {
+  display: block;
+}
+
+/* Top error banner */
+.wpcf7-validation-banner {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 4px;
 }
 
 /* Hover */
 .quick-enquiry-btn:hover {
-  background: linear-gradient(135deg, #e6b935, #d4a82a);
+  /* background: linear-gradient(135deg, #e6b935, #d4a82a); */
   transform: translateY(-2px);
 }
 

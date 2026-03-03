@@ -58,6 +58,97 @@ FrontendCoutroller.getAbout = async (req, res) => {
     }
 };
 
+
+FrontendCoutroller.postFormData = async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+
+        // 1️⃣ Save in DB first
+         await Contact.create({
+            firstName: name,
+            subject: "Service Inquiry",
+            email,
+            message: `Inquiry for service: ${message}`
+        });
+
+        // 2️⃣ Try sending mail (do not break flow if fails)
+        try {
+
+            const html = await ejs.renderFile(
+                path.join(__dirname, '../views/emails/service-inquiry.ejs'),
+                {
+                    companyName: "Nirnaya Pharma",
+                    serviceName: name,
+                    email,
+                    phone: "",
+                    adminUrl: "https://yourdomain.com/admin/contacts"
+                }
+            );
+
+            await sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: `New Service Inquiry - ${name}`,
+                html
+            });
+            console.log("mail send in searvice inquiry");
+        } catch (mailError) {
+            console.error("Service mail failed:", mailError);
+        }
+
+        // 3️⃣ Flash success message
+        req.flash('success', 'Your service inquiry has been submitted successfully.');
+        res.redirect('/about?success=true');
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+FrontendCoutroller.postCallback = async (req, res) => {
+    try {
+        const { name, service, email, phone } = req.body;
+
+        // 1️⃣ Save in DB first
+         await Contact.create({
+            firstName: name,
+            subject: service,
+            email,
+            phone,
+            message: `Inquiry for service: ${service}, Phone: ${phone}`
+        });
+
+        // 2️⃣ Try sending mail (do not break flow if fails)
+        try {
+
+            const html = await ejs.renderFile(
+                path.join(__dirname, '../views/emails/service-inquiry.ejs'),
+                {
+                    companyName: "Nirnaya Pharma",
+                    serviceName: name,
+                    email,
+                    phone: phone || "N/A",
+                    adminUrl: "https://yourdomain.com/admin/contacts"
+                }
+            );
+
+            await sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: `New Service Inquiry - ${name}`,
+                html
+            });
+            console.log("mail send in searvice inquiry");
+        } catch (mailError) {
+            console.error("Service mail failed:", mailError);
+        }
+
+        // 3️⃣ Flash success message
+        req.flash('success', 'Your service inquiry has been submitted successfully.');
+        res.redirect('/?success=true');
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 function formatDate(date) {
     if (!date) return "";
     return new Date(date).toLocaleDateString("en-US", {
@@ -199,6 +290,54 @@ FrontendCoutroller.postContact = async (req, res) => {
         console.error('Error submitting contact form:', error);
         req.flash('error', 'Something went wrong. Please try again.');
         res.redirect('/contact');
+    }
+};
+FrontendCoutroller.createContact = async (req, res) => {
+    try {
+        const { firstName, lastName, phone, email, company, subject, message } = req.body;
+
+        const newContact = await Contact.create({
+            firstName,
+            lastName,
+            phone,
+            email,
+            company,
+            subject,
+            message
+        });
+
+        try {
+            const html = await ejs.renderFile(
+                path.join(__dirname, '../views/emails/contact-notification.ejs'),
+                {
+                    companyName: "Nirnaya Pharma",
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    company,
+                    subject,
+                    message,
+                    adminUrl: "https://yourdomain.com/admin/contacts"
+                }
+            );
+
+            await sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: `New Contact Inquiry - ${subject}`,
+                html
+            });
+            console.log("mail send");
+        } catch (mailError) {
+            console.error("Mail sending failed:", mailError);
+        }
+
+        // 3️⃣ Always redirect success
+        res.status(200).json({ success: true, message: 'Contact inquiry submitted successfully' });
+
+    } catch (error) {
+        console.error('Error submitting contact form:', error);
+        res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
     }
 };
 

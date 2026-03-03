@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.querySelector('.btn-loading').style.display = 'inline';
         
         try {
-            const response = await fetch('http://localhost:4000/api/createContact', {
+            const response = await fetch('/createContact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -567,4 +567,106 @@ document.addEventListener('DOMContentLoaded', function() {
         messageBox.style.display = 'none';
     }
 });
+</script>
+
+
+<script>
+
+
+/**
+ * Universal WPCF7 Form Validation
+ * Works on ALL forms with class="wpcf7" on the page.
+ * Requirements:
+ *   - Each input/textarea must have a name attribute
+ *   - Each field must have a corresponding <span> with id="err-{fieldName}" placed below it
+ *   - Email fields must use type="email"
+ */
+
+(function () {
+  function showError(field, errSpan) {
+    field.classList.add('is-invalid');
+    if (errSpan) errSpan.classList.add('visible');
+  }
+
+  function clearError(field, errSpan) {
+    field.classList.remove('is-invalid');
+    if (errSpan) errSpan.classList.remove('visible');
+  }
+
+  function validate(field) {
+    const v = field.value;
+    if (field.type === 'email') {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+    return v.trim() !== '';
+  }
+
+  function initForm(wpcf7Wrapper) {
+    const form = wpcf7Wrapper.querySelector('form');
+    if (!form) return;
+
+    // Find or create a top-level alert banner inside this wrapper
+    let banner = wpcf7Wrapper.querySelector('.wpcf7-validation-banner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.className = 'alert alert-danger wpcf7-validation-banner';
+      banner.style.display = 'none';
+      form.parentNode.insertBefore(banner, form);
+    }
+
+    const fields = Array.from(form.querySelectorAll('input[name], textarea[name], select[name]'))
+      .filter(f => f.type !== 'submit' && f.type !== 'hidden' && f.type !== 'button');
+
+    fields.forEach(field => {
+      const errSpan = wpcf7Wrapper.querySelector('#err-' + field.name);
+
+      field.addEventListener('input', () => clearError(field, errSpan));
+      field.addEventListener('change', () => clearError(field, errSpan));
+
+      field.addEventListener('blur', () => {
+        if (!validate(field)) showError(field, errSpan);
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      let isValid = true;
+      let firstInvalid = null;
+
+      fields.forEach(field => {
+        const errSpan = wpcf7Wrapper.querySelector('#err-' + field.name);
+        if (!validate(field)) {
+          showError(field, errSpan);
+          if (!firstInvalid) firstInvalid = field;
+          isValid = false;
+        } else {
+          clearError(field, errSpan);
+        }
+      });
+
+      if (!isValid) {
+        banner.textContent = 'Please fill in all required fields before submitting.';
+        banner.style.display = 'block';
+
+        if (firstInvalid) {
+          firstInvalid.classList.add('wpcf7-shake');
+          firstInvalid.focus();
+          firstInvalid.addEventListener('animationend', () => {
+            firstInvalid.classList.remove('wpcf7-shake');
+          }, { once: true });
+        }
+        return;
+      }
+
+      banner.style.display = 'none';
+      form.submit(); // real submission — remove or replace as needed
+    });
+  }
+
+  // Init all .wpcf7 wrappers on the page
+  document.querySelectorAll('.wpcf7').forEach(initForm);
+})();
+
+   
 </script>

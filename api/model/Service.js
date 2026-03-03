@@ -21,6 +21,10 @@ const serviceSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    bannerImage: {
+        type: String,
+        required: false
+    },
     visible: {
         type: Boolean,
         default: true

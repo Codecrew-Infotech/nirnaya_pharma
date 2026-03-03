@@ -17,6 +17,7 @@ ServiceController.createService = async (req, res) => {
     try {
         // Handle file upload (if using multipart/form-data)
         let imageName = req.body.image || null;
+        let bannerImageName = req.body.bannerImage || null;
 
         const { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
 
@@ -32,6 +33,7 @@ ServiceController.createService = async (req, res) => {
             content,
             visible,
             image: imageName,
+            bannerImage: bannerImageName || null,
             metaTitle,
             metaDescription,
             metaKeywords: keywords,
@@ -66,6 +68,7 @@ ServiceController.updateService = async (req, res) => {
         const serviceId = req.params.id;
         // Handle file upload if present
         let imageName = req.body.image || null;
+        let bannerImageName = req.body.bannerImage || null;
 
         const { name, slug, description, content, visible, metaTitle, metaDescription, metaKeywords, canonicalUrl, publishDate } = req.body;
 
@@ -75,6 +78,7 @@ ServiceController.updateService = async (req, res) => {
 
         let updatedData = { name, slug, content, description, visible, metaTitle, metaDescription, metaKeywords: keywords, canonicalUrl };
         if (imageName) updatedData.image = imageName;
+        if (bannerImageName) updatedData.bannerImage = bannerImageName;
         if (publishDate) updatedData.publishDate = new Date(publishDate);
 
         const updatedService = await Service.findByIdAndUpdate(serviceId, updatedData, { new: true });
