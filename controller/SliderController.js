@@ -1,5 +1,7 @@
 const axios = require('axios');
 const SliderController = {};
+const path = require('path');
+const fs = require('fs');
 
 // Get all sliders
 SliderController.getSliders = async (req, res) => {
@@ -39,27 +41,57 @@ SliderController.getSliderById = async (req, res) => {
 SliderController.createSlider = async (req, res) => {
     try {
         const imageFile = req.files?.image || null;
+        let finalImageName = null;
 
         if (imageFile) {
-            const uploadPath = `uploads/${imageFile.name}`;
+
+            // 1️⃣ Extension
+            const ext = path.extname(imageFile.name);
+
+            // 2️⃣ Unique name
+            const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
+
+            // 3️⃣ Folder (separate slider folder)
+            const uploadDir = path.join(__dirname, '../uploads');
+
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+
+            const uploadPath = path.join(uploadDir, uniqueName);
+
+            // 4️⃣ Move file
             await imageFile.mv(uploadPath);
+
+            finalImageName = uniqueName;
         }
 
-        const { image, title, desc, link, titleCategory, info, sliderBtn, order } = req.body;
-        let isActive = req.body.isActive || false;
-        isActive = isActive === 'on' ? true : false;
+        const { title, desc, link, titleCategory, info, sliderBtn, order } = req.body;
+
+        let isActive = req.body.isActive === 'on';
 
         await axios.post(`${process.env.API_URL}/api/createSlider`, {
-            image: imageFile ? imageFile.name : null, title, desc, link, titleCategory, info, sliderBtn, order, isActive
+            image: finalImageName,
+            title,
+            desc,
+            link,
+            titleCategory,
+            info,
+            sliderBtn,
+            order,
+            isActive
         });
-        
-        res.redirect('/admin/sliders');
-    } catch (error) {
-        console.error('Error creating slider cc:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
 
+        res.redirect('/admin/sliders');
+
+    } catch (error) {
+        console.error('Error creating slider:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
     }
-}
+};
 // Edit a slider
 SliderController.editSlider = async (req, res) => {
     try {

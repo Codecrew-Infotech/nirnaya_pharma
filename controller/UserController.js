@@ -1,5 +1,8 @@
 const axios = require('axios');
 const contact = require('../api/model/contact');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../api/model/User');
 const UserController = {};
 
 
@@ -12,48 +15,74 @@ UserController.verifyLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const response = await axios.post(`${process.env.API_URL}/api/login`, { email, password });
+        const user = await User.findOne({ email })
+            .select('+password')
+            .populate("role_id");
 
-        if (response.data && response.data.token) {
-            req.session.token = response.data.token;
-
-            res.cookie('token', response.data.token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 60 * 60 * 1000 // 1 hour
-            });
-
-            return res.redirect('/admin');
-        } else {
+        if (!user || !(await user.comparePassword(password))) {
             return res.status(401).render('auth-login', {
                 title: 'Login',
                 layout: 'partials/layout-auth',
-                error: 'Invalid email or password. Please try again.'
+                error: 'Invalid email or password.'
             });
         }
-    } catch (error) {
-        console.error('Login error from API:', error.response?.data || error.message);
 
-        let errorMsg = 'User not found. Please try again later.';
-        if (error.response?.status === 401) {
-            errorMsg = 'Invalid email or password.';
-        } else if (error.code === 'ECONNREFUSED') {
-            errorMsg = 'Unable to connect to authentication server.';
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).render('auth-login', {
+                title: 'Login',
+                layout: 'partials/layout-auth',
+                error: 'Invalid email or password.'
+            });
         }
 
+        const token = jwt.sign(
+            { id: user._id, role: user.role_id?.name },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        req.session.token = token;
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 60 * 60 * 1000
+        });
+
+        return res.redirect('/admin');
+
+    } catch (error) {
+        console.error("Login Error:", error);
         return res.status(500).render('auth-login', {
             title: 'Login',
             layout: 'partials/layout-auth',
-            error: errorMsg
+            error: 'Something went wrong. Please try again.'
         });
     }
 };
 
-
 UserController.logout = (req, res) => {
-    req.session.destroy();
-    res.clearCookie('token');
-    res.redirect('/login');
+    try {
+        // Destroy session
+        req.session.destroy((err) => {
+            if (err) {
+                console.log("Session destroy error:", err);
+            }
+        });
+
+        // Clear cookie
+        res.clearCookie('token');
+
+        // Remove axios default auth header
+        delete axios.defaults.headers.common['authorization'];
+
+        return res.redirect('/admin/login');
+    } catch (error) {
+        console.log("Logout error:", error);
+        return res.redirect('/admin/login');
+    }
 };
 
 

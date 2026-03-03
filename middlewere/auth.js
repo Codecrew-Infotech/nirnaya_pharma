@@ -7,8 +7,9 @@ const Permission = require('../api/model/Permission');
 dotenv.config({ path: "./config.env" });
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
     let token;
+
     if (req.headers["authorization"]) {
         token = req.headers["authorization"].split(" ")[1];
     }
@@ -25,36 +26,54 @@ function requireAuth(req, res, next) {
     }
 
     if (!token) {
-      console.log(token, "No token found in request");
+        console.log(token, "No token found in request");
         return res.redirect('/admin/login');
     }
+
     jwt.verify(token, JWT_SECRET, async (err, decoded) => {
         if (err) {
             console.log(err, "Token verification failed");
             return res.redirect('/admin/login');
         }
+
         req.user = decoded;
         axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
 
-        // Fetch permissions
         try {
             const user = await User.findById(decoded.id).populate("role_id");
-            if (user && user.role_id) {
-                const rolePerm = await RolePermission.findOne({ role_id: user.role_id._id });
-                if (rolePerm) {
-                    const permissions = await Permission.find({
-                        _id: { $in: rolePerm.permission_id },
-                    });
-                    req.permissions = permissions.map((p) => p.name);
-                    res.locals.permissions = req.permissions;
-                } else {
-                    req.permissions = [];
-                    res.locals.permissions = [];
-                }
+            if (!user || !user.role_id) {
+                req.permissions = [];
+                res.locals.permissions = [];
+                return next();
+            }
+
+            const roleName = user.role_id.name;
+
+            // ✅ If Admin or Super Admin → Give All Permissions
+            if (roleName === "admin" || roleName === "super_admin") {
+
+                const allPermissions = await Permission.find({});
+                req.permissions = allPermissions.map(p => p.name);
+                res.locals.permissions = req.permissions;
+
+                return next();
+            }
+
+            // 🔹 Normal Role Permission Logic
+            const rolePerm = await RolePermission.findOne({ role_id: user.role_id._id });
+
+            if (rolePerm) {
+                const permissions = await Permission.find({
+                    _id: { $in: rolePerm.permission_id },
+                });
+
+                req.permissions = permissions.map(p => p.name);
+                res.locals.permissions = req.permissions;
             } else {
                 req.permissions = [];
                 res.locals.permissions = [];
             }
+
         } catch (permErr) {
             console.error("Error fetching permissions:", permErr);
             req.permissions = [];
@@ -127,7 +146,7 @@ function redirectIfAuthenticated(req, res, next) {
 }
 
 module.exports = {
-    requireAuth,        
-    requireAuthAPI,       
-    redirectIfAuthenticated  
+    requireAuth,
+    requireAuthAPI,
+    redirectIfAuthenticated
 };

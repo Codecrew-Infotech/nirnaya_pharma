@@ -4,15 +4,17 @@ const Service = require('../api/model/Service');
 const category = require('../api/model/Category');
 const Settings = require('../api/model/Settings');
 const AboutUs = require('../api/model/AboutUs');
-const contact = require('../api/model/contact');
+const Contact = require('../api/model/contact');
+const sendMail = require('../utils/sendMail');
+const ejs = require('ejs');
+const path = require('path');
 
 const FrontendCoutroller = {};
 
 FrontendCoutroller.getHome = async (req, res) => {
     try {
         const sliders = await Slider.find().sort({ order: 1 });
-        console.log(sliders, "sliders");
-        console.log(sliders, "sliders");
+
 
         let blogs = await Blog.find({ isPublished: true }).select('title slug content featuredImage createdAt').populate('categories', 'name slug');
         blogs = blogs.map(b => {
@@ -23,7 +25,6 @@ FrontendCoutroller.getHome = async (req, res) => {
             };
         });
         const services = await Service.find();
-        console.log(blogs, "blogs");
         res.render('frontend/index', {
             title: 'Home',
             layout: false,
@@ -132,7 +133,6 @@ FrontendCoutroller.getCareer = async (req, res) => {
 FrontendCoutroller.getContact = async (req, res) => {
     try {
         const settingsData = await Settings.find()
-        console.log(settingsData);
         const settingsMap = {};
         settingsData.forEach(item => {
             settingsMap[item.key] = item.value;
@@ -154,8 +154,8 @@ FrontendCoutroller.getContact = async (req, res) => {
 FrontendCoutroller.postContact = async (req, res) => {
     try {
         const { firstName, lastName, phone, email, company, subject, message } = req.body;
-        const Contact = require('../api/model/contact');
-        const newContact = new Contact({
+
+        const newContact = await Contact.create({
             firstName,
             lastName,
             phone,
@@ -164,11 +164,41 @@ FrontendCoutroller.postContact = async (req, res) => {
             subject,
             message
         });
-        await newContact.save();
+
+        try {
+            const html = await ejs.renderFile(
+                path.join(__dirname, '../views/emails/contact-notification.ejs'),
+                {
+                    companyName: "Nirnaya Pharma",
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    company,
+                    subject,
+                    message,
+                    adminUrl: "https://yourdomain.com/admin/contacts"
+                }
+            );
+
+            await sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: `New Contact Inquiry - ${subject}`,
+                html
+            });
+            console.log("mail send");
+        } catch (mailError) {
+            console.error("Mail sending failed:", mailError);
+        }
+
+        // 3️⃣ Always redirect success
+        req.flash('success', 'Thank you! Your message has been sent successfully.');
         res.redirect('/contact?success=true');
+
     } catch (error) {
         console.error('Error submitting contact form:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        req.flash('error', 'Something went wrong. Please try again.');
+        res.redirect('/contact');
     }
 };
 
@@ -330,7 +360,6 @@ FrontendCoutroller.getServiceDetails = async (req, res) => {
     try {
         const slug = req.params.slug;
         const settingsData = await Settings.find()
-        console.log(settingsData);
         const settingsMap = {};
         settingsData.forEach(item => {
             settingsMap[item.key] = item.value;
@@ -356,22 +385,60 @@ FrontendCoutroller.getServiceDetails = async (req, res) => {
 FrontendCoutroller.postContactDetails = async (req, res) => {
     try {
         const slug = req.params.slug;
+
         const service = await Service.findOne({ slug: slug, visible: true });
-        if (!service) return res.render('frontend/404', { title: 'Page not found', layout: false });
-        const {  phone, email  } = req.body;
-        const Contact = require('../api/model/contact');
-        const newContact = new Contact({
-            firstName: service.name,
+        if (!service) {
+            return res.render('frontend/404', { title: 'Page not found', layout: false });
+        }
+
+        const { phone, email } = req.body;
+
+        // 1️⃣ Save in DB first
+        const newContact = await Contact.create({
+            firstName: service.name,   // storing service name
             lastName: "",
-            phone, email, company: "", subject: "", message: ""
+            phone,
+            email,
+            company: "",
+            subject: "Service Inquiry",
+            message: `Inquiry for service: ${service.name}`
         });
-        await newContact.save();
+
+        // 2️⃣ Try sending mail (do not break flow if fails)
+        try {
+
+            const html = await ejs.renderFile(
+                path.join(__dirname, '../views/emails/service-inquiry.ejs'),
+                {
+                    companyName: "Nirnaya Pharma",
+                    serviceName: service.name,
+                    email,
+                    phone,
+                    adminUrl: "https://yourdomain.com/admin/contacts"
+                }
+            );
+
+            await sendMail({
+                to: process.env.ADMIN_EMAIL,
+                subject: `New Service Inquiry - ${service.name}`,
+                html
+            });
+            console.log("mail send in searvice inquiry");
+        } catch (mailError) {
+            console.error("Service mail failed:", mailError);
+        }
+
+        // 3️⃣ Flash success message
+        req.flash('success', 'Your service inquiry has been submitted successfully.');
         res.redirect('/services/' + slug + '?success=true');
+
     } catch (error) {
         console.error('Error saving contact:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        req.flash('error', 'Something went wrong. Please try again.');
+        res.redirect('/services/' + req.params.slug);
     }
 };
+
 FrontendCoutroller.getTeam = async (req, res) => {
     try {
         res.render('frontend/team', {

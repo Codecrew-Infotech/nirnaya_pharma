@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial;background:#f4f6f9;padding:30px;">
+
+<table width="600" align="center" style="background:#fff;padding:20px;border-radius:6px;">
+<tr>
+<td>
+
+<h2 style="color:#0f172a;">New Service Inquiry</h2>
+
+<p><strong>Service Name:</strong> <%= serviceName %></p>
+<p><strong>Email:</strong> <%= email %></p>
+<p><strong>Phone:</strong> <%= phone || '-' %></p>
+
+<br>
+
+<a href="<%= adminUrl %>" 
+style="background:#2563eb;color:#fff;padding:10px 15px;text-decoration:none;border-radius:4px;">
+View in Admin Panel
+</a>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -2,15 +2,20 @@
     <!--start brand-->
     <div class="brand">
         <a href="/" class="logo">
-            <span>
-                <img src="/images/logo-sm.png" alt="logo-small" class="logo-sm">
-            </span>
+           
             <span class="">
-                <img src="/images/logo-light.png" alt="logo-large" class="logo-lg logo-light">
-                <img src="/images/logo-dark.png" alt="logo-large" class="logo-lg logo-dark">
+               <h1>Nirnaya Pharma</h1>
             </span>
         </a>
     </div>
+
+<%
+const can = (perm) => {
+    if (!permissions) return false;
+    if (permissions.includes("*")) return true; 
+    return permissions.includes(perm);
+};
+%>
     <!--end brand-->
     <!--start startbar-menu-->
     <div class="startbar-menu">
@@ -25,14 +30,14 @@
                         </small> -->
                         <span>Main Menu</span>
                     </li>
+                    <% if (can('view_dashboard')) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin" role="button" aria-expanded="false"
-                            aria-controls="sidebarDashboards">
+                        <a class="nav-link" href="/admin">
                             <i class="iconoir-home-simple menu-icon"></i>
                             <span>Dashboards</span>
                         </a>
-
-                    </li><!--end nav-item-->
+                    </li>
+                    <% } %>
 
                     <li class="menu-label mt-2">
                         <small class="label-border">
@@ -43,55 +48,79 @@
                     </li>
 
                     <ul class="nav flex-column">
+                        <% if (can('view_media')) { %>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/media"><i
-                                    class="iconoir-compact-disc menu-icon"></i><span>Media</span></a>
+                            <a class="nav-link" href="/admin/media">
+                                <i class="iconoir-compact-disc menu-icon"></i>
+                                <span>Media</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
+                        <% } %>
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/admin/pages"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Pages</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/sections"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Sections</span></a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="/admin/page-section"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>PageSection</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/blogs"><i
-                                    class="iconoir-compact-disc menu-icon"></i><span>Blogs</span></a>
-                        </li>
+                        </li> -->
+                            <% if (can('view_blogs')) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/blogs">
+                                    <i class="iconoir-compact-disc menu-icon"></i>
+                                    <span>Blogs</span>
+                                </a>
+                            </li>
+                            <% } %>
 
-                        <li class="nav-item">
+                     <% if (can('view_sliders')) { %>
+                          <li class="nav-item">
                             <a class="nav-link" href="/admin/sliders"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Slider</span></a>
                         </li>
+                    <% } %>
+                     <% if (can('view_dashboard')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/footers"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Footers</span></a>
                         </li>
+                    <% } %>
+                     <% if (can('view_headers')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/headers"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Headers</span></a>
                         </li>
+                    <% } %>
+                     <% if (can('view_users')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/users"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Users</span></a>
                         </li>
+                    <% } %>
+                     <% if (can('view_services')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/services"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Services</span></a>
                         </li>
+                    <% } %>
+                     <% if (can('view_about_us')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/aboutus"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>About Us</span></a>
-                        </li>
+                            </li>
+                    <% } %>
+                     <% if (can('view_contacts')) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/contacts"><i
                                     class="iconoir-compact-disc menu-icon"></i><span>Contact</span></a>
                         </li>
+                    <% } %>
+
+                     <% if (can('view_permissions')) { %>
                         <li class="menu-label mt-2">
                             <small class="label-border">
                                 <div class="border_left hidden-xs"></div>
@@ -105,6 +134,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/permissions"><i class="iconoir-compact-disc menu-icon"></i><span>Permissions</span></a>
                         </li>
+                    <% } %>
+
+                     <% if (can('view_settings')) { %>
                         <li class="menu-label mt-2">
                             <small class="label-border">
                                 <div class="border_left hidden-xs"></div>
@@ -115,6 +147,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/settings"><i class="iconoir-compact-disc menu-icon"></i><span>Settings</span></a>
                         </li>
+                    <% } %>
+
+
                         
 
                     </ul>

@@ -12,7 +12,7 @@
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h4 class="card-title">User Details</h4>
+                                    <h4 class="card-title">User Permission</h4>
                                 </div>
                             </div>
                             <a href="/admin/permission/add" class="btn btn-primary">Add Permission</a>
@@ -34,20 +34,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if (!permissions|| permissions.length === 0) { %>
+                                        <% if (!permissionsData|| permissionsData.length === 0) { %>
                                             <tr>
                                                 <td colspan="3" class="text-center text-muted">No data found</td>
                                             </tr>
                                             <% } else { %>
-                                                <% for (let i=0; i < permissions.length; i++) { %>
+                                                <% for (let i=0; i < permissionsData.length; i++) { %>
                                                     <tr>
                                                         <td><%= i + 1 %></td>
-                                                        <td><%= permissions[i].name %></td>
+                                                        <td><%= permissionsData[i].name %></td>
                                                         <td>
-                                                            <%= permissions[i].description %>
+                                                            <%= permissionsData[i].description %>
                                                         </td>
                                                         
-                                                        <td><a href="/admin/edit-permission/<%= permissions[i]._id %>">View permission</a>
+                                                        <td><a href="/admin/edit-permission/<%= permissionsData[i]._id %>">View permission</a>
                                                         </td>
                                                     </tr>
                                                     <% } %>

@@ -99,7 +99,7 @@
                 <div class="stats-card text-center">
                     <div class="row">
                         <div class="col-md-4">
-                            <h3 id="totalPermissions"><%= permissions.length %></h3>
+                            <h3 id="totalPermissions"><%= permissionsData.length %></h3>
                             <p class="mb-0">Total Permissions</p>
                         </div>
                         <div class="col-md-4">
@@ -107,7 +107,7 @@
                             <p class="mb-0">Selected</p>
                         </div>
                         <div class="col-md-4">
-                            <h3 id="remainingCount"><%= permissions.length %></h3>
+                            <h3 id="remainingCount"><%= permissionsData.length %></h3>
                             <p class="mb-0">Remaining</p>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
         </div>
 
         <!-- Permission Assignment Form -->
-        <form id="rolePermissionForm" action="/role-permission/<%= roleId %>" method="POST">
+        <form id="rolePermissionForm" action="/admin/role-permission/<%= roleId %>" method="POST">
             <!-- Select All Section -->
             <div class="select-all-section">
                 <div class="row align-items-center">
@@ -141,8 +141,8 @@
 
             <!-- Permissions Grid -->
             <div class="row" id="permissionsContainer">
-                <% if (permissions && permissions.length > 0) { %>
-                    <% permissions.forEach((permission, index) => { %>
+                <% if (permissionsData && permissionsData.length > 0) { %>
+                    <% permissionsData.forEach((permission, index) => { %>
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                             <div class="card permission-card h-100" data-permission-id="<%= permission._id %>">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -210,7 +210,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <% if (permissions && permissions.length > 0) { %>
+            <% if (permissionsData && permissionsData.length > 0) { %>
                 <div class="row mt-4">
                     <div class="col-12 text-center">
                         <button type="button" class="btn btn-secondary me-3" onclick="history.back()">

@@ -54,8 +54,8 @@ RolePermissionController.updateRole = async (req, res) => {
 // Permissions Controller methods
 RolePermissionController.getPermissions = async (req, res) => {
     try {
-        const permissions = await axios.get(`${process.env.API_URL}/api/permissions`);
-        res.render('permissions', { title: 'Permissions', layout: 'partials/layout-vertical', permissions: permissions.data });
+        const permissionsData = await axios.get(`${process.env.API_URL}/api/permissions`);
+        res.render('permissions', { title: 'Permissions', layout: 'partials/layout-vertical', permissionsData: permissionsData.data });
     } catch (error) {
         console.error("Error fetching permissions:", error);
         res.status(500).send("Internal Server Error");
@@ -117,7 +117,7 @@ RolePermissionController.getRolePermissions = async (req, res) => {
             title: 'Role Permissions',
             layout: 'partials/layout-vertical',
             roleId,
-            permissions: Permissions.data,
+            permissionsData: Permissions.data,
             assignedPermissionIds // passing only array of IDs
         });
     } catch (error) {

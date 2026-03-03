@@ -13,6 +13,8 @@ const SettingsController = require('../controller/SettingsController');
 const AboutUsController = require('../controller/AboutUsController');
 
 const { requireAuth, requireAuthAPI, redirectIfAuthenticated } = require('../middlewere/auth');
+const checkPermission = require('../middlewere/checkPermission');
+
 
 
 route.get('/', requireAuth, (req, res, next) => {
@@ -28,36 +30,36 @@ route.get('/login', redirectIfAuthenticated, UserController.login);
 route.post('/login', redirectIfAuthenticated, UserController.verifyLogin);
 route.get('/logout', UserController.logout);
 
-route.get('/pages', pageController.getPage);
-route.get('/pages/add', pageController.addPage);
+route.get('/pages',requireAuth, checkPermission('view_pages'), pageController.getPage);
+route.get('/pages/add',requireAuth, checkPermission('create_pages'), pageController.addPage);
 // route.get('/add-page', pageController.addPage);
-route.post('/add-page', pageController.addpageData);
-route.get('/set-page-section', pageController.setPageSection);
-route.get('/sections', pageController.addsection);
-route.get('/add-page-section', pageController.addPagesection);
-route.post('/add-page-section', pageController.createPagesection);
-route.get('/edit-section/:id', pageController.editSection);
-route.post('/edit-section/:id', pageController.updateSection);
+route.post('/add-page',requireAuth, checkPermission('create_pages'), pageController.addpageData);
+route.get('/set-page-section',requireAuth, checkPermission('edit_pages'), pageController.setPageSection);
+route.get('/sections', requireAuth, checkPermission('view_pages'), pageController.addsection);
+route.get('/add-page-section', requireAuth, checkPermission('create_pages'), pageController.addPagesection);
+route.post('/add-page-section',requireAuth, checkPermission('create_pages'), pageController.createPagesection);
+route.get('/edit-section/:id',requireAuth, checkPermission('edit_pages'), pageController.editSection);
+route.post('/edit-section/:id',requireAuth, checkPermission('edit_pages'), pageController.updateSection);
 
-route.get('/page-section', pageController.pageSection);
+route.get('/page-section',requireAuth, checkPermission('view_pages'), pageController.pageSection);
 
-route.get('/add-section', pageController.addsection);
-route.get('/add-page-section/:id', pageController.getAddPageSection);
-route.post('/set-page-section', pageController.setAddPageSection);
-route.get('/add-new-page', pageController.newPageSection);
+route.get('/add-section',requireAuth, checkPermission('view_pages'), pageController.addsection);
+route.get('/add-page-section/:id',requireAuth, checkPermission('create_pages'), pageController.getAddPageSection);
+route.post('/set-page-section',requireAuth, checkPermission('edit_pages'), pageController.setAddPageSection);
+route.get('/add-new-page', requireAuth,checkPermission('create_pages'), pageController.newPageSection);
 // blog routes
-route.get('/blogs', BlogController.getBlogs);
-route.get('/blogs/:id', BlogController.getBlogById);
-route.get('/blog/add', BlogController.addBlog);
-route.post('/blog/add', BlogController.createBlog);
-route.get('/edit-blog/:id', BlogController.editBlog);
-route.post('/edit-blog/:id', BlogController.updateBlog);
+route.get('/blogs',requireAuth, checkPermission('view_blogs'), BlogController.getBlogs);
+route.get('/blogs/:id', requireAuth,checkPermission('view_blogs'), BlogController.getBlogById);
+route.get('/blog/add',requireAuth, checkPermission('create_blogs'), BlogController.addBlog);
+route.post('/blog/add',requireAuth, checkPermission('create_blogs'), BlogController.createBlog);
+route.get('/edit-blog/:id', requireAuth, checkPermission('edit_blogs'), BlogController.editBlog);
+route.post('/edit-blog/:id', requireAuth, checkPermission('edit_blogs'), BlogController.updateBlog);
 
 // Slider routes
-route.get('/sliders', SliderController.getSliders);
-route.get('/sliders/:id', SliderController.getSliderById);
-route.get('/slider/add', SliderController.addSlider);
-route.post('/slider/add', SliderController.createSlider);
+route.get('/sliders',requireAuth,checkPermission('view_sliders'), SliderController.getSliders);
+route.get('/sliders/:id', requireAuth,checkPermission('view_sliders'), SliderController.getSliderById);
+route.get('/slider/add', requireAuth, checkPermission('create_sliders'), SliderController.addSlider);
+route.post('/slider/add', requireAuth, checkPermission('create_sliders'), SliderController.createSlider);
 
 // Service routes
 // route.get('/service', SliderController.getSliders);
@@ -66,81 +68,87 @@ route.post('/slider/add', SliderController.createSlider);
 // route.get('/service/:id', SliderController.getSliderById);
 
 // Define route for footer
-route.get('/footer/add', FooterController.addFooter);
-route.post('/footer/add', FooterController.createFooter);
-route.get('/footers', FooterController.getFooter);
-route.get('/edit-footer/:id', FooterController.editFooter);
-route.post('/edit-footer/:id', FooterController.updateFooter);
+route.get('/footer/add',requireAuth, checkPermission('create_footers'), FooterController.addFooter);
+route.post('/footer/add', requireAuth, checkPermission('create_footers'), FooterController.createFooter);
+route.get('/footers', requireAuth, checkPermission('view_footers'), FooterController.getFooter);
+route.get('/edit-footer/:id', requireAuth, checkPermission('edit_footers'), FooterController.editFooter);
+route.post('/edit-footer/:id', requireAuth, checkPermission('edit_footers'), FooterController.updateFooter);
 
 // Define route for header
-route.get('/header/add', HeaderController.addHeader);
-route.post('/header/add', HeaderController.createHeader);
-route.get('/headers', HeaderController.getHeader);
-route.get('/edit-header/:id', HeaderController.editHeader);
-route.post('/edit-header/:id', HeaderController.updateHeader);
+route.get('/header/add', requireAuth, checkPermission('create_headers'), HeaderController.addHeader);
+route.post('/header/add', requireAuth, checkPermission('create_headers'), HeaderController.createHeader);
+route.get('/headers', requireAuth, checkPermission('view_headers'), HeaderController.getHeader);
+route.get('/edit-header/:id', requireAuth, checkPermission('edit_headers'), HeaderController.editHeader);
+route.post('/edit-header/:id', requireAuth, checkPermission('edit_headers'), HeaderController.updateHeader);
 
-route.get('/media', MediaController.getMedia);
-route.get('/front', MediaController.getFront);
+route.get('/media',requireAuth, MediaController.getMedia);
+route.get('/front', requireAuth,MediaController.getFront);
 
 
 
 //  define routes for user
-route.get('/users', UserController.getUsers);
-route.get('/user/add', UserController.addUser);
-route.post('/user/add', UserController.createUser);
-route.get('/edit-user/:id', UserController.editUser);
-route.post('/edit-user/:id', UserController.updateUser);
+route.get('/users',requireAuth, checkPermission('view_users'), UserController.getUsers);
+route.get('/user/add',requireAuth, checkPermission('create_users'), UserController.addUser);
+route.post('/user/add',requireAuth, checkPermission('create_users'), UserController.createUser);
+route.get('/edit-user/:id',requireAuth, checkPermission('edit_users'), UserController.editUser);
+route.post('/edit-user/:id',requireAuth, checkPermission('edit_users'), UserController.updateUser);
 
 // define routes for user roles
-route.get('/roles', RolePermissionController.getRoles);
-route.get('/role/add', RolePermissionController.addRole);
-route.post('/role/add', RolePermissionController.createRole);
-route.get('/edit-role/:id', RolePermissionController.editRole);
-route.post('/edit-role/:id', RolePermissionController.updateRole);
+route.get('/roles',requireAuth, checkPermission('view_roles'), RolePermissionController.getRoles);
+route.get('/role/add', requireAuth, checkPermission('create_roles'), RolePermissionController.addRole);
+route.post('/role/add', requireAuth, checkPermission('create_roles'), RolePermissionController.createRole);
+route.get('/edit-role/:id', requireAuth, checkPermission('edit_roles'), RolePermissionController.editRole);
+route.post('/edit-role/:id', requireAuth, checkPermission('edit_roles'), RolePermissionController.updateRole);
 
 // define routes for user permissions
-route.get('/permissions', RolePermissionController.getPermissions);
-route.get('/permission/add', RolePermissionController.addPermission);
-route.post('/permission/add', RolePermissionController.createPermission);
-route.get('/edit-permission/:id', RolePermissionController.editPermission);
-route.post('/edit-permission/:id', RolePermissionController.updatePermission);
+route.get('/permissions', requireAuth, checkPermission('view_permissions'), RolePermissionController.getPermissions);
+route.get('/permission/add', requireAuth, checkPermission('create_permissions'), RolePermissionController.addPermission);
+route.post('/permission/add', requireAuth, checkPermission('create_permissions'), RolePermissionController.createPermission);
+route.get('/edit-permission/:id', requireAuth, checkPermission('edit_permissions'), RolePermissionController.editPermission);
+route.post('/edit-permission/:id', requireAuth, checkPermission('edit_permissions'), RolePermissionController.updatePermission);
 
-route.get('/role-permission/:id', RolePermissionController.getRolePermissions);
-route.post('/role-permission/:id', RolePermissionController.createRolePermission);
+route.get('/role-permission/:id', requireAuth, checkPermission('view_role_permissions'), RolePermissionController.getRolePermissions);
+route.post('/role-permission/:id', requireAuth, checkPermission('create_role_permissions'), RolePermissionController.createRolePermission);
 
 // define routes for services
-route.get('/services', ServiceController.getServices);
-route.get('/services/add', ServiceController.addService);
-route.post('/services/add', ServiceController.createService);
-route.get('/services/:id', ServiceController.editServices);
-route.post('/services/:id', ServiceController.updateServices);
-route.get('/services/:id/delete', ServiceController.deleteServices);
+route.get('/services', requireAuth, checkPermission('view_services'), ServiceController.getServices);
+route.get('/services/add', requireAuth, checkPermission('create_services'), ServiceController.addService);
+route.post('/services/add', requireAuth, checkPermission('create_services'), ServiceController.createService);
+route.get('/services/:id', requireAuth, checkPermission('edit_services'), ServiceController.editServices);
+route.post('/services/:id', requireAuth, checkPermission('edit_services'), ServiceController.updateServices);
+route.get('/services/:id/delete', requireAuth, checkPermission('delete_services'), ServiceController.deleteServices);
 
 // define routes for AboutUs
-route.get('/aboutus', AboutUsController.getAboutUsPage);
-route.get('/aboutus/add', AboutUsController.addAboutUs);
-route.post('/aboutus/add', AboutUsController.createAboutUs);
-route.get('/aboutus/:id', AboutUsController.editAboutUs);
-route.post('/aboutus/:id', AboutUsController.updateAboutUs);
-route.get('/aboutus/:id/delete', AboutUsController.deleteAboutUs);
+route.get('/aboutus', requireAuth, checkPermission('view_aboutus'), AboutUsController.getAboutUsPage);
+route.get('/aboutus/add', requireAuth, checkPermission('create_aboutus'), AboutUsController.addAboutUs);
+route.post('/aboutus/add', requireAuth, checkPermission('create_aboutus'), AboutUsController.createAboutUs);
+route.get('/aboutus/:id', requireAuth, checkPermission('edit_aboutus'), AboutUsController.editAboutUs);
+route.post('/aboutus/:id', requireAuth, checkPermission('edit_aboutus'), AboutUsController.updateAboutUs);
+route.get('/aboutus/:id/delete', requireAuth, checkPermission('delete_aboutus'), AboutUsController.deleteAboutUs);
 
 
 // define route for user contact messages
-route.get('/contacts', UserController.getContacts);
-route.get('/contact/:id', UserController.getContactById);
-route.get('/deleteContact/:id', UserController.deleteContact);
+route.get('/contacts', requireAuth, checkPermission('view_contacts'), UserController.getContacts);
+route.get('/contact/:id', requireAuth, checkPermission('view_contacts'), UserController.getContactById);
+route.get('/deleteContact/:id', requireAuth, checkPermission('delete_contacts'), UserController.deleteContact);
 
 // define routes for Settings
 
-route.get('/settings', SettingsController.getSettings);
-route.get('/setting/add', SettingsController.addSettings);
-route.post('/setting/add', SettingsController.createSettings);
-route.get('/setting/edit/:id', SettingsController.editSettings);
-route.post('/setting/edit/:id', SettingsController.updateSettings);
-route.get('/setting/delete/:id', SettingsController.deleteSettings);
+route.get('/settings', requireAuth, checkPermission('view_settings'), SettingsController.getSettings);
+route.get('/setting/add', requireAuth, checkPermission('create_settings'), SettingsController.addSettings);
+route.post('/setting/add', requireAuth, checkPermission('create_settings'), SettingsController.createSettings);
+route.get('/setting/edit/:id', requireAuth, checkPermission('edit_settings'), SettingsController.editSettings);
+route.post('/setting/edit/:id', requireAuth, checkPermission('edit_settings'), SettingsController.updateSettings);
+route.get('/setting/delete/:id', requireAuth, checkPermission('delete_settings'), SettingsController.deleteSettings);
 
 
+route.get('/403', requireAuth, (req, res) => {
+    res.status(403).render('auth-500', {
+        title: 'Forbidden',
+        layout: 'partials/layout-vertical',
 
+    });
+});
 
 
 

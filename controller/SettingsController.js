@@ -1,4 +1,6 @@
 const axios = require('axios');
+const path = require('path');
+const fs = require('fs');
 
 const SettingsController = {};
 
@@ -27,21 +29,56 @@ SettingsController.addSettings = (req, res) => {
 
 SettingsController.createSettings = async (req, res) => {
     const token = req.session.token || req.cookies.token;
+
     try {
         const imageFile = req.files?.settingFile || null;
+        let finalImageName = null;
 
         if (imageFile) {
-            const uploadPath = `uploads/${imageFile.name}`;
-            await imageFile.mv(uploadPath);
-        }
-        const { key, type, settingValue } = req.body;
-        const value = type === 'image' ? (imageFile ? imageFile.name : null) : settingValue;
-        await axios.post(`${process.env.API_URL}/api/createSettings`, { key, type, value }, {
-            headers: {
-                Authorization: `Bearer ${token}`
+
+            // 1️⃣ Get file extension
+            const ext = path.extname(imageFile.name);
+
+            // 2️⃣ Create unique filename
+            const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
+
+            // 3️⃣ Upload directory
+            const uploadDir = path.join(__dirname, '../uploads');
+
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
             }
-        });
+
+            const uploadPath = path.join(uploadDir, uniqueName);
+
+            // 4️⃣ Move file
+            await imageFile.mv(uploadPath);
+
+            finalImageName = uniqueName;
+        }
+
+        const { key, type, settingValue } = req.body;
+
+        let value;
+
+        if (type === 'image') {
+            value = finalImageName ? finalImageName : null;
+        } else {
+            value = settingValue;
+        }
+
+        await axios.post(
+            `${process.env.API_URL}/api/createSettings`,
+            { key, type, value },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
         res.redirect('/admin/settings');
+
     } catch (error) {
         console.error('Error creating settings:', error);
         return res.status(500).render('error', {
@@ -50,7 +87,7 @@ SettingsController.createSettings = async (req, res) => {
             error: error.response?.data || error.message
         });
     }
-}
+};
 
 SettingsController.editSettings = async (req, res) => {
     const token = req.session.token || req.cookies.token;
@@ -78,18 +115,46 @@ SettingsController.updateSettings = async (req, res) => {
         const settingId = req.params.id;
         const imageFile = req.files?.settingFile || null;
 
-        if (imageFile) {
-            const uploadPath = `uploads/${imageFile.name}`;
-            await imageFile.mv(uploadPath);
-        }
-        const { key, type, settingValue } = req.body;
-        const value = type === 'image' ? (imageFile ? imageFile.name : null) : settingValue;
-        await axios.put(`${process.env.API_URL}/api/updateSettings/${settingId}`, { key, type, value }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        let finalImageName = null;
 
+        if (imageFile) {
+
+            const ext = path.extname(imageFile.name);
+
+            const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
+
+            const uploadDir = path.join(__dirname, '../uploads');
+
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+
+            const uploadPath = path.join(uploadDir, uniqueName);
+
+            await imageFile.mv(uploadPath);
+
+            finalImageName = uniqueName;
+        }
+
+        const { key, type, settingValue, oldImage } = req.body;
+
+        let value;
+
+        if (type === 'image') {
+            value = finalImageName ? finalImageName : oldImage;
+        } else {
+            value = settingValue;
+        }
+
+        await axios.put(
+            `${process.env.API_URL}/api/updateSettings/${settingId}`,
+            { key, type, value },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
 
         res.redirect('/admin/settings');
     } catch (error) {

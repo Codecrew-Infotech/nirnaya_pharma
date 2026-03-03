@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>New Contact Inquiry</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f9;font-family:Arial,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f9;padding:40px 0;">
+<tr>
+<td align="center">
+
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+
+<!-- Header -->
+<tr>
+<td style="background:#0f172a;padding:20px;text-align:center;">
+<h2 style="color:#ffffff;margin:0;font-size:22px;">
+<%= companyName %> - New Contact Inquiry
+</h2>
+</td>
+</tr>
+
+<!-- Body -->
+<tr>
+<td style="padding:30px;">
+
+<p style="font-size:16px;color:#333;margin-bottom:20px;">
+You have received a new contact inquiry from your website.
+</p>
+
+<table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-size:14px;">
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;width:30%;">Full Name</td>
+<td><%= firstName %> <%= lastName %></td>
+</tr>
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;">Email</td>
+<td><%= email %></td>
+</tr>
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;">Phone</td>
+<td><%= phone || '-' %></td>
+</tr>
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;">Company</td>
+<td><%= company || '-' %></td>
+</tr>
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;">Subject</td>
+<td><%= subject %></td>
+</tr>
+
+<tr>
+<td style="background:#f1f5f9;font-weight:bold;vertical-align:top;">Message</td>
+<td><%= message %></td>
+</tr>
+
+</table>
+
+<br/>
+
+<a href="<%= adminUrl %>" 
+style="display:inline-block;padding:10px 20px;background:#2563eb;color:#ffffff;text-decoration:none;border-radius:4px;">
+View in Admin Panel
+</a>
+
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="background:#f8fafc;padding:15px;text-align:center;font-size:12px;color:#64748b;">
+© <%= new Date().getFullYear() %> <%= companyName %>. All rights reserved.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

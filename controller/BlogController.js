@@ -1,12 +1,12 @@
 const axios = require('axios');
-const fs = require('fs-extra');
 const blogController = {}
 
+const path = require('path');
+const fs = require('fs');
 
 blogController.getBlogs = async (req, res, next) => {
     try {
         const response = await axios.get(`${process.env.API_URL}/api/blogs`);
-        console.log(response.data);
         res.render('blogs', { title: 'Blogs', layout: 'partials/layout-vertical', blogs: response.data });
     } catch (error) {
         next(error);
@@ -20,7 +20,6 @@ blogController.getBlogById = async (req, res, next) => {
         if (!response.data) {
             return res.status(404).json({ message: 'Blog not found' });
         }
-        console.log(response.data);
         res.render('blog-details', { title: 'Blog Details', layout: 'partials/layout-vertical', blog: response.data });
     } catch (error) {
         console.error('Error fetching blog by ID:', error);
@@ -35,14 +34,28 @@ blogController.addBlog = async (req, res, next) => {
         next(error);
     }
 }
+
 blogController.createBlog = async (req, res, next) => {
     try {
         const image = req.files?.featuredImage || null;
+        let finalImageName = null;
 
         if (image) {
-            const uploadPath = `uploads/${image.name}`;
-            await image.mv(uploadPath); 
-            console.log('File moved successfully');
+
+            const ext = path.extname(image.name);
+            const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
+
+            const uploadDir = path.join(__dirname, '../uploads');
+
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+
+            const uploadPath = path.join(uploadDir, uniqueName);
+
+            await image.mv(uploadPath);
+
+            finalImageName = uniqueName;
         }
 
         const {
@@ -56,7 +69,8 @@ blogController.createBlog = async (req, res, next) => {
             metaKeywords,
             canonicalUrl,
         } = req.body;
-        const response = await axios.post(`${process.env.API_URL}/api/createBlog`, {
+
+        await axios.post(`${process.env.API_URL}/api/createBlog`, {
             title,
             slug,
             isPublished,
@@ -66,10 +80,11 @@ blogController.createBlog = async (req, res, next) => {
             metaDescription,
             metaKeywords,
             canonicalUrl,
-            featuredImage: image ? image.name : null, 
+            featuredImage: finalImageName
         });
 
         res.redirect('/admin/blogs');
+
     } catch (error) {
         console.error('Error creating blog:', error.message);
         return res.status(500).json({
@@ -92,21 +107,78 @@ blogController.editBlog = async (req, res, next) => {
         return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
+
 blogController.updateBlog = async (req, res, next) => {
     try {
         const blogId = req.params.id;
-        const { title, content, category, author } = req.body;
-        const response = await axios.put(`${process.env.API_URL}/api/blogs/${blogId}`, { title, content, category, author });
-        if (!response.data) {
-            return res.status(404).json({ message: 'Blog not found' });
+
+        const image = req.files?.featuredImage || null;
+        const uploadDir = path.join(__dirname, '../uploads/blog');
+
+        let finalImageName = req.body.oldImage || null;
+
+        if (image) {
+
+            const ext = path.extname(image.name);
+            const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
+
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+
+            const uploadPath = path.join(uploadDir, uniqueName);
+
+            await image.mv(uploadPath);
+
+            // 🔥 Delete old image
+            if (req.body.oldImage) {
+                const oldPath = path.join(uploadDir, req.body.oldImage);
+                if (fs.existsSync(oldPath)) {
+                    fs.unlinkSync(oldPath);
+                }
+            }
+
+            finalImageName = uniqueName;
         }
-        console.log('Blog updated successfully:', response.data);
+
+        const {
+            title,
+            slug,
+            isPublished,
+            content,
+            categories,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            canonicalUrl
+        } = req.body;
+
+        await axios.put(
+            `${process.env.API_URL}/api/blogs/${blogId}`,
+            {
+                title,
+                slug,
+                isPublished,
+                content,
+                categories,
+                metaTitle,
+                metaDescription,
+                metaKeywords,
+                canonicalUrl,
+                featuredImage: finalImageName
+            }
+        );
+
         res.redirect('/admin/blogs');
+
     } catch (error) {
         console.error('Error updating blog:', error.message);
-        return res.status(500).json({ success: false, message: error.message || 'Internal server error' });
+        return res.status(500).json({
+            success: false,
+            message: error.message || 'Internal server error'
+        });
     }
-}
+};
 
 
 module.exports = blogController;
