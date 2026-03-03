@@ -927,7 +927,7 @@ img {
 
 .site-logo a img {
   height: auto !important;
-  max-width: 50% !important;
+  /* max-width: 50% !important; */
 }
 
 .mobile_logo a img {
