@@ -407,7 +407,7 @@ h4,
 h5,
 h6 {
   font-family: "Montserrat", sans-serif;
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.2;
   margin: 0 0 20px;
   color: #000;
@@ -2265,6 +2265,10 @@ ul.info-list.info_on_right_side li:last-child {
 .breadc-box h1,
 .breadc-box .breadcrumbs {
   margin-bottom: 0;
+}
+
+#service-details{
+  color: #000000;
 }
 
 .breadc-box h1 {
@@ -5806,8 +5810,8 @@ div.line-chart .chart-legend li {
 
 
 .section-title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: 800;
   margin: 0 0 10px 0;
   line-height: 1.2;
 }

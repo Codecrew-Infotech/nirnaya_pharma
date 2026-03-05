@@ -100,7 +100,7 @@ SliderController.editSlider = async (req, res) => {
         if (!sliderData.data) {
             return res.status(404).json({ success: false, message: 'Slider not found' });
         }
-        res.render('edit-slider', { title: 'Edit Slider', layout: 'partials/layout-vertical', slider: sliderData.data });
+        res.render('edit-sliders', { title: 'Edit Slider', layout: 'partials/layout-vertical', slider: sliderData.data });
     } catch (error) {
         console.error('Error fetching slider:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
