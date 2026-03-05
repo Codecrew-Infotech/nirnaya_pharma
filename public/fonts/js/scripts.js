@@ -4,7 +4,7 @@
     //Preloader
     Royal_Preloader.config({
         mode: 'logo',
-        logo: '/Original-Logo-2-PhotoRoom.png-PhotoRoom-1-1.png',
+        logo: '/NPMS_logo.png',
         logo_size: [187, 40],
         showProgress: true,
         showPercentage: true,

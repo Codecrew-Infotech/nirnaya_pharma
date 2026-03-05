@@ -13,60 +13,67 @@
                         <div id="revolution-slider">
                             <ul>
                                 <% sliders.forEach(slide=> { %>
-                                    <li data-transition="fade" data-slotamount="10" data-masterspeed="default"
-                                        data-thumb="">
-                                        <!--  BACKGROUND IMAGE -->
+                                    <li data-transition="fade" data-slotamount="10" data-masterspeed="default" data-thumb="">
+                                        
+                                        <!-- BACKGROUND IMAGE -->
                                         <img src="/<%= slide.image %>" alt="" data-bgposition="center center"
-                                            data-bgfit="cover" data-bgrepeat="no-repeat"  />
+                                            data-bgfit="cover" data-bgrepeat="no-repeat" />
+
+                                        <!-- RIGHT SIDE IMAGE CAPTION -->
                                         <div class="tp-caption tp-resizeme" data-x="right" data-hoffset="['0']"
                                             data-y="bottom" data-voffset="" data-width="['auto','320','auto','320']"
                                             data-transform_idle="o:1;"
                                             data-transform_in="x:550px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1000" data-responsive_offset="on">
-                                            <!-- <img class="img-responsive md-hidden sm-hidden xs-hidden"
-                                                src="/<%= slide.image %>" alt="Image"> -->
                                         </div>
+
+                                        <!-- SMALL INFO TEXT (top) -->
                                         <div class="tp-caption tp-resizeme font-second text-second bolder"
                                             data-x="['left']" data-hoffset="['0','15','15','15']" data-y="top"
-                                            data-voffset="200" data-width="['580','580','480','320']"
+                                            data-voffset="170" data-width="['580','580','480','320']"
                                             data-transform_idle="o:1;"
                                             data-transform_in="x:100px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1500" data-whitespace="['nowrap','nowrap','nowrap','normal']"
                                             data-fontsize="['14','14','14','14']" data-responsive_offset="on">
-                                            <p>
-                                                <%= slide.info %>
-                                            </p>
+                                            <p><%= slide.info %></p>
                                         </div>
+
+                                        <!-- ✅ TITLE + DESC COMBINED IN ONE BLOCK = always same gap -->
                                         <div class="tp-caption tp-resizeme font-second text-second bolder"
                                             data-x="['left']" data-hoffset="['0','15','15','15']" data-y="center"
                                             data-voffset="['-45','-45','-45','-45']"
-                                            data-width="['670','580','480','320']" data-transform_idle="o:1;"
+                                            data-width="['670','580','480','320']"
+                                            data-transform_idle="o:1;"
                                             data-transform_in="x:100px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
                                             data-start="1700" data-whitespace="['normal']"
                                             data-fontsize="['50','50','40','30']"
                                             data-lineheight="['60','60','50','40']" data-responsive_offset="on">
-                                            <p>
+
+                                            <!-- Title -->
+                                            <p style="margin: 0 0 20px 0;">
                                                 <%= slide.title %>
                                             </p>
-                                        </div>
-                                        <div class="tp-caption tp-resizeme sh3" data-x="['left']"
-                                            data-hoffset="['0','15','15','15']" data-y="center"
-                                            data-voffset="['85','60','60','60']" data-width="['580','580','480','300']"
-                                            data-transform_idle="o:1;"
-                                            data-whitespace="['normal','normal','normal','normal']"
-                                            data-transform_in="x:100px;opacity:0;s:800;e:Power3.easeOut;"
-                                            data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
-                                            data-start="1900" data-fontsize="['16','16','14','12']"
-                                            data-lineheight="['24','24','18','16']" data-responsive_offset="on">
-                                            <p>
+
+                                            <!-- ✅ Desc always exactly 20px below title, no matter content length -->
+                                            <p style="
+                                                margin: 0;
+                                                font-size: 16px;
+                                                line-height: 24px;
+                                                font-weight: 400;
+                                                white-space: normal;
+                                                color: inherit;
+                                            ">
                                                 <%= slide.desc %>
                                             </p>
+
                                         </div>
+
+                                        <!-- BUTTON -->
                                         <div class="tp-caption" data-x="['left']" data-hoffset="['0','15','15','15']"
-                                            data-y="bottom" data-voffset="['150','185','185','185']"
+                                            data-y="bottom" data-voffset="['220','185','185','185']"
                                             data-transform_idle="o:1;"
                                             data-transform_in="x:100px;opacity:0;s:800;e:Power3.easeOut;"
                                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
@@ -75,6 +82,7 @@
                                                 <%= slide.sliderBtn %>
                                             </a>
                                         </div>
+
                                     </li>
                                     <% }) %>
 
