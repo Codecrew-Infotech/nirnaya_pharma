@@ -79,11 +79,26 @@
 											<% }); %>
 
 												<ul class="page-pagination none-style">
-													<li><span aria-current="page" class="page-numbers current">1</span>
-													</li>
-													<li><a class="page-numbers" href="#">2</a></li>
-													<li><a class="next page-numbers" href="#"><i
-																class="fa fa-angle-right"></i></a></li>
+													<% if (pagination) { %>
+														<!-- Previous button -->
+														<% if (pagination.hasPrevPage) { %>
+															<li><a class="prev page-numbers" href="/blogs?page=<%= pagination.prevPage %>"><i class="fa fa-angle-left"></i></a></li>
+														<% } %>
+														
+														<!-- Page numbers -->
+														<% pagination.pages.forEach(p => { %>
+															<% if (p.isActive) { %>
+																<li><span aria-current="page" class="page-numbers current"><%= p.page %></span></li>
+															<% } else { %>
+																<li><a class="page-numbers" href="/blogs?page=<%= p.page %>"><%= p.page %></a></li>
+															<% } %>
+														<% }); %>
+														
+														<!-- Next button -->
+														<% if (pagination.hasNextPage) { %>
+															<li><a class="next page-numbers" href="/blogs?page=<%= pagination.nextPage %>"><i class="fa fa-angle-right"></i></a></li>
+														<% } %>
+													<% } %>
 												</ul>
 
 									</main>

@@ -172,8 +172,19 @@ function shortContent(html, length = 150) {
 
 FrontendCoutroller.getBlog = async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6; // Blogs per page
+        const skip = (page - 1) * limit;
+
+        // Get total count for pagination
+        const totalBlogs = await Blog.countDocuments();
+        const totalPages = Math.ceil(totalBlogs / limit);
+
+        // Get paginated blogs
         let blogs = await Blog.find()
             .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
             .select('title slug content featuredImage categories createdAt')
             .populate('categories', 'name slug');
 
@@ -184,25 +195,46 @@ FrontendCoutroller.getBlog = async (req, res) => {
                 content: shortContent(b.content, 200)
             };
         });
+
+        // Get latest posts for sidebar
         const latestPosts = await Blog.find()
             .sort({ createdAt: -1 })
             .limit(5)
             .select('title slug createdAt featuredImage');
+        
         const categories = await category.find();
+        
+        // Generate pagination array
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push({
+                page: i,
+                isActive: i === page
+            });
+        }
+
         res.render('frontend/blog', {
             title: 'Blog',
             layout: false,
             blogs: blogs,
             latestPosts,
             categories,
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+                pages: pages,
+                hasPrevPage: page > 1,
+                hasNextPage: page < totalPages,
+                prevPage: page - 1,
+                nextPage: page + 1
+            },
             metaTitle: "",
             metaDescription: "",
             metaKeywords: []
-
         });
 
     } catch (error) {
-        console.error('Error fetching media:', error);
+        console.error('Error fetching blogs:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };

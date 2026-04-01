@@ -116,9 +116,21 @@ blogController.updateBlog = async (req, res, next) => {
         const uploadDir = path.join(__dirname, '../uploads/blog');
 
         let finalImageName = req.body.oldImage || null;
+        const removeImage = req.body.removeImage === 'true';
+        let oldImageDeleted = false;
 
+        // Scenario 1: User wants to remove the image
+        if (removeImage && req.body.oldImage) {
+            const oldPath = path.join(uploadDir, req.body.oldImage);
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+                oldImageDeleted = true;
+            }
+            finalImageName = null;
+        }
+
+        // Scenario 2: User uploads a new image (with or without removing old one)
         if (image) {
-
             const ext = path.extname(image.name);
             const uniqueName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${ext}`;
 
@@ -127,11 +139,10 @@ blogController.updateBlog = async (req, res, next) => {
             }
 
             const uploadPath = path.join(uploadDir, uniqueName);
-
             await image.mv(uploadPath);
 
-            // 🔥 Delete old image
-            if (req.body.oldImage) {
+            // Delete old image only if it hasn't been deleted already
+            if (req.body.oldImage && !oldImageDeleted) {
                 const oldPath = path.join(uploadDir, req.body.oldImage);
                 if (fs.existsSync(oldPath)) {
                     fs.unlinkSync(oldPath);
@@ -165,7 +176,9 @@ blogController.updateBlog = async (req, res, next) => {
                 metaDescription,
                 metaKeywords,
                 canonicalUrl,
-                featuredImage: finalImageName
+                featuredImage: finalImageName,
+                removeImage: removeImage,
+                oldImage: req.body.oldImage
             }
         );
 

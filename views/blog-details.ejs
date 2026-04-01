@@ -569,6 +569,7 @@
     let currentStatus = <%= blog.isPublished %>;
     let ckEditor = null;
     let uploadedImageFile = null;
+    let imageRemoved = false; // Track if image was explicitly removed
     // deleteBlog function
     function deleteBlog() {
         if (confirm('Are you sure you want to delete this blog? This action cannot be undone.')) {
@@ -724,8 +725,9 @@
         // Update content display
         document.getElementById('contentDisplay').innerHTML = originalData.content;
         
-        // Reset image upload
+        // Reset image upload and removal flags
         uploadedImageFile = null;
+        imageRemoved = false;
         document.getElementById('featuredImageFile').value = '';
         updateImagePreview();
         
@@ -769,6 +771,7 @@
             }
             
             uploadedImageFile = file;
+            imageRemoved = false; // Reset removal flag when new image is selected
             
             // Create preview
             const reader = new FileReader();
@@ -776,6 +779,8 @@
                 updateImagePreview(e.target.result);
             };
             reader.readAsDataURL(file);
+            
+            console.log('New image selected:', file.name);
         }
     }
     
@@ -803,7 +808,9 @@
         document.getElementById('featuredImagePath').value = '';
         document.getElementById('featuredImageFile').value = '';
         uploadedImageFile = null;
+        imageRemoved = true;
         updateImagePreview();
+        console.log('Image removal flagged for deletion');
     }
     
     async function saveBlog() {
@@ -822,23 +829,58 @@
             formData.append('slug', document.getElementById('blogSlug').value);
             formData.append('isPublished', currentStatus);
             
-            // Add existing image path if no new image is uploaded
-            if (!uploadedImageFile && document.getElementById('featuredImagePath').value) {
-                formData.append('existingImagePath', document.getElementById('featuredImagePath').value);
+            // Get the old image filename for deletion
+            const oldImagePath = document.getElementById('featuredImagePath').value;
+            
+            // Handle image removal
+            if (imageRemoved) {
+                console.log('Sending removeImage=true, oldImage=', oldImagePath);
+                formData.append('removeImage', 'true');
+                formData.append('oldImage', oldImagePath);
+                formData.append('featuredImage', '');
+            } 
+            // Handle new image upload
+            else if (uploadedImageFile) {
+                console.log('Uploading new image');
+                console.log('uploadedImageFile:', uploadedImageFile);
+                console.log('uploadedImageFile.name:', uploadedImageFile.name);
+                console.log('uploadedImageFile.size:', uploadedImageFile.size);
+                console.log('uploadedImageFile.type:', uploadedImageFile.type);
+                
+                formData.append('removeImage', 'false');
+                formData.append('oldImage', oldImagePath);
+                formData.append('featuredImage', uploadedImageFile);
+                
+                // Verify file was added to FormData
+                console.log('FormData contents:');
+                for (let pair of formData.entries()) {
+                    if (pair[0] === 'featuredImage') {
+                        console.log(pair[0] + ':', pair[1].name || pair[1]);
+                    } else {
+                        console.log(pair[0] + ':', pair[1]);
+                    }
+                }
+            } 
+            // No image change
+            else {
+                console.log('No image changes');
+                formData.append('removeImage', 'false');
+                formData.append('oldImage', oldImagePath);
+                formData.append('featuredImage', oldImagePath);
             }
             
-            // Add new image file if uploaded
-            if (uploadedImageFile) {
-                formData.append('featuredImage', uploadedImageFile);
-            }
+            console.log('Saving blog with data...');
             
             const response = await fetch(`/api/updateBlog/<%= blog._id %>`, {
-                method: 'put',
+                method: 'PUT',
                 body: formData
             });
             
             if (response.ok) {
                 const result = await response.json();
+                
+                console.log('Blog updated successfully:', result);
+                console.log('Updated featuredImage:', result.featuredImage);
                 
                 // Update the display content
                 document.getElementById('contentDisplay').innerHTML = result.content;
@@ -847,6 +889,7 @@
                 // Reset upload state
                 uploadedImageFile = null;
                 document.getElementById('featuredImageFile').value = '';
+                imageRemoved = false;
                 
                 // Update image preview
                 updateImagePreview(result.featuredImage ? `/${result.featuredImage}` : null);
@@ -863,7 +906,10 @@
                 }
                 
             } else {
-                throw new Error('Failed to save blog');
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                console.error('Status:', response.status);
+                throw new Error('Failed to save blog - ' + response.status);
             }
             
         } catch (error) {

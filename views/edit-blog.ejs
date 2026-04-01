@@ -1,0 +1,289 @@
+<%- contentFor('extra_css') %>
+
+<%- contentFor('content') %>
+
+<style>
+  .image-preview-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .image-preview {
+    width: 180px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  .remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .remove-image-btn:hover {
+    background-color: #c82333;
+  }
+
+  .hidden-file-input {
+    display: none;
+  }
+</style>
+
+<div class="container-xxl mt-4">
+  <form method="POST" enctype="multipart/form-data">
+    <!-- Hidden field for publish status -->
+    <input type="hidden" id="isPublished" name="isPublished" value="<%= blog.isPublished %>">
+    <input type="hidden" id="removeImage" name="removeImage" value="false">
+    <input type="hidden" name="oldImage" value="<%= blog.featuredImage || '' %>">
+    
+    <!-- Basic Information -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="e.g. My Amazing Blog Post" value="<%= blog.title %>" required oninput="generateSlug()">
+      </div>
+      <div class="col-md-6">
+        <label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="slug" name="slug" placeholder="e.g. my-amazing-blog-post" value="<%= blog.slug %>" required>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+        <textarea class="form-control" id="content" name="content" placeholder="Write your blog content here..."><%= blog.content %></textarea>
+      </div>
+    </div>
+
+    <!-- Featured Image -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Featured Image</label>
+        
+        <% if (blog && blog.featuredImage) { %>
+          <div class="image-preview-container" id="imagePreviewContainer">
+            <img src="/<%= blog.featuredImage %>" alt="Featured Image" class="image-preview">
+            <button type="button" class="remove-image-btn" onclick="removeImage()" title="Remove image">×</button>
+          </div>
+          <div id="fileInputContainer" class="hidden-file-input">
+            <input type="file" class="form-control" id="featuredImage" name="featuredImage" accept="image/*">
+          </div>
+        <% } else { %>
+          <input type="file" class="form-control" id="featuredImage" name="featuredImage" accept="image/*">
+        <% } %>
+        
+        <div id="newImageInfo" class="alert alert-info mt-2" style="display:none;">
+          New image selected. Current image will be replaced.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Categories</label>
+        <div class="row">
+          <% if (typeof blog.categories !== 'undefined' && blog.categories.length > 0) { %>
+            <% blog.categories.forEach(category => { %>
+              <div class="col-md-6 mb-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="category_<%= category._id %>" name="categories" value="<%= category._id %>" checked>
+                  <label class="form-check-label" for="category_<%= category._id %>">
+                    <%= category.name %>
+                  </label>
+                </div>
+              </div>
+            <% }); %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="mt-4">SEO Metadata</h5>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="metaTitle" class="form-label">Meta Title</label>
+        <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="SEO title for search engines" value="<%= blog.metaTitle || '' %>">
+        <small class="form-text text-muted">Leave empty to use main title</small>
+      </div>
+      <div class="col-md-6">
+        <label for="metaDescription" class="form-label">Meta Description</label>
+        <textarea class="form-control" id="metaDescription" name="metaDescription" rows="2" placeholder="SEO description for search engines"><%= blog.metaDescription || '' %></textarea>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="metaKeywords" class="form-label">Meta Keywords</label>
+        <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="SEO keywords (comma-separated)" value="<%= blog.metaKeywords || '' %>">
+      </div>
+      <div class="col-md-6">
+        <label for="canonicalUrl" class="form-label">Canonical URL</label>
+        <input type="text" class="form-control" id="canonicalUrl" name="canonicalUrl" placeholder="https://example.com/canonical-url" value="<%= blog.canonicalUrl || '' %>">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success me-2" onclick="return setPublishStatus(true)">
+          <i class="fas fa-paper-plane"></i> Publish
+        </button>
+        <button type="submit" class="btn btn-secondary me-2" onclick="return setPublishStatus(false)">
+          <i class="fas fa-save"></i> Save as Draft
+        </button>
+        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/39.0.1/ckeditor.min.js"></script>
+<script>
+  let editor;
+
+  // Initialize CKEditor
+  ClassicEditor
+    .create(document.querySelector('#content'), {
+      toolbar: {
+        items: [
+          'heading', '|',
+          'bold', 'italic', 'underline', 'strikethrough', '|',
+          'link', 'bulletedList', 'numberedList', '|',
+          'outdent', 'indent', '|',
+          'imageUpload', 'blockQuote', 'insertTable', '|',
+          'undo', 'redo', '|',
+          'alignment', 'fontColor', 'fontBackgroundColor', '|',
+          'code', 'codeBlock', '|',
+          'sourceEditing'
+        ]
+      },
+      language: 'en',
+      image: {
+        toolbar: [
+          'imageTextAlternative',
+          'imageStyle:inline',
+          'imageStyle:block',
+          'imageStyle:side',
+          'linkImage'
+        ]
+      },
+      table: {
+        contentToolbar: [
+          'tableColumn',
+          'tableRow',
+          'mergeTableCells'
+        ]
+      }
+    })
+    .then(editorInstance => {
+      editor = editorInstance;
+      
+      // Sync CKEditor content with form on submit
+      document.querySelector('form').addEventListener('submit', function(e) {
+        const content = editor.getData();
+        document.querySelector('#content').value = content;
+        
+        // Ensure removeImage flag is included in form submission
+        const removeImageField = document.getElementById('removeImage');
+        if (!removeImageField.value) {
+          removeImageField.value = 'false';
+        }
+        
+        // Get all image-related fields
+        const oldImageField = document.querySelector('input[name="oldImage"]');
+        const featuredImageField = document.getElementById('featuredImage');
+        const isPublishedField = document.querySelector('#isPublished');
+        
+        // Log form data for debugging
+        console.log('===== FORM SUBMISSION LOG =====');
+        console.log('isPublished:', isPublishedField.value);
+        console.log('removeImage:', removeImageField.value);
+        console.log('oldImage:', oldImageField.value);
+        console.log('featuredImage file selected:', featuredImageField.files.length > 0 ? featuredImageField.files[0].name : 'No file');
+        console.log('================================');
+        
+        // Custom validation for CKEditor content
+        if (!content.trim()) {
+          e.preventDefault();
+          alert('Content is required. Please write some content for your blog post.');
+          editor.focus();
+          return false;
+        }
+      });
+    })
+    .catch(error => {
+      console.error('CKEditor initialization error:', error);
+    });
+
+  function generateSlug() {
+    const title = document.querySelector('#title').value;
+    const slug = title
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    document.querySelector('#slug').value = slug;
+  }
+
+  function setPublishStatus(isPublished) {
+    document.querySelector('#isPublished').value = isPublished ? 'true' : 'false';
+    // Ensure form has both flags when submitting
+    return true;
+  }
+
+  function removeImage() {
+    // Get the current image name before clearing
+    const oldImageValue = document.querySelector('input[name="oldImage"]').value;
+    
+    if (!oldImageValue) {
+      alert('No image to remove');
+      return;
+    }
+    
+    // Hide the current image preview
+    document.getElementById('imagePreviewContainer').style.display = 'none';
+    
+    // Show the file input
+    document.getElementById('fileInputContainer').classList.remove('hidden-file-input');
+    
+    // Set flag to remove image - backend will use this + oldImage to delete file
+    document.getElementById('removeImage').value = 'true';
+    
+    // IMPORTANT: Keep oldImage value so backend knows which file to delete
+    // DO NOT clear this field
+    
+    // Clear the file input so no accidental file is uploaded
+    document.getElementById('featuredImage').value = '';
+    if (document.getElementById('newImageInfo')) {
+      document.getElementById('newImageInfo').style.display = 'none';
+    }
+    
+    console.log('✓ Image removal initiated');
+    console.log('  oldImage to delete:', oldImageValue);
+    console.log('  removeImage flag: true');
+  }
+
+  // Show info when a new file is selected
+  document.addEventListener('change', function(e) {
+    if (e.target.id === 'featuredImage' && e.target.files.length > 0) {
+      // Reset removeImage flag when user selects new file
+      document.getElementById('removeImage').value = 'false';
+      document.getElementById('newImageInfo').style.display = 'block';
+    }
+  });
+</script>
